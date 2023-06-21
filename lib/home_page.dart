@@ -1,4 +1,6 @@
+import 'package:calorie_app_danika/newpage.dart';
 import 'package:calorie_app_danika/profile_page.dart';
+import 'package:calorie_app_danika/profile_page_1.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -40,6 +42,26 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: _incrementCounter,
               child: const Icon(Icons.add),
             ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ProfileScreen1(),
+              ),
+            );
+          },
+          child: const Icon(Icons.add_circle),
+        ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => InternetExample(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add_circle),
+            ),
           ],
         ),
       ),
@@ -52,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
         tooltip: 'Increment',
-        child: const Icon(Icons.account_tree),
+        child: const Icon(Icons.add_circle),
       ),
     );
   }
