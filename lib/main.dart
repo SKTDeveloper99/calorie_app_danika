@@ -1,5 +1,6 @@
 import 'package:calorie_app_danika/authentication/auth.dart';
 import 'package:calorie_app_danika/profile_page.dart';
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,12 +8,14 @@ import 'firebase_options.dart';
 
 late final FirebaseApp app;
 late final FirebaseAuth auth;
+late List<CameraDescription> _cameras;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  _cameras = await availableCameras();
   auth = FirebaseAuth.instanceFor(app: app);
   runApp(const MyApp());
 }
@@ -42,7 +45,7 @@ class MyApp extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Firebase Auth Desktop',
+                              'Authentication Page',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                           ],
