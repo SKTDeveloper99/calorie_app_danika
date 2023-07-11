@@ -1,7 +1,3 @@
-// Copyright 2020, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -25,7 +21,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Form widgets'),
+        title: const Text('Health Log'),
       ),
       body: Form(
         key: _formKey,
@@ -42,30 +38,6 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ...[
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            filled: true,
-                            hintText: 'Enter a title...',
-                            labelText: 'Title',
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              title = value;
-                            });
-                          },
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter a description...',
-                            labelText: 'Description Here',
-                          ),
-                          onChanged: (value) {
-                            description = value;
-                          },
-                          maxLines: 5,
-                        ),
                         _FormDatePicker(
                           date: date,
                           onChanged: (value) {
@@ -73,6 +45,18 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                               date = value;
                             });
                           },
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            hintText: 'Enter what you ate for breakfast...',
+                            labelText: 'Breakfast',
+                          ),
+                          onChanged: (value) {
+                            description = value;
+                          },
+                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -82,14 +66,146 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Approximate value',
+                                  'Calorie Amount',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
                             Text(
                               intl.NumberFormat.currency(
-                                  symbol: "\$", decimalDigits: 0)
+                                  symbol: "", decimalDigits: 0)
+                                  .format(maxValue),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Slider(
+                              min: 0,
+                              max: 500,
+                              divisions: 500,
+                              value: maxValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  maxValue = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            hintText: 'Enter what you ate for lunch...',
+                            labelText: 'Lunch',
+                          ),
+                          onChanged: (value) {
+                            description = value;
+                          },
+                          maxLines: 5,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Calorie Amount',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            Text(
+                              intl.NumberFormat.currency(
+                                  symbol: "", decimalDigits: 0)
+                                  .format(maxValue),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Slider(
+                              min: 0,
+                              max: 500,
+                              divisions: 500,
+                              value: maxValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  maxValue = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            hintText: 'Enter what you ate for dinner...',
+                            labelText: 'Dinner',
+                          ),
+                          onChanged: (value) {
+                            description = value;
+                          },
+                          maxLines: 5,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Calorie Amount',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            Text(
+                              intl.NumberFormat.currency(
+                                  symbol: "", decimalDigits: 0)
+                                  .format(maxValue),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Slider(
+                              min: 0,
+                              max: 500,
+                              divisions: 500,
+                              value: maxValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  maxValue = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            hintText: "Enter what you ate for today's snacks...",
+                            labelText: 'Snacks',
+                          ),
+                          onChanged: (value) {
+                            description = value;
+                          },
+                          maxLines: 5,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Calorie Amount',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            Text(
+                              intl.NumberFormat.currency(
+                                  symbol: "", decimalDigits: 0)
                                   .format(maxValue),
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
@@ -118,7 +234,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                                 });
                               },
                             ),
-                            Text('Brushed Teeth and Mouth',
+                            Text('Logging complete',
                                 style: Theme.of(context).textTheme.titleMedium),
                           ],
                         ),

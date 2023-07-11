@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:calorie_app_danika/authentication/auth.dart';
+import 'package:calorie_app_danika/form_widgets.dart';
 import 'package:calorie_app_danika/health_log.dart';
 import 'package:calorie_app_danika/main.dart';
+import 'package:calorie_app_danika/result_page.dart';
 import 'package:calorie_app_danika/testFirebaseDatabase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -98,8 +100,14 @@ class _ProfilePageState extends State<ProfilePage> {
           content: Text(_actionTitles[index]),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FormWidgetsDemo(),
+                  ),
+                );
+            },
+              child: const Text('OPEN'),
             ),
           ],
         );
@@ -107,7 +115,51 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  void _showAction1(BuildContext context, int index) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(_actionTitles[index]),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LogScreen(),
+                  ),
+                );
+              },
+              child: const Text('OPEN'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
+  void _showAction2(BuildContext context, int index) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(_actionTitles[index]),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ResultScreen(),
+                  ),
+                );
+              },
+              child: const Text('OPEN'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -191,27 +243,27 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          user.sendEmailVerification();
-                        },
-                        child: const Text('Verify Email'),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final a = await user.multiFactor.getEnrolledFactors();
-                          print(a);
-                        },
-                        child: const Text('Get enrolled factors'),
-                      ),
-                      TextFormField(
-                        controller: phoneController,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.phone),
-                          hintText: '+33612345678',
-                          labelText: 'Phone number',
-                        ),
-                      ),
+                      // TextButton(
+                      //   onPressed: () {
+                      //     user.sendEmailVerification();
+                      //   },
+                      //   child: const Text('Verify Email'),
+                      // ),
+                      // TextButton(
+                      //   onPressed: () async {
+                      //     final a = await user.multiFactor.getEnrolledFactors();
+                      //     print(a);
+                      //   },
+                      //   child: const Text('Get enrolled factors'),
+                      // ),
+                      // TextFormField(
+                      //   controller: phoneController,
+                      //   decoration: const InputDecoration(
+                      //     icon: Icon(Icons.phone),
+                      //     hintText: '+33612345678',
+                      //     labelText: 'Phone number',
+                      //   ),
+                      // ),
                       const SizedBox(height: 20),
                       // TextButton(
                       //   onPressed: () async {
@@ -315,18 +367,18 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
         floatingActionButton: ExpandableFab(
-          distance: 112,
+          distance: 110,
           children: [
             ActionButton(
               onPressed: () => _showAction(context, 0),
               icon: const Icon(Icons.format_size),
             ),
             ActionButton(
-              onPressed: () => _showAction(context, 1),
+              onPressed: () => _showAction1(context, 1),
               icon: const Icon(Icons.insert_photo),
             ),
             ActionButton(
-              onPressed: () => _showAction(context, 2),
+              onPressed: () => _showAction2(context, 2),
               icon: const Icon(Icons.videocam),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:calorie_app_danika/health_log.dart';
+import 'package:calorie_app_danika/test.dart';
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -45,17 +46,17 @@ class ResultScreen extends StatelessWidget {
         ),
 
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.of(context).push(
-      //       MaterialPageRoute(
-      //         builder: (context) => LogScreen(),
-      //       ),
-      //     );
-      //   },
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add_circle),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Bird(),
+            ),
+          );
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add_circle),
+      ),
     );
   }
 }
