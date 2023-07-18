@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ResultScreen(),
+                    builder: (context) => ResultScreen(date: "6/16/2023"),
                   ),
                 );
               },

@@ -18,12 +18,13 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
   int _counter = 0;
   late DatabaseReference _counterRef;
   late DatabaseReference _messagesRef;
+  late DatabaseReference _foodfactsRef;
   late StreamSubscription<DatabaseEvent> _counterSubscription;
   late StreamSubscription<DatabaseEvent> _messagesSubscription;
   bool _anchorToBottom = false;
 
   String _kTestKey = 'Hello';
-  String _kTestValue = 'world!';
+  String _kTestValue = 'Danika!';
   FirebaseException? _error;
   bool initialized = false;
 
@@ -39,6 +40,8 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
     final database = FirebaseDatabase.instance;
 
     _messagesRef = database.ref('messages');
+
+    _foodfactsRef = database.ref('foodfacts');
 
     database.setLoggingEnabled(false);
 
@@ -147,22 +150,22 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Database Example'),
+        title: const Text('Food Facts'),
       ),
       body: Column(
         children: [
-          Flexible(
-            child: Center(
-              child: _error == null
-                  ? Text(
-                'Button tapped $_counter time${_counter == 1 ? '' : 's'}.\n\n'
-                    'This includes all devices, ever.',
-              )
-                  : Text(
-                'Error retrieving button tap count:\n${_error!.message}',
-              ),
-            ),
-          ),
+          // Flexible(
+          //   child: Center(
+          //     child: _error == null
+          //         ? Text(
+          //       'Button tapped $_counter time${_counter == 1 ? '' : 's'}.\n\n'
+          //           'This includes all devices, ever.',
+          //     )
+          //         : Text(
+          //       'Error retrieving button tap count:\n${_error!.message}',
+          //     ),
+          //   ),
+          // ),
           ElevatedButton(
             onPressed: _incrementAsTransaction,
             child: const Text('Increment as transaction'),
@@ -177,7 +180,7 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
           Flexible(
             child: FirebaseAnimatedList(
               key: ValueKey<bool>(_anchorToBottom),
-              query: _messagesRef,
+              query: _foodfactsRef,
               reverse: _anchorToBottom,
               itemBuilder: (context, snapshot, animation, index) {
                 return SizeTransition(
@@ -187,7 +190,7 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
                       onPressed: () => _deleteMessage(snapshot),
                       icon: const Icon(Icons.delete),
                     ),
-                    title: Text('$index: ${snapshot.value}'),
+                    title: Text('${snapshot.key}: ${snapshot.value}'),
                   ),
                 );
               },

@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 class LogScreen extends StatelessWidget {
   LogScreen({ super.key });
 
+  var imageUrl = "https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fcereal.jpg?alt=media&token=34e61286-d549-478c-89ed-f55981b9cc49";
+  var imageUrl1 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Ftaco.jpg?alt=media&token=8cbfa03a-c3cf-490e-bd72-c80e0f44ac77';
+  var imageUrl2 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fsalmon%20rice.jpg?alt=media&token=1c402bad-8928-4853-9ef2-527524eecb49';
+  var imageUrl3 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fsalad.jpg?alt=media&token=28fa36cb-45c8-44d6-acb8-986d8c7302b5';
+  var imageUrl4 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fpizza.jpg?alt=media&token=b4071a72-d920-41c7-afe0-5e6aebc8fc78';
   var breakfast = "cereal";
   var lunch = "rice and beans";
   var dinner = "taco";
@@ -24,31 +29,56 @@ class LogScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.network('https://post.healthline.com/wp-content/uploads/2021/11/cereal_with_blueberries_and_milk-1296x728-header-732x549.jpg'),
-              Text("Breakfast: " + breakfast),
-              Text("Lunch: " + lunch),
-              Text("Dinner: " + dinner),
-              Text("Date: " + date),
-              Image.network('https://funwithoutfodmaps.com/wp-content/uploads/2022/07/Low-FODMAP-Beef-Tacos-Square.jpg'),
-              Text("Breakfast: " + breakfast),
-              Text("Lunch: " + lunch),
-              Text("Dinner: " + dinner),
-              Text("Date: " + date2),
-              Image.network('https://www.eatwell101.com/wp-content/uploads/2022/06/viral-Salmon-Rice-Bowl.jpg'),
-              Text("Breakfast: " + breakfast),
-              Text("Lunch: " + lunch),
-              Text("Dinner: " + dinner),
-              Text("Date: " + date3),
-              Image.network('https://www.allrecipes.com/thmb/ggiyFcDVOLtboBdHmZbAlZ6PIcU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/14172-ceasar-salad-supreme-armag-4x3-102369087-f709f7d6e1ac402ba07335f2d18e9272.jpg'),
-              Text("Breakfast: " + breakfast),
-              Text("Lunch: " + lunch),
-              Text("Dinner: " + dinner),
-              Text("Date: " + date4),
-              Image.network('https://picsum.photos/250?image=9'),
-              Text("Breakfast: " + breakfast),
-              Text("Lunch: " + lunch),
-              Text("Dinner: " + dinner),
-              Text("Date: " + date5)
+              GestureDetector(
+                  child: BigCard(image: imageUrl,breakfast: breakfast, lunch: lunch, dinner: dinner, date: date),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ResultScreen(date: date),
+                      ),
+                    );
+                  },
+              ),
+              GestureDetector(
+                  child: BigCard(image: imageUrl1, breakfast: breakfast, lunch: lunch, dinner: dinner, date: date2),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ResultScreen(date: date2),
+                      ),
+                    );
+                  },
+              ),
+              GestureDetector(
+                  child: BigCard(image: imageUrl2, breakfast: breakfast, lunch: lunch, dinner: dinner, date: date3),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ResultScreen(date: date3),
+                      ),
+                    );
+                  },
+              ),
+              GestureDetector(
+                  child: BigCard(image: imageUrl3, breakfast: breakfast, lunch: lunch, dinner: dinner, date: date4),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ResultScreen(date: date4),
+                    ),
+                  );
+                },
+              ),
+              GestureDetector(
+                  child: BigCard(image: imageUrl4, breakfast: breakfast, lunch: lunch, dinner: dinner, date: date5),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ResultScreen(date: date5),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -58,7 +88,7 @@ class LogScreen extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => ResultScreen(),
+              builder: (context) => ResultScreen(date: date),
             ),
           );
         },
@@ -68,5 +98,67 @@ class LogScreen extends StatelessWidget {
     );
   }
 }
+
+class BigCard extends StatelessWidget {
+  const BigCard({
+    Key? key,
+    required this.image,
+    required this.breakfast,
+    required this.lunch,
+    required this.dinner,
+    required this.date,
+
+  }) : super(key: key);
+
+  final String image;
+  final String breakfast;
+  final String lunch;
+  final String dinner;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: Colors.lightBlueAccent,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          // Make sure that the compound word wraps correctly when the window
+          // is too narrow.
+          child: MergeSemantics(
+            child: Wrap(
+              children: [
+                Image.network(image),
+                Text(
+                  breakfast,
+                  style: style.copyWith(fontWeight: FontWeight.w200),
+                ),
+                Text(
+                  lunch,
+                  style: style.copyWith(fontWeight: FontWeight.w200),
+                ),
+                Text(
+                  dinner,
+                  style: style.copyWith(fontWeight: FontWeight.w200),
+                ),
+                Text(
+                  date,
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 35),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 
