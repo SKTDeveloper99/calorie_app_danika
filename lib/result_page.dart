@@ -109,7 +109,7 @@ class BigCard extends StatelessWidget {
     );
 
     return Card(
-      color: Colors.lightGreenAccent,
+      color: Colors.yellow,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: AnimatedSize(
