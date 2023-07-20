@@ -10,9 +10,9 @@ class LogScreen extends StatelessWidget {
   var imageUrl2 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fsalmon%20rice.jpg?alt=media&token=1c402bad-8928-4853-9ef2-527524eecb49';
   var imageUrl3 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fsalad.jpg?alt=media&token=28fa36cb-45c8-44d6-acb8-986d8c7302b5';
   var imageUrl4 = 'https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2Fpizza.jpg?alt=media&token=b4071a72-d920-41c7-afe0-5e6aebc8fc78';
-  var breakfast = "cereal";
-  var lunch = "rice and beans";
-  var dinner = "taco";
+  var breakfast = "Cereal";
+  var lunch = "Salmon Rice";
+  var dinner = "Tacos";
   var date = "6/16/2023";
   var date2 = "6/17/2023";
   var date3 = "6/18/2023";
@@ -124,7 +124,7 @@ class BigCard extends StatelessWidget {
     );
 
     return Card(
-      color: Colors.lightBlueAccent,
+      color: Colors.yellow,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: AnimatedSize(
@@ -132,24 +132,24 @@ class BigCard extends StatelessWidget {
           // Make sure that the compound word wraps correctly when the window
           // is too narrow.
           child: MergeSemantics(
-            child: Wrap(
+            child: Column(
               children: [
                 Image.network(image),
                 Text(
                   breakfast,
-                  style: style.copyWith(fontWeight: FontWeight.w200),
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
                 ),
                 Text(
                   lunch,
-                  style: style.copyWith(fontWeight: FontWeight.w200),
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
                 ),
                 Text(
                   dinner,
-                  style: style.copyWith(fontWeight: FontWeight.w200),
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
                 ),
                 Text(
                   date,
-                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 35),
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 30),
                 ),
               ],
             ),

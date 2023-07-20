@@ -58,51 +58,15 @@ class ResultScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              BigCard(image: imageUrl, food: food, quantity: appleQuantity.toString(), calories: appleCalories.toString()),
-              // Image.network('https://rainierfruit.com/wp-content/uploads/2021/12/Rainier-Fruit-Apple.png'),
-              // Text(food),
-              // Text("You ate: $appleQuantity"),
-              // Text("Calories: $appleCalories"),
-              BigCard(image: imageUrl2, food: food2, quantity: bananaQuantity.toString(), calories: bananaCalories.toString()),
-              // Image.network('https://target.scene7.com/is/image/Target/GUEST_f5d0cfc3-9d02-4ee0-a6c6-ed5dc09971d1?wid=488&hei=488&fmt=pjpeg'),
-              // Text(food2),
-              // Text("You ate: $bananaQuantity"),
-              // Text("Calories: $bananaCalories"),
-              BigCard(image: imageUrl3, food: food3, quantity: strawberryQuantity.toString(), calories: strawberryCalories.toString()),
-              // Image.network('https://static.onecms.io/wp-content/uploads/sites/19/2018/02/13/strawberry-calories-hero-getty-2000.jpg'),
-              // Text(food3),
-              // Text("You ate: $strawberryQuantity"),
-              // Text("Calories: $strawberryCalories"),
-              BigCard(image: imageUrl4, food: food4, quantity: milkQuantity.toString(), calories: milkCalories.toString()),
-              // Image.network('https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2FCalorieAmounts%2Fmilk.jpg?alt=media&token=92c7ee1a-a085-4536-9425-ee4a874dcdce'),
-              // Text(food4),
-              // Text("You ate: $milkQuantity"),
-              // Text("Calories: $milkCalories"),
-              BigCard(image: imageUrl5, food: food5, quantity: iceCreamQuantity.toString(), calories: iceCreamCalories.toString()),
-              // Image.network('https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2FCalorieAmounts%2Fvanilla_ice_cream.jpg?alt=media&token=98494144-c321-46c2-9138-0f82a9537aae'),
-              // Text(food5),
-              // Text("You ate: $iceCreamQuantity"),
-              // Text("Calories: $iceCreamCalories"),
-              BigCard(image: imageUrl6, food: food6, quantity: crustQuantity.toString(), calories: crustCalories.toString()),
-              // Image.network('https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2FCalorieAmounts%2Fpizza_crust.jpg?alt=media&token=4ac2c504-ad8d-475c-a2c9-bb821237e253'),
-              // Text(food6),
-              // Text("You ate: $crustQuantity"),
-              // Text("Calories: $crustCalories"),
-              BigCard(image: imageUrl7, food: food7, quantity: sauceQuantity.toString(), calories: sauceCalories.toString()),
-              // Image.network('https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2FCalorieAmounts%2Fpizza_sauce.jpg?alt=media&token=758498b0-9cce-4c48-9059-c9f8861abc7c'),
-              // Text(food7),
-              // Text("You ate: $sauceQuantity"),
-              // Text("Calories: $sauceCalories"),
-              BigCard(image: imageUrl8, food: food8, quantity: mozzarellaQuantity.toString(), calories: mozzarellaCalories.toString()),
-              // Image.network('https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2FCalorieAmounts%2Fmozzarella.jpg?alt=media&token=6038d174-b6df-4e4e-a5e2-0f4d02c94e82'),
-              // Text(food8),
-              // Text("You ate: $mozzarellaQuantity"),
-              // Text("Calories: $mozzarellaCalories"),
-              BigCard(image: imageUrl9, food: food9, quantity: pepperoniQuantity.toString(), calories: pepperoniCalories.toString()),
-              // Image.network('https://firebasestorage.googleapis.com/v0/b/inspiring-quotes-9e078.appspot.com/o/HealthLogs%2FCalorieAmounts%2Fpepperoni.jpg?alt=media&token=dbb482fc-16b9-426a-92ef-2dc56efff5f4'),
-              // Text(food9),
-              // Text("You ate: $pepperoniQuantity"),
-              // Text("Calories: $pepperoniCalories"),
+              BigCard(image: imageUrl, food: food, calories: appleCalories.toString()),
+              BigCard(image: imageUrl2, food: food2, calories: bananaCalories.toString()),
+              BigCard(image: imageUrl3, food: food3, calories: strawberryCalories.toString()),
+              BigCard(image: imageUrl4, food: food4, calories: milkCalories.toString()),
+              BigCard(image: imageUrl5, food: food5, calories: iceCreamCalories.toString()),
+              BigCard(image: imageUrl6, food: food6, calories: crustCalories.toString()),
+              BigCard(image: imageUrl7, food: food7, calories: sauceCalories.toString()),
+              BigCard(image: imageUrl8, food: food8, calories: mozzarellaCalories.toString()),
+              BigCard(image: imageUrl9, food: food9, calories: pepperoniCalories.toString()),
             ],
           ),
         ),
@@ -129,14 +93,12 @@ class BigCard extends StatelessWidget {
     Key? key,
     required this.image,
     required this.food,
-    required this.quantity,
     required this.calories,
 
   }) : super(key: key);
 
   final String image;
   final String food;
-  final String quantity;
   final String calories;
 
   @override
@@ -155,7 +117,7 @@ class BigCard extends StatelessWidget {
           // Make sure that the compound word wraps correctly when the window
           // is too narrow.
           child: MergeSemantics(
-            child: Wrap(
+            child: Column(
               children: [
                 Image.network(image),
                 Text(
@@ -163,12 +125,8 @@ class BigCard extends StatelessWidget {
                   style: style.copyWith(fontWeight: FontWeight.w200),
                 ),
                 Text(
-                  quantity,
-                  style: style.copyWith(fontWeight: FontWeight.w200),
-                ),
-                Text(
-                  calories,
-                  style: style.copyWith(fontWeight: FontWeight.w200),
+                  "Calories: $calories",
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 30),
                 ),
               ],
             ),
