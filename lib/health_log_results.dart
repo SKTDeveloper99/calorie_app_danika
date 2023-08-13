@@ -42,7 +42,7 @@ class _HealthLogResultsPageState extends State<HealthLogResultsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Date: ${widget.date}'),
+            Text('Super Date: ${widget.date}'),
             Text('Breakfast: ${widget.breakfastInfo}'),
             Text('Breakfast Calories: ${widget.breakfastCalories}'),
             Text('Lunch: ${widget.lunchInfo}'),

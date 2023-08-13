@@ -1,3 +1,4 @@
+import 'package:calorie_app_danika/health_log_results.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -12,8 +13,16 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String description = '';
+  String breakfast = ' ';
+  String lunch = ' ';
+  String dinner = ' ';
+  String snacks = ' ';
   DateTime date = DateTime.now();
   double maxValue = 0;
+  double breakfastValue = 0;
+  double lunchValue = 0;
+  double dinnerValue = 0;
+  double snackValue = 0;
   bool? brushedTeeth = false;
   bool enableFeature = false;
 
@@ -54,7 +63,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             labelText: 'Breakfast',
                           ),
                           onChanged: (value) {
-                            description = value;
+                            breakfast = value;
                           },
                           maxLines: 5,
                         ),
@@ -74,17 +83,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             Text(
                               intl.NumberFormat.currency(
                                   symbol: "", decimalDigits: 0)
-                                  .format(maxValue),
+                                  .format(breakfastValue),
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Slider(
                               min: 0,
-                              max: 500,
+                              max: 3000,
                               divisions: 500,
-                              value: maxValue,
+                              value: breakfastValue,
                               onChanged: (value) {
                                 setState(() {
-                                  maxValue = value;
+                                  breakfastValue = value;
                                 });
                               },
                             ),
@@ -98,7 +107,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             labelText: 'Lunch',
                           ),
                           onChanged: (value) {
-                            description = value;
+                            lunch = value;
                           },
                           maxLines: 5,
                         ),
@@ -118,17 +127,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             Text(
                               intl.NumberFormat.currency(
                                   symbol: "", decimalDigits: 0)
-                                  .format(maxValue),
+                                  .format(lunchValue),
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Slider(
                               min: 0,
-                              max: 500,
+                              max: 3000,
                               divisions: 500,
-                              value: maxValue,
+                              value: lunchValue,
                               onChanged: (value) {
                                 setState(() {
-                                  maxValue = value;
+                                  lunchValue = value;
                                 });
                               },
                             ),
@@ -142,7 +151,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             labelText: 'Dinner',
                           ),
                           onChanged: (value) {
-                            description = value;
+                            dinner = value;
                           },
                           maxLines: 5,
                         ),
@@ -162,17 +171,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             Text(
                               intl.NumberFormat.currency(
                                   symbol: "", decimalDigits: 0)
-                                  .format(maxValue),
+                                  .format(dinnerValue),
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Slider(
                               min: 0,
-                              max: 500,
+                              max: 3000,
                               divisions: 500,
-                              value: maxValue,
+                              value: dinnerValue,
                               onChanged: (value) {
                                 setState(() {
-                                  maxValue = value;
+                                  dinnerValue = value;
                                 });
                               },
                             ),
@@ -186,7 +195,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             labelText: 'Snacks',
                           ),
                           onChanged: (value) {
-                            description = value;
+                            snacks = value;
                           },
                           maxLines: 5,
                         ),
@@ -206,17 +215,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             Text(
                               intl.NumberFormat.currency(
                                   symbol: "", decimalDigits: 0)
-                                  .format(maxValue),
+                                  .format(snackValue),
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             Slider(
                               min: 0,
-                              max: 500,
+                              max: 3000,
                               divisions: 500,
-                              value: maxValue,
+                              value: snackValue,
                               onChanged: (value) {
                                 setState(() {
-                                  maxValue = value;
+                                  snackValue = value;
                                 });
                               },
                             ),
@@ -254,6 +263,16 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             ),
                           ],
                         ),
+                        ElevatedButton(
+                            onPressed: (){
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => HealthLogResultsPage(date: date, breakfastInfo: breakfast, breakfastCalories: breakfastValue, lunchInfo: lunch, lunchCalories: lunchValue, dinnerInfo: dinner, dinnerCalories: dinnerValue, snacksInfo: snacks, snacksCalories: snackValue),
+                                ),
+                              );
+                            },
+                            child: Text('Log Screen Results')
+                        )
                       ].expand(
                             (widget) => [
                           widget,
