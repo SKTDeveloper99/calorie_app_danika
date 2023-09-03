@@ -5,11 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Calorie App Danika</string>
+	<string>Be Healthy!</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>This app requires access to the photo library to receive your today's food and today's exercises</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app does require access to the microphone to receive your today's food and today's exercises</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires access to the camera to receive your today's food and today's exercises</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

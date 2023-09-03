@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "15920923300",
+    "firebase_url": "https://inspiring-quotes-9e078-default-rtdb.firebaseio.com",
+    "project_id": "inspiring-quotes-9e078",
+    "storage_bucket": "inspiring-quotes-9e078.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15920923300:android:b0c1a7fecbcdb4b4be9c31",
+        "android_client_info": {
+          "package_name": "com.codingminds.caloriedanika.calorie_app_danika"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15920923300-u8gaa3ohsmn332fqt473dpuldsp4dgvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBbvFhISpLPk25nFAMnzLytduqdKMb4XA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15920923300-u8gaa3ohsmn332fqt473dpuldsp4dgvs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15920923300-3g2r31r3moaupv8ieteb3r90s75qj3h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codingminds.caloriedanika.calorieAppDanika.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

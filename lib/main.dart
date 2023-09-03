@@ -1,6 +1,6 @@
 import 'package:calorie_app_danika/authentication/auth.dart';
+import 'package:calorie_app_danika/home_page.dart';
 import 'package:calorie_app_danika/profile_page.dart';
-import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,14 +8,13 @@ import 'firebase_options.dart';
 
 late final FirebaseApp app;
 late final FirebaseAuth auth;
-late List<CameraDescription> _cameras;
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  _cameras = await availableCameras();
   auth = FirebaseAuth.instanceFor(app: app);
   runApp(const MyApp());
 }
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
                     stream: auth.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return const ProfilePage();
+                        return const BottomNavigationBarPage();
                       }
                       return const AuthGate();
                     },

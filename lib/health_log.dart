@@ -1,5 +1,4 @@
 import 'package:calorie_app_danika/result_page.dart';
-import 'package:calorie_app_danika/test.dart';
 import 'package:flutter/material.dart';
 
 class LogScreen extends StatelessWidget {

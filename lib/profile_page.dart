@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'package:calorie_app_danika/authentication/auth.dart';
 import 'package:calorie_app_danika/form_widgets.dart';
 import 'package:calorie_app_danika/health_log.dart';
 import 'package:calorie_app_danika/main.dart';
-import 'package:calorie_app_danika/result_page.dart';
 import 'package:calorie_app_danika/testFirebaseDatabase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     });
 
-    log(user.toString());
-
     super.initState();
   }
 
@@ -91,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
     ScaffoldSnackbar.of(context).show('Name updated');
   }
 
-  static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
+  static const _actionTitles = ['Create Health Log', 'View Health Log'];
   void _showAction(BuildContext context, int index) {
     showDialog<void>(
       context: context,
@@ -103,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => FormWidgetsDemo(),
+                    builder: (context) => const FormWidgetsDemo(),
                   ),
                 );
             },
@@ -138,28 +134,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _showAction2(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ResultScreen(date: "6/16/2023"),
-                  ),
-                );
-              },
-              child: const Text('OPEN'),
-            ),
-          ],
-        );
-      },
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -177,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Stack(
                         children: [
                           CircleAvatar(
-                            maxRadius: 60,
+                            maxRadius: 100,
                             backgroundImage: NetworkImage(
                               user.photoURL ?? placeholderImage,
                             ),
@@ -211,6 +185,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const SizedBox(height: 10),
                       TextField(
+                        style: const TextStyle(
+                          fontSize: 40,
+                        ),
                         textAlign: TextAlign.center,
                         controller: controller,
                         decoration: const InputDecoration(
@@ -243,108 +220,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      // TextButton(
-                      //   onPressed: () {
-                      //     user.sendEmailVerification();
-                      //   },
-                      //   child: const Text('Verify Email'),
-                      // ),
-                      // TextButton(
-                      //   onPressed: () async {
-                      //     final a = await user.multiFactor.getEnrolledFactors();
-                      //     print(a);
-                      //   },
-                      //   child: const Text('Get enrolled factors'),
-                      // ),
-                      // TextFormField(
-                      //   controller: phoneController,
-                      //   decoration: const InputDecoration(
-                      //     icon: Icon(Icons.phone),
-                      //     hintText: '+33612345678',
-                      //     labelText: 'Phone number',
-                      //   ),
-                      // ),
-                      const SizedBox(height: 20),
-                      // TextButton(
-                      //   onPressed: () async {
-                      //     final session = await user.multiFactor.getSession();
-                      //     await auth.verifyPhoneNumber(
-                      //       multiFactorSession: session,
-                      //       phoneNumber: phoneController.text,
-                      //       verificationCompleted: (_) {},
-                      //       verificationFailed: print,
-                      //       codeSent: (
-                      //         String verificationId,
-                      //         int? resendToken,
-                      //       ) async {
-                      //         final smsCode = await getSmsCodeFromUser(context);
-                      //
-                      //         if (smsCode != null) {
-                      //           // Create a PhoneAuthCredential with the code
-                      //           final credential = PhoneAuthProvider.credential(
-                      //             verificationId: verificationId,
-                      //             smsCode: smsCode,
-                      //           );
-                      //
-                      //           try {
-                      //             await user.multiFactor.enroll(
-                      //               PhoneMultiFactorGenerator.getAssertion(
-                      //                 credential,
-                      //               ),
-                      //             );
-                      //           } on FirebaseAuthException catch (e) {
-                      //             print(e.message);
-                      //           }
-                      //         }
-                      //       },
-                      //       codeAutoRetrievalTimeout: print,
-                      //     );
-                      //   },
-                      //   child: const Text('Verify Number For MFA'),
-                      // ),
-                      // TextButton(
-                      //   onPressed: () async {
-                      //     try {
-                      //       final enrolledFactors =
-                      //           await user.multiFactor.getEnrolledFactors();
-                      //
-                      //       await user.multiFactor.unenroll(
-                      //         factorUid: enrolledFactors.first.uid,
-                      //       );
-                      //       // Show snackbar
-                      //       ScaffoldSnackbar.of(context).show('MFA unenrolled');
-                      //     } catch (e) {
-                      //       print(e);
-                      //     }
-                      //   },
-                      //   child: const Text('Unenroll MFA'),
-                      // ),
                       const Divider(),
                       TextButton(
                         onPressed: _signOut,
                         child: const Text('Sign out'),
                       ),
-                      const Divider(),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LogScreen()),
-                            );
-                          },
-                          child: const Text('Health Log')),
-                      const Divider(),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TestRealtimeDatabase()),
-                            );
-                          },
-                          child: const Text('Test Realtime Firebase')),
+
                     ],
                   ),
                 ),
@@ -376,10 +257,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ActionButton(
               onPressed: () => _showAction1(context, 1),
               icon: const Icon(Icons.insert_photo),
-            ),
-            ActionButton(
-              onPressed: () => _showAction2(context, 2),
-              icon: const Icon(Icons.videocam),
             ),
           ],
         ),

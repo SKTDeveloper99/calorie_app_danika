@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 
-import 'package:firebase_core/firebase_core.dart';
+import 'package:calorie_app_danika/main.dart';
+import 'package:calorie_app_danika/specific_day.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class TestRealtimeDatabase extends StatefulWidget {
@@ -15,13 +19,16 @@ class TestRealtimeDatabase extends StatefulWidget {
 }
 
 class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
+  late User user;
   int _counter = 0;
   late DatabaseReference _counterRef;
   late DatabaseReference _messagesRef;
   late DatabaseReference _foodfactsRef;
   late StreamSubscription<DatabaseEvent> _counterSubscription;
   late StreamSubscription<DatabaseEvent> _messagesSubscription;
-  bool _anchorToBottom = false;
+  late StreamSubscription<DatabaseEvent> _foodFactsSubscription;
+  bool _anchorToBottom = true;
+  late String pictureSelected;
 
   String _kTestKey = 'Hello';
   String _kTestValue = 'Danika!';
@@ -35,13 +42,14 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
   }
 
   Future<void> init() async {
+    user = auth.currentUser!;
     _counterRef = FirebaseDatabase.instance.ref('counter');
 
     final database = FirebaseDatabase.instance;
 
     _messagesRef = database.ref('messages');
 
-    _foodfactsRef = database.ref('foodfacts');
+    _foodfactsRef = database.ref('/users/${user.uid}/foodlogs/');
 
     database.setLoggingEnabled(false);
 
@@ -58,13 +66,20 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
       initialized = true;
     });
 
+    auth.userChanges().listen((event) {
+      if (event != null && mounted) {
+        setState(() {
+          user = event;
+        });
+      }
+    });
+
     try {
       final counterSnapshot = await _counterRef.get();
-
-      print(
-        'Connected to directly configured database and read '
-            '${counterSnapshot.value}',
-      );
+      // print(
+      //   'Connected to directly configured database and read '
+      //       '${counterSnapshot.value}',
+      //);
     } catch (err) {
       print(err);
     }
@@ -88,7 +103,19 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
 
     _messagesSubscription = messagesQuery.onChildAdded.listen(
           (DatabaseEvent event) {
-        print('Child added: ${event.snapshot.value}');
+        // print('Child added: ${event.snapshot.value}');
+      },
+      onError: (Object o) {
+        final error = o as FirebaseException;
+        print('Error: ${error.code} ${error.message}');
+      },
+    );
+
+    final foodfactsQuery = _foodfactsRef.limitToLast(20);
+
+    _foodFactsSubscription = foodfactsQuery.onChildAdded.listen(
+          (DatabaseEvent event) {
+        // print('Child added: ${event.snapshot.value}');
       },
       onError: (Object o) {
         final error = o as FirebaseException;
@@ -102,37 +129,13 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
     super.dispose();
     _messagesSubscription.cancel();
     _counterSubscription.cancel();
+    _foodFactsSubscription.cancel();
   }
 
-  Future<void> _increment() async {
-    await _counterRef.set(ServerValue.increment(1));
-
-    await _messagesRef
-        .push()
-        .set(<String, String>{_kTestKey: '$_kTestValue $_counter'});
-  }
-
-  Future<void> _incrementAsTransaction() async {
-    try {
-      final transactionResult = await _counterRef.runTransaction((mutableData) {
-        return Transaction.success((mutableData as int? ?? 0) + 1);
-      });
-
-      if (transactionResult.committed) {
-        final newMessageRef = _messagesRef.push();
-        await newMessageRef.set(<String, String>{
-          _kTestKey: '$_kTestValue ${transactionResult.snapshot.value}'
-        });
-      }
-    } on FirebaseException catch (e) {
-      print(e.message);
-    }
-  }
-
-  Future<void> _deleteMessage(DataSnapshot snapshot) async {
-    final messageRef = _messagesRef.child(snapshot.key!);
-    await messageRef.remove();
-  }
+  // Future<void> _deleteMessage(DataSnapshot snapshot) async {
+  //   final messageRef = _messagesRef.child(snapshot.key!);
+  //   await messageRef.remove();
+  // }
 
   void _setAnchorToBottom(bool? value) {
     if (value == null) {
@@ -150,47 +153,47 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Food Facts'),
+        title: const Text('Your Health Logs'),
       ),
       body: Column(
         children: [
-          // Flexible(
-          //   child: Center(
-          //     child: _error == null
-          //         ? Text(
-          //       'Button tapped $_counter time${_counter == 1 ? '' : 's'}.\n\n'
-          //           'This includes all devices, ever.',
-          //     )
-          //         : Text(
-          //       'Error retrieving button tap count:\n${_error!.message}',
-          //     ),
+          // ListTile(
+          //   leading: Checkbox(
+          //     onChanged: _setAnchorToBottom,
+          //     value: _anchorToBottom,
           //   ),
+          //   title: const Text('Anchor to bottom'),
           // ),
-          ElevatedButton(
-            onPressed: _incrementAsTransaction,
-            child: const Text('Increment as transaction'),
-          ),
-          ListTile(
-            leading: Checkbox(
-              onChanged: _setAnchorToBottom,
-              value: _anchorToBottom,
-            ),
-            title: const Text('Anchor to bottom'),
-          ),
           Flexible(
             child: FirebaseAnimatedList(
               key: ValueKey<bool>(_anchorToBottom),
               query: _foodfactsRef,
               reverse: _anchorToBottom,
               itemBuilder: (context, snapshot, animation, index) {
+                final healthList = snapshot.value! as Map;
+                List<String>  love = ["breakfast","lunch","dinner"];
+                final _random = Random();
+                String superRandom = love[_random.nextInt(love.length)];
+                int timeSkip = healthList["date"] ;
+                final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(timeSkip);
+                String formattedDate = DateFormat('yyyy-MM-dd').format(timeStamp);
                 return SizeTransition(
                   sizeFactor: animation,
-                  child: ListTile(
-                    trailing: IconButton(
-                      onPressed: () => _deleteMessage(snapshot),
-                      icon: const Icon(Icons.delete),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DayDetailScreen(info: healthList, date: formattedDate)),
+                      );
+                    },
+                    child: BigCard(
+                        image: healthList["${superRandom}PicUrl"],
+                        meal: healthList[superRandom],
+                        calories: healthList["caloriesInput"].toString(),
+                        caloriesDeficit: (healthList["caloriesInput"] - healthList["caloriesExercises"]),
+                        date: formattedDate,
                     ),
-                    title: Text('${snapshot.key}: ${snapshot.value}'),
                   ),
                 );
               },
@@ -198,10 +201,68 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _increment,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    );
+  }
+}
+
+class BigCard extends StatelessWidget {
+  const BigCard({
+    Key? key,
+    required this.image,
+    required this.meal,
+    required this.calories,
+    required this.date,
+    required this.caloriesDeficit,
+
+  }) : super(key: key);
+
+  final String image;
+  final String meal;
+  final String calories;
+  final String date;
+  final int caloriesDeficit;
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+    var color = Colors.yellow;
+    if (caloriesDeficit > 0) {
+        color = Colors.red;
+    }
+    if (caloriesDeficit <= 0) {
+      color = Colors.green;
+    }
+    return Card(
+      color: color,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          // Make sure that the compound word wraps correctly when the window
+          // is too narrow.
+          child: MergeSemantics(
+            child: Column(
+              children: [
+                Image.network(image),
+                Text(
+                  meal,
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
+                ),
+                Text(
+                  caloriesDeficit.toString(),
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
+                ),
+                Text(
+                  date,
+                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 30),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
