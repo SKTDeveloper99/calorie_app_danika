@@ -43,6 +43,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
   double nightCaloriesBurned = 0;
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
