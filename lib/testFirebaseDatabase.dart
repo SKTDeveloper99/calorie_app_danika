@@ -153,7 +153,7 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Health Logs'),
+        title: const Text('Health Logs'),
       ),
       body: Column(
         children: [
@@ -176,7 +176,7 @@ class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
                 String superRandom = love[_random.nextInt(love.length)];
                 int timeSkip = healthList["date"] ;
                 final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(timeSkip);
-                String formattedDate = DateFormat('yyyy-MM-dd').format(timeStamp);
+                String formattedDate = DateFormat('MM-dd-yyyy').format(timeStamp);
                 return SizeTransition(
                   sizeFactor: animation,
                   child: GestureDetector(
@@ -228,12 +228,12 @@ class BigCard extends StatelessWidget {
     var style = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
-    var color = Colors.yellow;
+    Color color = Colors.yellow;
     if (caloriesDeficit > 0) {
-        color = Colors.red;
+        color = Colors.redAccent;
     }
     if (caloriesDeficit <= 0) {
-      color = Colors.green;
+      color = Colors.lightGreenAccent;
     }
     return Card(
       color: color,
@@ -247,12 +247,12 @@ class BigCard extends StatelessWidget {
             child: Column(
               children: [
                 Image.network(image),
+                // Text(
+                //   "You ate this: $meal",
+                //   style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
+                // ),
                 Text(
-                  meal,
-                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
-                ),
-                Text(
-                  caloriesDeficit.toString(),
+                 "Net Gain: $caloriesDeficit",
                   style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
                 ),
                 Text(

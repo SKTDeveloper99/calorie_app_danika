@@ -149,7 +149,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                 _showPicker();
               },
             ),
-            const Text('Input your lovely Breakfast here!'),
+            const Text('Input your amazing breakfast here!'),
           ],
         )
             : Stack(children: [
@@ -306,7 +306,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                 _showPickerLunch();
               },
             ),
-            const Text('Input your Delicious Lunch here!'),
+            const Text('Input your delicious lunch here!'),
           ],
         )
             : Stack(children: [
@@ -434,7 +434,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                 _showPickerDinner();
               },
             ),
-            const Text('Put Your Lovely Dinner here!'),
+            const Text('Input Your lovely dinner here!'),
           ],
         )
             : Stack(children: [

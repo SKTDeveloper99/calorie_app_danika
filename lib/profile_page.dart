@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
             },
-              child: const Text('OPEN'),
+              child: const Text('CREATE'),
             ),
           ],
         );
@@ -126,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
               },
-              child: const Text('OPEN'),
+              child: const Text('VIEW'),
             ),
           ],
         );
@@ -151,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Stack(
                         children: [
                           CircleAvatar(
-                            maxRadius: 100,
+                            maxRadius: 90,
                             backgroundImage: NetworkImage(
                               user.photoURL ?? placeholderImage,
                             ),
@@ -201,7 +201,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-                      Text(user.email ?? user.phoneNumber ?? 'User'),
+                      Text(
+                          user.email ?? user.phoneNumber ?? 'User',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -209,7 +214,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           if (userProviders.contains('phone'))
                             const Icon(Icons.phone),
                           if (userProviders.contains('password'))
-                            const Icon(Icons.mail),
+                            const Icon(
+                                Icons.mail,
+                              size: 35,
+                            ),
                           if (userProviders.contains('google.com'))
                             SizedBox(
                               width: 24,
@@ -223,7 +231,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       const Divider(),
                       TextButton(
                         onPressed: _signOut,
-                        child: const Text('Sign out'),
+                        child: const Text(
+                            'Sign out',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
 
                     ],

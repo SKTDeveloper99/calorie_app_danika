@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DayDetailScreen extends StatefulWidget {
   const DayDetailScreen({
@@ -27,14 +28,58 @@ class _DayDetailScreenState extends State<DayDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Calories Total Input: ${widget.info["caloriesInput"]}'),
-              Text('Calories Work Out: ${widget.info["caloriesExercises"]}'),
-              Text('Super Date: ${widget.date}'),
-              Text('Breakfast: ${widget.info["breakfast"]}'),
+              Text(
+                  'Total Calorie Input: ${widget.info["caloriesInput"]}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize:25,
+                  ),
+                ),
+              ),
+              Text(
+                  'Amount of Calories Burned: ${widget.info["caloriesExercises"]}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize:25,
+                  ),
+                ),
+              ),
+              Text(
+                  'Date: ${widget.date}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize:25,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Divider(),
+              Text(
+                  'Breakfast: ${widget.info["breakfast"]}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize:25,
+                  ),
+                ),
+              ),
               Image.network(widget.info["breakfastPicUrl"]),
-              Text('Lunch: ${widget.info["lunch"]}'),
+              Text(
+                  'Lunch: ${widget.info["lunch"]}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize:25,
+                  ),
+                ),
+              ),
               Image.network(widget.info["lunchPicUrl"]),
-              Text('Dinner: ${widget.info["dinner"]}'),
+              Text(
+                  'Dinner: ${widget.info["dinner"]}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize:25,
+                  ),
+                ),
+              ),
               Image.network(widget.info["dinnerPicUrl"]),
             ],
           ),
