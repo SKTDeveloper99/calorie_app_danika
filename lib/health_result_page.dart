@@ -135,7 +135,7 @@ class _HealthResultPageState extends State<HealthResultPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Exercise Log - Wait for Upload!')
+          title: const Text('Health and Exercise Log Results')
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -143,22 +143,95 @@ class _HealthResultPageState extends State<HealthResultPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Date: ${widget.date}'),
-              Text('Breakfast: ${widget.breakfastInfo}'),
+              const SizedBox(height: 35),
+              Text(
+                'Date: ${widget.date}',
+                  style: TextStyle(
+                fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                  'Breakfast: ${widget.breakfastInfo}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                  'Breakfast Calories: ${widget.breakfastCalories}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
               Image.file(widget.breakfastImage),
-              Text('Breakfast Calories: ${widget.breakfastCalories}'),
-              Text('Lunch: ${widget.lunchInfo}'),
+              const SizedBox(height: 20),
+              Text(
+                  'Lunch: ${widget.lunchInfo}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                  'Lunch Calories: ${widget.lunchCalories}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
               Image.file(widget.lunchImage),
-              Text('Lunch Calories: ${widget.lunchCalories}'),
-              Text('Dinner: ${widget.dinnerInfo}'),
-              Text('Dinner Calories: ${widget.dinnerCalories}'),
+              const SizedBox(height: 20),
+              Text(
+                  'Dinner: ${widget.dinnerInfo}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                  'Dinner Calories: ${widget.dinnerCalories}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
               Image.file(widget.dinnerImage),
-              Text('Morning Work Out: ${widget.morningExercises}'),
-              Text('Morning Workout Calories Burned: ${widget.noonCaloriesBurned}'),
-              Text('Noon Work Out: ${widget.noonExercises}'),
-              Text('Noon Workout Calories Burned: ${widget.noonCaloriesBurned}'),
-              Text('Night Work Out: ${widget.nightExercises}'),
-              Text('Night Workout Calories Burned: ${widget.nightCaloriesBurned}'),
+              const SizedBox(height: 20),
+              Text(
+                  'Morning Workout: ${widget.morningExercises}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                  'Morning Workout Calories Burned: ${widget.noonCaloriesBurned}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                  'Noon Workout: ${widget.noonExercises}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                  'Noon Workout Calories Burned: ${widget.noonCaloriesBurned}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                  'Night Workout: ${widget.nightExercises}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                  'Night Workout Calories Burned: ${widget.nightCaloriesBurned}',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 20),
               ElevatedButton(
                   onPressed: () async {
                     final todayFood = <String, dynamic> {
@@ -182,8 +255,14 @@ class _HealthResultPageState extends State<HealthResultPage> {
                           const TestRealtimeDatabase()), (Route<dynamic> route) => false);
                     }
                     },
-                  child: const Text("Update your Diet today!"),
+                  child: const Text(
+                    "Update your diet today!",
+                      style: TextStyle(
+                        fontSize: 15,
+                    ),
+                  ),
               ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

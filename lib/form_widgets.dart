@@ -640,7 +640,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                                 ),
                               );
                             },
-                            child: const Text('Log Your Exercises Results')
+                            child: const Text('Log Your Health Results')
                         )
                       ].expand(
                             (widget) => [

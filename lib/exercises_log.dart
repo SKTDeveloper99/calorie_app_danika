@@ -69,8 +69,8 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             filled: true,
-                            hintText: 'Enter what you ate for breakfast...',
-                            labelText: 'Breakfast',
+                            hintText: 'Enter your morning exercise...',
+                            labelText: 'Morning',
                           ),
                           onChanged: (value) {
                             morningExercises = value;
@@ -85,7 +85,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Calorie Amount',
+                                  'Calories Burned',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
@@ -113,8 +113,8 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             filled: true,
-                            hintText: 'Enter what you ate for lunch...',
-                            labelText: 'Lunch',
+                            hintText: 'Enter your noon exercise...',
+                            labelText: 'Noon',
                           ),
                           onChanged: (value) {
                             noonExercises = value;
@@ -129,7 +129,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Calorie Amount',
+                                  'Calories Burned',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
@@ -157,8 +157,8 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             filled: true,
-                            hintText: 'Enter what you ate for dinner...',
-                            labelText: 'Dinner',
+                            hintText: 'Enter your night exercise...',
+                            labelText: 'Night',
                           ),
                           onChanged: (value) {
                             nightExercises = value;
@@ -173,7 +173,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Calorie Amount',
+                                  'Calories Burned',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
@@ -222,7 +222,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                                 ),
                               );
                             },
-                            child: const Text('Your Exercises Results')
+                            child: const Text('Log Your Exercise Results')
                         )
                       ].expand(
                             (widget) => [

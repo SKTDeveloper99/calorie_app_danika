@@ -28,6 +28,7 @@ class _DayDetailScreenState extends State<DayDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
               Text(
                   'Total Calorie Input: ${widget.info["caloriesInput"]}',
                 style: GoogleFonts.lato(
@@ -53,7 +54,6 @@ class _DayDetailScreenState extends State<DayDetailScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Divider(),
               Text(
                   'Breakfast: ${widget.info["breakfast"]}',
                 style: GoogleFonts.lato(
@@ -62,7 +62,9 @@ class _DayDetailScreenState extends State<DayDetailScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
               Image.network(widget.info["breakfastPicUrl"]),
+              const SizedBox(height: 20),
               Text(
                   'Lunch: ${widget.info["lunch"]}',
                 style: GoogleFonts.lato(
@@ -71,7 +73,9 @@ class _DayDetailScreenState extends State<DayDetailScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
               Image.network(widget.info["lunchPicUrl"]),
+              const SizedBox(height: 20),
               Text(
                   'Dinner: ${widget.info["dinner"]}',
                 style: GoogleFonts.lato(
@@ -80,7 +84,9 @@ class _DayDetailScreenState extends State<DayDetailScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
               Image.network(widget.info["dinnerPicUrl"]),
+              const SizedBox(height: 20),
             ],
           ),
         ),
