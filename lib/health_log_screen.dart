@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
-class TestRealtimeDatabase extends StatefulWidget {
-  const TestRealtimeDatabase({Key? key}) : super(key: key);
+class HealthLogScreen extends StatefulWidget {
+  const HealthLogScreen({Key? key}) : super(key: key);
 
   @override
-  _TestRealtimeDatabaseState createState() => _TestRealtimeDatabaseState();
+  _HealthLogScreenState createState() => _HealthLogScreenState();
 }
 
-class _TestRealtimeDatabaseState extends State<TestRealtimeDatabase> {
+class _HealthLogScreenState extends State<HealthLogScreen> {
   late User user;
   int _counter = 0;
   late DatabaseReference _counterRef;

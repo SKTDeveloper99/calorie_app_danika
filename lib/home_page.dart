@@ -1,6 +1,5 @@
-import 'package:calorie_app_danika/health_log.dart';
 import 'package:calorie_app_danika/profile_page.dart';
-import 'package:calorie_app_danika/testFirebaseDatabase.dart';
+import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
@@ -20,7 +19,7 @@ class _BottomNavigationBarPageState
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const ProfilePage(),
-    const TestRealtimeDatabase(),
+    const HealthLogScreen(),
   ];
 
   void _onItemTapped(int index) {

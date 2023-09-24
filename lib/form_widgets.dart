@@ -6,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:path_provider/path_provider.dart';
 
 class FormWidgetsDemo extends StatefulWidget {
   const FormWidgetsDemo({super.key});
@@ -50,6 +52,22 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
   File? _image;
   File? _imageLunch;
   File? _imageDinner;
+  late File love;
+
+  Future<File> getImageFileFromAssets() async {
+    final byteData = await rootBundle.load('assets/flippers-alpha.png');
+    final file = File('${(await getTemporaryDirectory()).path}/flippers-alpha.png');
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    love = file;
+    return love;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImageFileFromAssets();
+  }
 
 
   _imgFromCamera() async {
@@ -636,7 +654,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             onPressed: (){
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => ExercisesLogPage(date: date, breakfastInfo: breakfast, breakfastCalories: breakfastValue, lunchInfo: lunch, lunchCalories: lunchValue, dinnerInfo: dinner, dinnerCalories: dinnerValue, breakfastImage: _image!, lunchImage: _imageLunch!, dinnerImage: _imageDinner!),
+                                  builder: (context) => ExercisesLogPage(date: date, breakfastInfo: breakfast, breakfastCalories: breakfastValue, lunchInfo: lunch, lunchCalories: lunchValue, dinnerInfo: dinner, dinnerCalories: dinnerValue, breakfastImage: _image ?? love, lunchImage: _imageLunch ?? love, dinnerImage: _imageDinner ?? love),
                                 ),
                               );
                             },

@@ -1,8 +1,7 @@
 import 'package:calorie_app_danika/authentication/auth.dart';
 import 'package:calorie_app_danika/form_widgets.dart';
-import 'package:calorie_app_danika/health_log.dart';
 import 'package:calorie_app_danika/main.dart';
-import 'package:calorie_app_danika/testFirebaseDatabase.dart';
+import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -122,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => LogScreen(),
+                    builder: (context) => const HealthLogScreen(),
                   ),
                 );
               },

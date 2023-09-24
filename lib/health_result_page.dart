@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:calorie_app_danika/home_page.dart';
 import 'package:calorie_app_danika/main.dart';
-import 'package:calorie_app_danika/testFirebaseDatabase.dart';
+import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -252,7 +252,7 @@ class _HealthResultPageState extends State<HealthResultPage> {
                         .catchError((error) => print("You got error on $error"));
                     if(mounted) {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          const TestRealtimeDatabase()), (Route<dynamic> route) => false);
+                          const HealthLogScreen()), (Route<dynamic> route) => false);
                     }
                     },
                   child: const Text(
