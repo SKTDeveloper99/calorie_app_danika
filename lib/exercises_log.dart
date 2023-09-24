@@ -35,13 +35,13 @@ class ExercisesLogPage extends StatefulWidget {
 
 class _ExercisesLogPageState extends State<ExercisesLogPage> {
   final _formKey = GlobalKey<FormState>();
-  String morningExercises = 'Swimming';
-  String noonExercises = ' ';
-  String nightExercises = ' ';
+  String morningExercises = 'No exercise';
+  String noonExercises = 'No exercise';
+  String nightExercises = 'No exercise';
   double timeMorningExercise = 0;
   double timeNoonExercise = 0;
   double timeNightExercise = 0;
-  var activities = ['Swimming', 'Running','Tennis','Treadmill','Basketball'];
+  var activities = ['No exercise', 'Running','Tennis','Treadmill','Swimming'];
 
 
 
@@ -118,17 +118,39 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                             ),
                           ],
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter your noon exercise...',
-                            labelText: 'Noon',
-                          ),
-                          onChanged: (value) {
-                            noonExercises = value;
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter your noon exercise...',
+                        //     labelText: 'Noon',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     noonExercises = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
+                        DropdownButton(
+                          // Initial Value
+                          value: noonExercises,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: activities.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              noonExercises = newValue!;
+                            });
                           },
-                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -148,17 +170,39 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                             ),
                           ],
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter your night exercise...',
-                            labelText: 'Night',
-                          ),
-                          onChanged: (value) {
-                            nightExercises = value;
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter your night exercise...',
+                        //     labelText: 'Night',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     nightExercises = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
+                        DropdownButton(
+                          // Initial Value
+                          value: nightExercises,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: activities.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              nightExercises = newValue!;
+                            });
                           },
-                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
