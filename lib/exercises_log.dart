@@ -35,12 +35,13 @@ class ExercisesLogPage extends StatefulWidget {
 
 class _ExercisesLogPageState extends State<ExercisesLogPage> {
   final _formKey = GlobalKey<FormState>();
-  String morningExercises = ' ';
+  String morningExercises = 'Swimming';
   String noonExercises = ' ';
   String nightExercises = ' ';
-  double morningCaloriesBurned = 0;
-  double noonCaloriesBurned = 0;
-  double nightCaloriesBurned = 0;
+  double timeMorningExercise = 0;
+  double timeNoonExercise = 0;
+  double timeNightExercise = 0;
+  var activities = ['Swimming', 'Running','Tennis','Treadmill','Basketball'];
 
 
 
@@ -65,47 +66,55 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ...[
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter your morning exercise...',
-                            labelText: 'Morning',
-                          ),
-                          onChanged: (value) {
-                            morningExercises = value;
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter your morning exercise...',
+                        //     labelText: 'Morning',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     morningExercises = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
+                        DropdownButton(
+                          // Initial Value
+                          value: morningExercises,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: activities.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              morningExercises = newValue!;
+                            });
                           },
-                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calories Burned',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(morningCaloriesBurned),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: morningCaloriesBurned,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the number of minutes you exercised...',
+                                labelText: 'Morning Exercise Minutes',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  morningCaloriesBurned = value;
-                                });
+                                timeMorningExercise = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -125,31 +134,17 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calories Burned',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(noonCaloriesBurned),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: noonCaloriesBurned,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the number of minutes you exercised...',
+                                labelText: 'Noon Exercise Minutes',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  noonCaloriesBurned = value;
-                                });
+                                timeNoonExercise = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -169,31 +164,17 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calories Burned',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(nightCaloriesBurned),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: nightCaloriesBurned,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the number of minutes you exercised...',
+                                labelText: 'Night Exercise Minutes',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  nightCaloriesBurned = value;
-                                });
+                                timeNightExercise = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -210,11 +191,11 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                                       dinnerInfo: widget.dinnerInfo,
                                       dinnerCalories: widget.dinnerCalories,
                                       morningExercises: morningExercises,
-                                      morningCaloriesBurned: morningCaloriesBurned,
+                                      timeMorningExercise: timeMorningExercise,
                                       noonExercises: noonExercises,
-                                      noonCaloriesBurned: noonCaloriesBurned,
+                                      timeNoonExercise: timeNoonExercise,
                                       nightExercises: nightExercises,
-                                      nightCaloriesBurned: nightCaloriesBurned,
+                                      timeNightExercise: timeNightExercise,
                                       breakfastImage: widget.breakfastImage,
                                       lunchImage: widget.lunchImage,
                                       dinnerImage: widget.dinnerImage,

@@ -20,11 +20,11 @@ class HealthResultPage extends StatefulWidget {
     required this.dinnerInfo,
     required this.dinnerCalories,
     required this.morningExercises,
-    required this.morningCaloriesBurned,
+    required this.timeMorningExercise,
     required this.noonExercises,
-    required this.noonCaloriesBurned,
+    required this.timeNoonExercise,
     required this.nightExercises,
-    required this.nightCaloriesBurned,
+    required this.timeNightExercise,
     required this.breakfastImage,
     required this.lunchImage,
     required this.dinnerImage,
@@ -38,11 +38,11 @@ class HealthResultPage extends StatefulWidget {
   final String dinnerInfo;
   final double dinnerCalories;
   final String morningExercises;
-  final double morningCaloriesBurned;
+  final double timeMorningExercise;
   final String noonExercises;
-  final double noonCaloriesBurned;
+  final double timeNoonExercise;
   final String nightExercises;
-  final double nightCaloriesBurned;
+  final double timeNightExercise;
   final File breakfastImage;
   final File lunchImage;
   final File dinnerImage;
@@ -200,7 +200,7 @@ class _HealthResultPageState extends State<HealthResultPage> {
                 ),
               ),
               Text(
-                  'Morning Workout Calories Burned: ${widget.noonCaloriesBurned}',
+                  'Morning Workout Calories Burned: ${widget.timeNoonExercise * 7 }',
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -213,7 +213,7 @@ class _HealthResultPageState extends State<HealthResultPage> {
                 ),
               ),
               Text(
-                  'Noon Workout Calories Burned: ${widget.noonCaloriesBurned}',
+                  'Noon Workout Calories Burned: ${widget.timeNoonExercise * 6}',
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -226,7 +226,7 @@ class _HealthResultPageState extends State<HealthResultPage> {
                 ),
               ),
               Text(
-                  'Night Workout Calories Burned: ${widget.nightCaloriesBurned}',
+                  'Night Workout Calories Burned: ${widget.timeNightExercise * 7}',
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -243,7 +243,7 @@ class _HealthResultPageState extends State<HealthResultPage> {
                       "dinner": widget.dinnerInfo,
                       "dinnerPicUrl": await uploadDinnerPics(),
                       "caloriesInput": widget.breakfastCalories + widget.lunchCalories + widget.dinnerCalories,
-                      "caloriesExercises": widget.morningCaloriesBurned + widget.noonCaloriesBurned + widget.nightCaloriesBurned
+                      "caloriesExercises": widget.timeMorningExercise + widget.timeNoonExercise + widget.timeNightExercise
                     };
                     todayFoodRef
                         .child("/foodlogs/${key}")

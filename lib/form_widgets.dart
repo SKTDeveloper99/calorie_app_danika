@@ -532,31 +532,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calorie Amount',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(breakfastValue),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: breakfastValue,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the amount of calories you ate for breakfast...',
+                                labelText: 'Calorie Amount',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  breakfastValue = value;
-                                });
+                                breakfastValue = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -577,31 +563,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calorie Amount',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(lunchValue),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: lunchValue,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the amount of calories you ate for lunch...',
+                                labelText: 'Calorie Amount',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  lunchValue = value;
-                                });
+                                breakfastValue = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -622,31 +594,17 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calorie Amount',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(dinnerValue),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: dinnerValue,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the amount of calories you ate for dinner...',
+                                labelText: 'Calorie Amount',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  dinnerValue = value;
-                                });
+                                breakfastValue = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
