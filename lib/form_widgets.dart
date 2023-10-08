@@ -55,8 +55,8 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
   late File love;
 
   Future<File> getImageFileFromAssets() async {
-    final byteData = await rootBundle.load('assets/flippers-alpha.png');
-    final file = File('${(await getTemporaryDirectory()).path}/flippers-alpha.png');
+    final byteData = await rootBundle.load('assets/smiley_face.jpg');
+    final file = File('${(await getTemporaryDirectory()).path}/smiley_face.jpg');
     await file.create(recursive: true);
     await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     love = file;
@@ -122,7 +122,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/replace.jpg'),
+          //title: Image.asset('assets/replace.jpg'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -279,7 +279,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/replace.jpg'),
+          //title: Image.asset('assets/replace.jpg'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -407,7 +407,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/replace.jpg'),
+          //title: Image.asset('assets/replace.jpg'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[

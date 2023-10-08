@@ -66,18 +66,6 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ...[
-                        // TextFormField(
-                        //   decoration: const InputDecoration(
-                        //     border: OutlineInputBorder(),
-                        //     filled: true,
-                        //     hintText: 'Enter your morning exercise...',
-                        //     labelText: 'Morning',
-                        //   ),
-                        //   onChanged: (value) {
-                        //     morningExercises = value;
-                        //   },
-                        //   maxLines: 5,
-                        // ),
                         DropdownButton(
                           // Initial Value
                           value: morningExercises,
@@ -118,18 +106,6 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                             ),
                           ],
                         ),
-                        // TextFormField(
-                        //   decoration: const InputDecoration(
-                        //     border: OutlineInputBorder(),
-                        //     filled: true,
-                        //     hintText: 'Enter your noon exercise...',
-                        //     labelText: 'Noon',
-                        //   ),
-                        //   onChanged: (value) {
-                        //     noonExercises = value;
-                        //   },
-                        //   maxLines: 5,
-                        // ),
                         DropdownButton(
                           // Initial Value
                           value: noonExercises,
@@ -170,18 +146,6 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                             ),
                           ],
                         ),
-                        // TextFormField(
-                        //   decoration: const InputDecoration(
-                        //     border: OutlineInputBorder(),
-                        //     filled: true,
-                        //     hintText: 'Enter your night exercise...',
-                        //     labelText: 'Night',
-                        //   ),
-                        //   onChanged: (value) {
-                        //     nightExercises = value;
-                        //   },
-                        //   maxLines: 5,
-                        // ),
                         DropdownButton(
                           // Initial Value
                           value: nightExercises,
