@@ -101,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context) => const FormWidgetsDemo(),
                   ),
                 );
-            },
+              },
               child: const Text('CREATE'),
             ),
           ],
@@ -194,14 +194,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           alignLabelWithHint: true,
                           label: Center(
-                            child: Text(
-                              'Click to add a display name',
+                            child: SizedBox(
+                              child: Text(
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                'Click to add a display name',
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Text(
-                          user.email ?? user.phoneNumber ?? 'User',
+                        user.email ?? user.phoneNumber ?? 'User',
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -214,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Icon(Icons.phone),
                           if (userProviders.contains('password'))
                             const Icon(
-                                Icons.mail,
+                              Icons.mail,
                               size: 35,
                             ),
                           if (userProviders.contains('google.com'))
@@ -231,7 +236,24 @@ class _ProfilePageState extends State<ProfilePage> {
                       TextButton(
                         onPressed: _signOut,
                         child: const Text(
-                            'Sign out',
+                          'Sign out',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      TextButton(
+                        onPressed: () async{
+                          await user.delete();
+                          if (mounted) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AuthGate()), (route) => false);
+                          }
+                        },
+                        child: const Text(
+                          'Delete All User\'s Info',
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -252,9 +274,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: !showSaveButton
                     ? SizedBox(key: UniqueKey())
                     : TextButton(
-                        onPressed: isLoading ? null : updateDisplayName,
-                        child: const Text('Save changes'),
-                      ),
+                  onPressed: isLoading ? null : updateDisplayName,
+                  child: const Text('Save changes'),
+                ),
               ),
             )
           ],
@@ -264,11 +286,12 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             ActionButton(
               onPressed: () => _showAction(context, 0),
-              icon: const Icon(Icons.format_size),
+              text: const Text("Create your Health Log"),
+
             ),
             ActionButton(
               onPressed: () => _showAction1(context, 1),
-              icon: const Icon(Icons.insert_photo),
+              text: const Text("Read your Health Log"),
             ),
           ],
         ),
@@ -455,9 +478,10 @@ class _ExpandableFabState extends State<ExpandableFab>
           opacity: _open ? 0.0 : 1.0,
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
-          child: FloatingActionButton(
+          child: FloatingActionButton.extended(
             onPressed: _toggle,
-            child: const Icon(Icons.create),
+            label: const Text("Create Health Log"),
+            // child: const Icon(Icons.create),
           ),
         ),
       ),
@@ -510,24 +534,28 @@ class ActionButton extends StatelessWidget {
   const ActionButton({
     super.key,
     this.onPressed,
-    required this.icon,
+    required this.text,
   });
 
   final VoidCallback? onPressed;
-  final Widget icon;
+  final Widget text;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      shape: const CircleBorder(),
+      //shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
       color: theme.colorScheme.secondary,
       elevation: 4,
-      child: IconButton(
+      child: ElevatedButton(
         onPressed: onPressed,
-        icon: icon,
-        color: theme.colorScheme.onSecondary,
+        // style: const ButtonStyle(
+        //   backgroundColor: MaterialStatePropertyAll<Color>(Colors.yellow),
+        // ),
+        child: text,
+        // icon: icon,
+        // color: theme.colorScheme.onSecondary,
       ),
     );
   }

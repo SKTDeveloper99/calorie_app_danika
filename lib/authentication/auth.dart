@@ -98,15 +98,12 @@ class _AuthGateState extends State<AuthGate> {
       };
     } else {
       authButtons = {
-        Buttons.Apple: () => _handleMultiFactorException(
-              _signInWithApple,
-            ),
-        Buttons.Google: () => _handleMultiFactorException(
-              _signInWithGoogle,
-            ),
-        Buttons.Twitter: () => _handleMultiFactorException(
-              _signInWithTwitter,
-            ),
+        // Buttons.Apple: () => _handleMultiFactorException(
+        //       _signInWithApple,
+        //     ),
+        // Buttons.Google: () => _handleMultiFactorException(
+        //       _signInWithGoogle,
+        //     ),
       };
     }
   }
@@ -243,32 +240,32 @@ class _AuthGateState extends State<AuthGate> {
                                 ),
                               )
                               .toList(),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: OutlinedButton(
-                              onPressed: isLoading
-                                  ? null
-                                  : () {
-                                      if (mode != AuthMode.phone) {
-                                        setState(() {
-                                          mode = AuthMode.phone;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          mode = AuthMode.login;
-                                        });
-                                      }
-                                    },
-                              child: isLoading
-                                  ? const CircularProgressIndicator.adaptive()
-                                  : Text(
-                                      mode != AuthMode.phone
-                                          ? 'Sign in with Phone Number'
-                                          : 'Sign in with Email and Password',
-                                    ),
-                            ),
-                          ),
+                          // SizedBox(
+                          //   width: double.infinity,
+                          //   height: 50,
+                          //   child: OutlinedButton(
+                          //     onPressed: isLoading
+                          //         ? null
+                          //         : () {
+                          //             if (mode != AuthMode.phone) {
+                          //               setState(() {
+                          //                 mode = AuthMode.phone;
+                          //               });
+                          //             } else {
+                          //               setState(() {
+                          //                 mode = AuthMode.login;
+                          //               });
+                          //             }
+                          //           },
+                          //     child: isLoading
+                          //         ? const CircularProgressIndicator.adaptive()
+                          //         : Text(
+                          //             mode != AuthMode.phone
+                          //                 ? 'Sign in with Phone Number'
+                          //                 : 'Sign in with Email and Password',
+                          //           ),
+                          //   ),
+                          // ),
                           const SizedBox(height: 20),
                           if (mode != AuthMode.phone)
                             RichText(
@@ -298,20 +295,20 @@ class _AuthGateState extends State<AuthGate> {
                               ),
                             ),
                           const SizedBox(height: 10),
-                          RichText(
-                            text: TextSpan(
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              children: [
-                                const TextSpan(text: 'Or '),
-                                TextSpan(
-                                  text: 'continue as guest',
-                                  style: const TextStyle(color: Colors.blue),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _anonymousAuth,
-                                ),
-                              ],
-                            ),
-                          ),
+                          // RichText(
+                          //   text: TextSpan(
+                          //     style: Theme.of(context).textTheme.bodyLarge,
+                          //     children: [
+                          //       const TextSpan(text: 'Or '),
+                          //       TextSpan(
+                          //         text: 'continue as guest',
+                          //         style: const TextStyle(color: Colors.blue),
+                          //         recognizer: TapGestureRecognizer()
+                          //           ..onTap = _anonymousAuth,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

@@ -35,12 +35,13 @@ class ExercisesLogPage extends StatefulWidget {
 
 class _ExercisesLogPageState extends State<ExercisesLogPage> {
   final _formKey = GlobalKey<FormState>();
-  String morningExercises = ' ';
-  String noonExercises = ' ';
-  String nightExercises = ' ';
-  double morningCaloriesBurned = 0;
-  double noonCaloriesBurned = 0;
-  double nightCaloriesBurned = 0;
+  String morningExercises = 'No exercise';
+  String noonExercises = 'No exercise';
+  String nightExercises = 'No exercise';
+  double timeMorningExercise = 0;
+  double timeNoonExercise = 0;
+  double timeNightExercise = 0;
+  var activities = ['No exercise', 'Running','Tennis','Treadmill','Swimming'];
 
 
 
@@ -48,7 +49,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Exercise Log')
+          title: const Text('Exercise Log')
       ),
       body: Form(
         key: _formKey,
@@ -65,135 +66,123 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ...[
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter your morning exercise...',
-                            labelText: 'Morning',
-                          ),
-                          onChanged: (value) {
-                            morningExercises = value;
+                        DropdownButton(
+                          // Initial Value
+                          value: morningExercises,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: activities.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              morningExercises = newValue!;
+                            });
                           },
-                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calories Burned',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(morningCaloriesBurned),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: morningCaloriesBurned,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the number of minutes you exercised...',
+                                labelText: 'Morning Exercise Minutes',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  morningCaloriesBurned = value;
-                                });
+                                timeMorningExercise = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter your noon exercise...',
-                            labelText: 'Noon',
-                          ),
-                          onChanged: (value) {
-                            noonExercises = value;
+                        DropdownButton(
+                          // Initial Value
+                          value: noonExercises,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: activities.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              noonExercises = newValue!;
+                            });
                           },
-                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calories Burned',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(noonCaloriesBurned),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: noonCaloriesBurned,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the number of minutes you exercised...',
+                                labelText: 'Noon Exercise Minutes',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  noonCaloriesBurned = value;
-                                });
+                                timeNoonExercise = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter your night exercise...',
-                            labelText: 'Night',
-                          ),
-                          onChanged: (value) {
-                            nightExercises = value;
+                        DropdownButton(
+                          // Initial Value
+                          value: nightExercises,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: activities.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              nightExercises = newValue!;
+                            });
                           },
-                          maxLines: 5,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calories Burned',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(nightCaloriesBurned),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: nightCaloriesBurned,
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                filled: true,
+                                hintText: 'Enter the number of minutes you exercised...',
+                                labelText: 'Night Exercise Minutes',
+                              ),
                               onChanged: (value) {
-                                setState(() {
-                                  nightCaloriesBurned = value;
-                                });
+                                timeNightExercise = double.parse(value);
                               },
+                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -202,22 +191,22 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => HealthResultPage(
-                                      date: widget.date,
-                                      breakfastInfo: widget.breakfastInfo,
-                                      breakfastCalories: widget.breakfastCalories,
-                                      lunchInfo: widget.lunchInfo,
-                                      lunchCalories: widget.lunchCalories,
-                                      dinnerInfo: widget.dinnerInfo,
-                                      dinnerCalories: widget.dinnerCalories,
-                                      morningExercises: morningExercises,
-                                      morningCaloriesBurned: morningCaloriesBurned,
-                                      noonExercises: noonExercises,
-                                      noonCaloriesBurned: noonCaloriesBurned,
-                                      nightExercises: nightExercises,
-                                      nightCaloriesBurned: nightCaloriesBurned,
-                                      breakfastImage: widget.breakfastImage,
-                                      lunchImage: widget.lunchImage,
-                                      dinnerImage: widget.dinnerImage,
+                                    date: widget.date,
+                                    breakfastInfo: widget.breakfastInfo,
+                                    breakfastCalories: widget.breakfastCalories,
+                                    lunchInfo: widget.lunchInfo,
+                                    lunchCalories: widget.lunchCalories,
+                                    dinnerInfo: widget.dinnerInfo,
+                                    dinnerCalories: widget.dinnerCalories,
+                                    morningExercises: morningExercises,
+                                    timeMorningExercise: timeMorningExercise,
+                                    noonExercises: noonExercises,
+                                    timeNoonExercise: timeNoonExercise,
+                                    nightExercises: nightExercises,
+                                    timeNightExercise: timeNightExercise,
+                                    breakfastImage: widget.breakfastImage,
+                                    lunchImage: widget.lunchImage,
+                                    dinnerImage: widget.dinnerImage,
                                   ),
                                 ),
                               );

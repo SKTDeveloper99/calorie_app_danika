@@ -111,11 +111,11 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
       },
     );
 
-    final foodfactsQuery = _foodfactsRef.limitToLast(20);
+    final foodfactsQuery = _foodfactsRef.limitToLast(3);
 
     _foodFactsSubscription = foodfactsQuery.onChildAdded.listen(
           (DatabaseEvent event) {
-        // print('Child added: ${event.snapshot.value}');
+        print('Child added: ${event.snapshot.value}');
       },
       onError: (Object o) {
         final error = o as FirebaseException;
@@ -167,8 +167,8 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
           Flexible(
             child: FirebaseAnimatedList(
               key: ValueKey<bool>(_anchorToBottom),
-              query: _foodfactsRef,
-              reverse: _anchorToBottom,
+              query: _foodfactsRef.orderByChild("value"),
+              //reverse: _anchorToBottom,
               itemBuilder: (context, snapshot, animation, index) {
                 final healthList = snapshot.value! as Map;
                 List<String>  love = ["breakfast","lunch","dinner"];

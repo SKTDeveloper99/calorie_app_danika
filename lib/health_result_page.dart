@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:calorie_app_danika/home_page.dart';
 import 'package:calorie_app_danika/main.dart';
-import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 
 class HealthResultPage extends StatefulWidget {
-  const HealthResultPage({
+  HealthResultPage({
     super.key,
     required this.date,
     required this.breakfastInfo,
@@ -20,38 +20,38 @@ class HealthResultPage extends StatefulWidget {
     required this.dinnerInfo,
     required this.dinnerCalories,
     required this.morningExercises,
-    required this.morningCaloriesBurned,
+    required this.timeMorningExercise,
     required this.noonExercises,
-    required this.noonCaloriesBurned,
+    required this.timeNoonExercise,
     required this.nightExercises,
-    required this.nightCaloriesBurned,
+    required this.timeNightExercise,
     required this.breakfastImage,
     required this.lunchImage,
     required this.dinnerImage,
   });
 
   final DateTime date;
-  final String breakfastInfo;
-  final double breakfastCalories;
+  String breakfastInfo;
+  double breakfastCalories;
   final String lunchInfo;
   final double lunchCalories;
   final String dinnerInfo;
   final double dinnerCalories;
   final String morningExercises;
-  final double morningCaloriesBurned;
+  final double timeMorningExercise;
   final String noonExercises;
-  final double noonCaloriesBurned;
+  final double timeNoonExercise;
   final String nightExercises;
-  final double nightCaloriesBurned;
+  final double timeNightExercise;
   final File breakfastImage;
   final File lunchImage;
   final File dinnerImage;
 
   @override
-  State<HealthResultPage> createState() => _HealthResultPageState();
+  State<HealthResultPage> createState() => HealthResultPageState();
 }
 
-class _HealthResultPageState extends State<HealthResultPage> {
+class HealthResultPageState extends State<HealthResultPage> {
   final database = FirebaseDatabase.instance.ref();
   final storageRef = FirebaseStorage.instance.ref();
   late final DatabaseReference todayFoodRef;
@@ -66,9 +66,25 @@ class _HealthResultPageState extends State<HealthResultPage> {
   double breakfastValue = 0;
   double lunchValue = 0;
   double dinnerValue = 0;
+  var list = ["dumpling","fried rice", "ramen"];
+  var list1 = [537, 864, 1280];
+  final _random = new Random();
+  late String foodBreakfast = "";
+  late double caloriesBreakfast = 0;
+  late String foodLunch = "";
+  late double caloriesLunch = 0;
+  late String foodDinner = "";
+  late double caloriesDinner = 0;
+  bool userInteracts() => widget.breakfastImage != null;
 
   @override
   void initState() {
+    foodBreakfast = list[_random.nextInt(list.length)].toString();
+    caloriesBreakfast = list1[_random.nextInt(list1.length)].toDouble();
+    foodLunch = list[_random.nextInt(list.length)].toString();
+    caloriesLunch = list1[_random.nextInt(list1.length)].toDouble();
+    foodDinner = list[_random.nextInt(list.length)].toString();
+    caloriesDinner = list1[_random.nextInt(list1.length)].toDouble();
     user = auth.currentUser!;
 
     todayFoodRef = database.child("/users/${user.uid}");
@@ -137,113 +153,184 @@ class _HealthResultPageState extends State<HealthResultPage> {
       appBar: AppBar(
           title: const Text('Health and Exercise Log Results')
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 35),
-              Text(
-                'Date: ${widget.date}',
-                  style: TextStyle(
-                fontSize: 20,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 35),
+                Text(
+                  'Date: ${widget.date}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                  'Breakfast: ${widget.breakfastInfo}',
-                style: TextStyle(
-                  fontSize: 18,
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: foodBreakfast,
+                    hintText: 'Input the right name of your breakfast',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      foodBreakfast = value;
+                    });
+                  },
+                  validator: (String? value) {
+                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                  },
                 ),
-              ),
-              Text(
-                  'Breakfast Calories: ${widget.breakfastCalories}',
-                style: TextStyle(
-                  fontSize: 18,
+                TextFormField(
+                  decoration: InputDecoration(
+                    //icon: Icon(Icons.person),
+                    hintText: 'Input the estimated calorie of your food',
+                    labelText: caloriesBreakfast.toString(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      caloriesBreakfast = value as double;
+                    });
+                  },
+                  validator: (String? value) {
+                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                  },
                 ),
-              ),
-              Image.file(widget.breakfastImage),
-              const SizedBox(height: 20),
-              Text(
-                  'Lunch: ${widget.lunchInfo}',
-                style: TextStyle(
-                  fontSize: 18,
+                SizedBox(
+                    child: Image.file(
+                        widget.breakfastImage,
+                      scale: 0.5,
+                    )
                 ),
-              ),
-              Text(
-                  'Lunch Calories: ${widget.lunchCalories}',
-                style: TextStyle(
-                  fontSize: 18,
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: foodLunch,
+                    hintText: 'Input the right name of your lunch',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      foodLunch = value;
+                    });
+                  },
+                  validator: (String? value) {
+                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                  },
                 ),
-              ),
-              Image.file(widget.lunchImage),
-              const SizedBox(height: 20),
-              Text(
-                  'Dinner: ${widget.dinnerInfo}',
-                style: TextStyle(
-                  fontSize: 18,
+                TextFormField(
+                  decoration: InputDecoration(
+                    //icon: Icon(Icons.person),
+                    hintText: 'Input the estimated calorie of your food',
+                    labelText: caloriesLunch.toString(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      caloriesLunch = value as double;
+                    });
+                  },
+                  validator: (String? value) {
+                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                  },
                 ),
-              ),
-              Text(
-                  'Dinner Calories: ${widget.dinnerCalories}',
-                style: TextStyle(
-                  fontSize: 18,
+                SizedBox(
+                    child: Image.file(
+                        widget.lunchImage,
+                      scale: 0.5,
+                    ),
                 ),
-              ),
-              Image.file(widget.dinnerImage),
-              const SizedBox(height: 20),
-              Text(
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: foodDinner,
+                    hintText: 'Input the right name of your dinner',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      foodDinner = value;
+                    });
+                  },
+                  validator: (String? value) {
+                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    //icon: Icon(Icons.person),
+                    hintText: 'Input the estimated calorie of your food',
+                    labelText: caloriesDinner.toString(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      caloriesDinner = value as double;
+                    });
+                  },
+                  validator: (String? value) {
+                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                  },
+                ),
+                Image.file(widget.dinnerImage),
+                const SizedBox(height: 20),
+                Text(
                   'Morning Workout: ${widget.morningExercises}',
-                style: TextStyle(
-                  fontSize: 18,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              Text(
-                  'Morning Workout Calories Burned: ${widget.noonCaloriesBurned}',
-                style: TextStyle(
-                  fontSize: 18,
+                Text(
+                  'Morning Workout Calories Burned: ${widget.timeMorningExercise * 7 }',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
+                const SizedBox(height: 20),
+                Text(
                   'Noon Workout: ${widget.noonExercises}',
-                style: TextStyle(
-                  fontSize: 18,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              Text(
-                  'Noon Workout Calories Burned: ${widget.noonCaloriesBurned}',
-                style: TextStyle(
-                  fontSize: 18,
+                Text(
+                  'Noon Workout Calories Burned: ${widget.timeNoonExercise * 6}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
+                const SizedBox(height: 20),
+                Text(
                   'Night Workout: ${widget.nightExercises}',
-                style: TextStyle(
-                  fontSize: 18,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              Text(
-                  'Night Workout Calories Burned: ${widget.nightCaloriesBurned}',
-                style: TextStyle(
-                  fontSize: 18,
+                Text(
+                  'Night Workout Calories Burned: ${widget.timeNightExercise * 7}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                  onPressed: () async {
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: !userInteracts() ? null : () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        });
                     final todayFood = <String, dynamic> {
                       "date": widget.date.millisecondsSinceEpoch,
-                      "breakfast": widget.breakfastInfo,
+                      // "breakfast": widget.breakfastInfo,
+                      "breakfast": foodBreakfast,
                       "breakfastPicUrl": await uploadBreakfastPics(),
-                      "lunch": widget.lunchInfo,
+                      "lunch": foodLunch,
                       "lunchPicUrl": await uploadLunchPics(),
-                      "dinner": widget.dinnerInfo,
+                      "dinner": foodDinner,
                       "dinnerPicUrl": await uploadDinnerPics(),
-                      "caloriesInput": widget.breakfastCalories + widget.lunchCalories + widget.dinnerCalories,
-                      "caloriesExercises": widget.morningCaloriesBurned + widget.noonCaloriesBurned + widget.nightCaloriesBurned
+                      "caloriesInput": caloriesBreakfast + caloriesLunch + caloriesDinner,
+                      "caloriesExercises": widget.timeMorningExercise + widget.timeNoonExercise + widget.timeNightExercise
                     };
                     todayFoodRef
                         .child("/foodlogs/${key}")
@@ -252,18 +339,19 @@ class _HealthResultPageState extends State<HealthResultPage> {
                         .catchError((error) => print("You got error on $error"));
                     if(mounted) {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          const HealthLogScreen()), (Route<dynamic> route) => false);
+                      const BottomNavigationBarPage()), (Route<dynamic> route) => false);
                     }
-                    },
+                  },
                   child: const Text(
                     "Update your diet today!",
-                      style: TextStyle(
-                        fontSize: 15,
+                    style: TextStyle(
+                      fontSize: 15,
                     ),
                   ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

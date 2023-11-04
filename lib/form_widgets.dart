@@ -55,8 +55,8 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
   late File love;
 
   Future<File> getImageFileFromAssets() async {
-    final byteData = await rootBundle.load('assets/flippers-alpha.png');
-    final file = File('${(await getTemporaryDirectory()).path}/flippers-alpha.png');
+    final byteData = await rootBundle.load('assets/smiley_face.jpg');
+    final file = File('${(await getTemporaryDirectory()).path}/smiley_face.jpg');
     await file.create(recursive: true);
     await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     love = file;
@@ -122,7 +122,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/replace.jpg'),
+          //title: Image.asset('assets/replace.jpg'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -279,7 +279,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/replace.jpg'),
+          //title: Image.asset('assets/replace.jpg'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -407,7 +407,7 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Image.asset('assets/replace.jpg'),
+          //title: Image.asset('assets/replace.jpg'),
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -515,141 +515,99 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             });
                           },
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter what you ate for breakfast...',
-                            labelText: 'Breakfast',
-                          ),
-                          onChanged: (value) {
-                            breakfast = value;
-                          },
-                          maxLines: 5,
-                        ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter what you ate for breakfast...',
+                        //     labelText: 'Breakfast',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     breakfast = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
                         buildImageContainer(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calorie Amount',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(breakfastValue),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: breakfastValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  breakfastValue = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter what you ate for lunch...',
-                            labelText: 'Lunch',
-                          ),
-                          onChanged: (value) {
-                            lunch = value;
-                          },
-                          maxLines: 5,
-                        ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     TextFormField(
+                        //       decoration: const InputDecoration(
+                        //         border: OutlineInputBorder(),
+                        //         filled: true,
+                        //         hintText: 'Enter the amount of calories you ate for breakfast...',
+                        //         labelText: 'Calorie Amount',
+                        //       ),
+                        //       onChanged: (value) {
+                        //         breakfastValue = double.parse(value);
+                        //       },
+                        //       maxLines: 1,
+                        //     ),
+                        //   ],
+                        // ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter what you ate for lunch...',
+                        //     labelText: 'Lunch',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     lunch = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
                         buildImageContainerLunch(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calorie Amount',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(lunchValue),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: lunchValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  lunchValue = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter what you ate for dinner...',
-                            labelText: 'Dinner',
-                          ),
-                          onChanged: (value) {
-                            dinner = value;
-                          },
-                          maxLines: 5,
-                        ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     TextFormField(
+                        //       decoration: const InputDecoration(
+                        //         border: OutlineInputBorder(),
+                        //         filled: true,
+                        //         hintText: 'Enter the amount of calories you ate for lunch...',
+                        //         labelText: 'Calorie Amount',
+                        //       ),
+                        //       onChanged: (value) {
+                        //         breakfastValue = double.parse(value);
+                        //       },
+                        //       maxLines: 1,
+                        //     ),
+                        //   ],
+                        // ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter what you ate for dinner...',
+                        //     labelText: 'Dinner',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     dinner = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
                         buildImageContainerDinner(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Calorie Amount',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              intl.NumberFormat.currency(
-                                  symbol: "", decimalDigits: 0)
-                                  .format(dinnerValue),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Slider(
-                              min: 0,
-                              max: 3000,
-                              divisions: 500,
-                              value: dinnerValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  dinnerValue = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     TextFormField(
+                        //       decoration: const InputDecoration(
+                        //         border: OutlineInputBorder(),
+                        //         filled: true,
+                        //         hintText: 'Enter the amount of calories you ate for dinner...',
+                        //         labelText: 'Calorie Amount',
+                        //       ),
+                        //       onChanged: (value) {
+                        //         breakfastValue = double.parse(value);
+                        //       },
+                        //       maxLines: 1,
+                        //     ),
+                        //   ],
+                        // ),
                         ElevatedButton(
                             onPressed: (){
                               Navigator.of(context).push(
