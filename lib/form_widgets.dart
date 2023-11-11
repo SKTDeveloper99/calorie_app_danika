@@ -515,99 +515,99 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             });
                           },
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter what you ate for breakfast...',
-                            labelText: 'Breakfast',
-                          ),
-                          onChanged: (value) {
-                            breakfast = value;
-                          },
-                          maxLines: 5,
-                        ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter what you ate for breakfast...',
+                        //     labelText: 'Breakfast',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     breakfast = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
                         buildImageContainer(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                hintText: 'Enter the amount of calories you ate for breakfast...',
-                                labelText: 'Calorie Amount',
-                              ),
-                              onChanged: (value) {
-                                breakfastValue = double.parse(value);
-                              },
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter what you ate for lunch...',
-                            labelText: 'Lunch',
-                          ),
-                          onChanged: (value) {
-                            lunch = value;
-                          },
-                          maxLines: 5,
-                        ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     TextFormField(
+                        //       decoration: const InputDecoration(
+                        //         border: OutlineInputBorder(),
+                        //         filled: true,
+                        //         hintText: 'Enter the amount of calories you ate for breakfast...',
+                        //         labelText: 'Calorie Amount',
+                        //       ),
+                        //       onChanged: (value) {
+                        //         breakfastValue = double.parse(value);
+                        //       },
+                        //       maxLines: 1,
+                        //     ),
+                        //   ],
+                        // ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter what you ate for lunch...',
+                        //     labelText: 'Lunch',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     lunch = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
                         buildImageContainerLunch(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                hintText: 'Enter the amount of calories you ate for lunch...',
-                                labelText: 'Calorie Amount',
-                              ),
-                              onChanged: (value) {
-                                breakfastValue = double.parse(value);
-                              },
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            hintText: 'Enter what you ate for dinner...',
-                            labelText: 'Dinner',
-                          ),
-                          onChanged: (value) {
-                            dinner = value;
-                          },
-                          maxLines: 5,
-                        ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     TextFormField(
+                        //       decoration: const InputDecoration(
+                        //         border: OutlineInputBorder(),
+                        //         filled: true,
+                        //         hintText: 'Enter the amount of calories you ate for lunch...',
+                        //         labelText: 'Calorie Amount',
+                        //       ),
+                        //       onChanged: (value) {
+                        //         breakfastValue = double.parse(value);
+                        //       },
+                        //       maxLines: 1,
+                        //     ),
+                        //   ],
+                        // ),
+                        // TextFormField(
+                        //   decoration: const InputDecoration(
+                        //     border: OutlineInputBorder(),
+                        //     filled: true,
+                        //     hintText: 'Enter what you ate for dinner...',
+                        //     labelText: 'Dinner',
+                        //   ),
+                        //   onChanged: (value) {
+                        //     dinner = value;
+                        //   },
+                        //   maxLines: 5,
+                        // ),
                         buildImageContainerDinner(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                hintText: 'Enter the amount of calories you ate for dinner...',
-                                labelText: 'Calorie Amount',
-                              ),
-                              onChanged: (value) {
-                                breakfastValue = double.parse(value);
-                              },
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     TextFormField(
+                        //       decoration: const InputDecoration(
+                        //         border: OutlineInputBorder(),
+                        //         filled: true,
+                        //         hintText: 'Enter the amount of calories you ate for dinner...',
+                        //         labelText: 'Calorie Amount',
+                        //       ),
+                        //       onChanged: (value) {
+                        //         breakfastValue = double.parse(value);
+                        //       },
+                        //       maxLines: 1,
+                        //     ),
+                        //   ],
+                        // ),
                         ElevatedButton(
                             onPressed: (){
                               Navigator.of(context).push(

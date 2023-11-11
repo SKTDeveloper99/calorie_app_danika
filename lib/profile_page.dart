@@ -250,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context) => const FormWidgetsDemo(),
                   ),
                 );
-            },
+              },
               child: const Text('CREATE'),
             ),
           ],
@@ -339,14 +339,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           alignLabelWithHint: true,
                           label: Center(
-                            child: Text(
-                              'Click to add a display name',
+                            child: SizedBox(
+                              child: Text(
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                'Click to add a display name',
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Text(
-                          user.email ?? user.phoneNumber ?? 'User',
+                        user.email ?? user.phoneNumber ?? 'User',
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -359,7 +364,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Icon(Icons.phone),
                           if (userProviders.contains('password'))
                             const Icon(
-                                Icons.mail,
+                              Icons.mail,
                               size: 35,
                             ),
                           if (userProviders.contains('google.com'))
@@ -376,7 +381,24 @@ class _ProfilePageState extends State<ProfilePage> {
                       TextButton(
                         onPressed: _signOut,
                         child: const Text(
-                            'Sign out',
+                          'Sign out',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      TextButton(
+                        onPressed: () async{
+                          await user.delete();
+                          if (mounted) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AuthGate()), (route) => false);
+                          }
+                        },
+                        child: const Text(
+                          'Delete All User\'s Info',
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -397,9 +419,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: !showSaveButton
                     ? SizedBox(key: UniqueKey())
                     : TextButton(
-                        onPressed: isLoading ? null : updateDisplayName,
-                        child: const Text('Save changes'),
-                      ),
+                  onPressed: isLoading ? null : updateDisplayName,
+                  child: const Text('Save changes'),
+                ),
               ),
             )
           ],
@@ -674,9 +696,9 @@ class ActionButton extends StatelessWidget {
       elevation: 4,
       child: ElevatedButton(
         onPressed: onPressed,
-        style: const ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll<Color>(Colors.yellow),
-        ),
+        // style: const ButtonStyle(
+        //   backgroundColor: MaterialStatePropertyAll<Color>(Colors.yellow),
+        // ),
         child: text,
         // icon: icon,
         // color: theme.colorScheme.onSecondary,

@@ -49,7 +49,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Exercise Log')
+          title: const Text('Exercise Log')
       ),
       body: Form(
         key: _formKey,
@@ -191,22 +191,22 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => HealthResultPage(
-                                      date: widget.date,
-                                      breakfastInfo: widget.breakfastInfo,
-                                      breakfastCalories: widget.breakfastCalories,
-                                      lunchInfo: widget.lunchInfo,
-                                      lunchCalories: widget.lunchCalories,
-                                      dinnerInfo: widget.dinnerInfo,
-                                      dinnerCalories: widget.dinnerCalories,
-                                      morningExercises: morningExercises,
-                                      timeMorningExercise: timeMorningExercise,
-                                      noonExercises: noonExercises,
-                                      timeNoonExercise: timeNoonExercise,
-                                      nightExercises: nightExercises,
-                                      timeNightExercise: timeNightExercise,
-                                      breakfastImage: widget.breakfastImage,
-                                      lunchImage: widget.lunchImage,
-                                      dinnerImage: widget.dinnerImage,
+                                    date: widget.date,
+                                    breakfastInfo: widget.breakfastInfo,
+                                    breakfastCalories: widget.breakfastCalories,
+                                    lunchInfo: widget.lunchInfo,
+                                    lunchCalories: widget.lunchCalories,
+                                    dinnerInfo: widget.dinnerInfo,
+                                    dinnerCalories: widget.dinnerCalories,
+                                    morningExercises: morningExercises,
+                                    timeMorningExercise: timeMorningExercise,
+                                    noonExercises: noonExercises,
+                                    timeNoonExercise: timeNoonExercise,
+                                    nightExercises: nightExercises,
+                                    timeNightExercise: timeNightExercise,
+                                    breakfastImage: widget.breakfastImage,
+                                    lunchImage: widget.lunchImage,
+                                    dinnerImage: widget.dinnerImage,
                                   ),
                                 ),
                               );
