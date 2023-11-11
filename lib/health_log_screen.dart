@@ -168,7 +168,7 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
             child: FirebaseAnimatedList(
               key: ValueKey<bool>(_anchorToBottom),
               query: _foodfactsRef,
-              reverse: _anchorToBottom,
+              //reverse: _anchorToBottom,
               itemBuilder: (context, snapshot, animation, index) {
                 final healthList = snapshot.value! as Map;
                 List<String>  love = ["breakfast","lunch","dinner"];

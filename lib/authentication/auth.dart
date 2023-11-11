@@ -92,21 +92,21 @@ class _AuthGateState extends State<AuthGate> {
 
     if (!kIsWeb && Platform.isMacOS) {
       authButtons = {
-        Buttons.Apple: () => _handleMultiFactorException(
-              _signInWithApple,
-            ),
+        // Buttons.Apple: () => _handleMultiFactorException(
+        //       _signInWithApple,
+        //     ),
       };
     } else {
       authButtons = {
-        Buttons.Apple: () => _handleMultiFactorException(
-              _signInWithApple,
-            ),
+        // Buttons.Apple: () => _handleMultiFactorException(
+        //       _signInWithApple,
+        //     ),
         Buttons.Google: () => _handleMultiFactorException(
               _signInWithGoogle,
             ),
-        Buttons.Twitter: () => _handleMultiFactorException(
-              _signInWithTwitter,
-            ),
+        // Buttons.Twitter: () => _handleMultiFactorException(
+        //       _signInWithTwitter,
+        //     ),
       };
     }
   }
@@ -130,6 +130,11 @@ class _AuthGateState extends State<AuthGate> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Container(
+                              width: 150, height: 150, color: Colors.amber),
+                          const SizedBox(height: 20),
+                          const Text("INSERT TITLE",
+                              style: TextStyle(fontSize: 45)),
                           Visibility(
                             visible: error.isNotEmpty,
                             child: MaterialBanner(
@@ -297,21 +302,21 @@ class _AuthGateState extends State<AuthGate> {
                                 ],
                               ),
                             ),
-                          const SizedBox(height: 10),
-                          RichText(
-                            text: TextSpan(
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              children: [
-                                const TextSpan(text: 'Or '),
-                                TextSpan(
-                                  text: 'continue as guest',
-                                  style: const TextStyle(color: Colors.blue),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _anonymousAuth,
-                                ),
-                              ],
-                            ),
-                          ),
+                          // const SizedBox(height: 10),
+                          // RichText(
+                          //   text: TextSpan(
+                          //     style: Theme.of(context).textTheme.bodyLarge,
+                          //     children: [
+                          //       const TextSpan(text: 'Or '),
+                          //       TextSpan(
+                          //         text: 'continue as guest',
+                          //         style: const TextStyle(color: Colors.blue),
+                          //         recognizer: TapGestureRecognizer()
+                          //           ..onTap = _anonymousAuth,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

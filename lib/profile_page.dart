@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:calorie_app_danika/authentication/auth.dart';
 import 'package:calorie_app_danika/form_widgets.dart';
 import 'package:calorie_app_danika/main.dart';
 import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:math' as math;
+
+import 'package:image_picker/image_picker.dart';
 
 /// Displayed as a profile image if the user doesn't have one.
 const placeholderImage =
@@ -25,11 +31,154 @@ class _ProfilePageState extends State<ProfilePage> {
   late User user;
   late TextEditingController controller;
   final phoneController = TextEditingController();
+  final database = FirebaseDatabase.instance.ref();
+  final storageRef = FirebaseStorage.instance.ref();
 
   String? photoURL;
 
   bool showSaveButton = false;
   bool isLoading = false;
+  final ImagePicker _picker = ImagePicker();
+  File? _image;
+
+
+  _imgFromCamera() async {
+    final image =
+    await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+
+    setState(() {
+      _image = File(image!.path);
+      uploadProfilePics();
+    });
+  }
+
+  _imgFromGallery() async {
+    final image =
+    await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _image = File(image!.path);
+      uploadProfilePics();
+    });
+  }
+
+  void _showPicker() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Photo Library'),
+                    onTap: () {
+                      _imgFromGallery();
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          //title: Image.asset('assets/replace.jpg'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("Do you want to change the current image?")
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                _image = null;
+                Navigator.of(context).pop();
+                _showPicker();
+              },
+            ),
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Padding buildImageContainer() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: Container(
+        child: _image == null
+            ? Column(
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.camera_alt_outlined,
+              ),
+              iconSize: 40,
+              onPressed: () {
+                _showPicker();
+              },
+            ),
+            const Text('Input your amazing breakfast here!'),
+          ],
+        )
+            : Stack(children: [
+          Image.file(
+            File(_image!.path),
+          ),
+          Positioned(
+              top: 5,
+              right: 0, //give the values according to your requirement
+              child: MaterialButton(
+                onPressed: () {
+                  _showMyDialog();
+                },
+                color: const Color.fromRGBO(243, 222, 186, 1),
+                // padding: EdgeInsets.all(16),
+                shape: const CircleBorder(),
+                child: const Icon(
+                  Icons.edit,
+                  size: 24,
+                ),
+              ))
+        ]),
+      ),
+    );
+  }
+
+  Future<String> uploadProfilePics() async {
+    String breakfastPicUrl = "";
+    final breakfastUrl = storageRef.child("Users/${user.uid}/profile.jpg");
+    UploadTask uploadBreakfast = breakfastUrl.putFile(_image!);
+    await uploadBreakfast.whenComplete(() async => {
+      print("love: ${breakfastUrl.getDownloadURL()}"),
+      breakfastPicUrl = await breakfastUrl.getDownloadURL(),
+    });
+    return breakfastPicUrl.toString();
+  }
+
 
   @override
   void initState() {
@@ -165,11 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               borderRadius: BorderRadius.circular(40),
                               child: InkWell(
                                 onTap: () async {
-                                  final photoURL = await getPhotoURLFromUser();
-
-                                  if (photoURL != null) {
-                                    await user.updatePhotoURL(photoURL);
-                                  }
+                                  _showPicker();
                                 },
                                 radius: 50,
                                 child: const SizedBox(
@@ -480,6 +625,7 @@ class _ExpandingActionButton extends StatelessWidget {
   final double maxDistance;
   final Animation<double> progress;
   final Widget child;
+
 
   @override
   Widget build(BuildContext context) {
