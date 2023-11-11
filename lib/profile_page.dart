@@ -299,7 +299,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       Stack(
                         children: [
                           CircleAvatar(
+<<<<<<< Updated upstream
                             maxRadius: 90,
+=======
+                            maxRadius: 100,
+>>>>>>> Stashed changes
                             backgroundImage: NetworkImage(
                               user.photoURL ?? placeholderImage,
                             ),
@@ -389,6 +393,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const Divider(),
                       TextButton(
+<<<<<<< Updated upstream
                         onPressed: () async{
                           await user.delete();
                           if (mounted) {
@@ -405,6 +410,38 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
 
+=======
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LogScreen()),
+                            );
+                          },
+                          child: const Text('Health Log')),
+                      const Divider(),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TestRealtimeDatabase()),
+                            );
+                          },
+                          child: const Text('Test Realtime Firebase')),
+                      const Divider(),
+                      TextButton(
+                        onPressed:  () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LogScreen()),
+                          );
+                        },
+                        child: const Text('Exercise Log'),
+                      ),
+>>>>>>> Stashed changes
                     ],
                   ),
                 ),
