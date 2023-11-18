@@ -292,11 +292,13 @@ class _AuthGateState extends State<AuthGate> {
                                     style: const TextStyle(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        setState(() {
-                                          mode = mode == AuthMode.login
-                                              ? AuthMode.register
-                                              : AuthMode.login;
-                                        });
+                                        // setState(() {
+                                        //   mode = mode == AuthMode.login
+                                        //       ? AuthMode.register
+                                        //       : AuthMode.login;
+                                        // });
+                                        Navigator.pushNamed(
+                                            context, "/registerScreen");
                                       },
                                   ),
                                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "package:calorie_app_danika/size_config.dart";
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,8 +14,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
-      body: Column(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RegisterForm(),
+          )
+        ],
+      ),
     );
   }
 }
@@ -38,9 +47,17 @@ class _RegisterFormState extends State<RegisterForm> {
     return Form(
         key: _formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Register",
+              style: TextStyle(fontSize: 65),
+            ),
             TextFormField(
-                decoration: InputDecoration(hintText: "Email"),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    hintText: "Email"),
                 validator: (value) {
                   return null;
                 },
@@ -48,7 +65,8 @@ class _RegisterFormState extends State<RegisterForm> {
                       email = value;
                     })),
             TextFormField(
-                decoration: InputDecoration(hintText: "Password"),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Password"),
                 obscureText: true,
                 validator: (value) {
                   return null;
@@ -57,7 +75,8 @@ class _RegisterFormState extends State<RegisterForm> {
                       password = value;
                     })),
             TextFormField(
-                decoration: InputDecoration(hintText: "Confirm Password"),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Confirm Password"),
                 obscureText: true,
                 validator: (value) {
                   return null;
@@ -65,6 +84,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 onChanged: (value) => setState(() {
                       confirm = value;
                     })),
+            SizedBox(
+              width: SizeConfig.blockSizeHorizontal! * 50,
+              child: ElevatedButton(onPressed: () {}, child: Text("Register")),
+            )
           ],
         ));
   }
