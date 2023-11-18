@@ -41,10 +41,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker _picker = ImagePicker();
   File? _image;
 
-
   _imgFromCamera() async {
     final image =
-    await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+        await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
       _image = File(image!.path);
@@ -54,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _imgFromGallery() async {
     final image =
-    await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       _image = File(image!.path);
@@ -131,39 +130,39 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         child: _image == null
             ? Column(
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.camera_alt_outlined,
-              ),
-              iconSize: 40,
-              onPressed: () {
-                _showPicker();
-              },
-            ),
-            const Text('Input your amazing breakfast here!'),
-          ],
-        )
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.camera_alt_outlined,
+                    ),
+                    iconSize: 40,
+                    onPressed: () {
+                      _showPicker();
+                    },
+                  ),
+                  const Text('Input your amazing breakfast here!'),
+                ],
+              )
             : Stack(children: [
-          Image.file(
-            File(_image!.path),
-          ),
-          Positioned(
-              top: 5,
-              right: 0, //give the values according to your requirement
-              child: MaterialButton(
-                onPressed: () {
-                  _showMyDialog();
-                },
-                color: const Color.fromRGBO(243, 222, 186, 1),
-                // padding: EdgeInsets.all(16),
-                shape: const CircleBorder(),
-                child: const Icon(
-                  Icons.edit,
-                  size: 24,
+                Image.file(
+                  File(_image!.path),
                 ),
-              ))
-        ]),
+                Positioned(
+                    top: 5,
+                    right: 0, //give the values according to your requirement
+                    child: MaterialButton(
+                      onPressed: () {
+                        _showMyDialog();
+                      },
+                      color: const Color.fromRGBO(243, 222, 186, 1),
+                      // padding: EdgeInsets.all(16),
+                      shape: const CircleBorder(),
+                      child: const Icon(
+                        Icons.edit,
+                        size: 24,
+                      ),
+                    ))
+              ]),
       ),
     );
   }
@@ -173,12 +172,11 @@ class _ProfilePageState extends State<ProfilePage> {
     final breakfastUrl = storageRef.child("Users/${user.uid}/profile.jpg");
     UploadTask uploadBreakfast = breakfastUrl.putFile(_image!);
     await uploadBreakfast.whenComplete(() async => {
-      print("love: ${breakfastUrl.getDownloadURL()}"),
-      breakfastPicUrl = await breakfastUrl.getDownloadURL(),
-    });
+          print("love: ${breakfastUrl.getDownloadURL()}"),
+          breakfastPicUrl = await breakfastUrl.getDownloadURL(),
+        });
     return breakfastPicUrl.toString();
   }
-
 
   @override
   void initState() {
@@ -299,11 +297,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Stack(
                         children: [
                           CircleAvatar(
-<<<<<<< Updated upstream
                             maxRadius: 90,
-=======
-                            maxRadius: 100,
->>>>>>> Stashed changes
                             backgroundImage: NetworkImage(
                               user.photoURL ?? placeholderImage,
                             ),
@@ -393,13 +387,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const Divider(),
                       TextButton(
-<<<<<<< Updated upstream
-                        onPressed: () async{
+                        onPressed: () async {
                           await user.delete();
                           if (mounted) {
                             Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(builder: (context) => const AuthGate()), (route) => false);
+                                MaterialPageRoute(
+                                    builder: (context) => const AuthGate()),
+                                (route) => false);
                           }
                         },
                         child: const Text(
@@ -409,39 +404,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-
-=======
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LogScreen()),
-                            );
-                          },
-                          child: const Text('Health Log')),
-                      const Divider(),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TestRealtimeDatabase()),
-                            );
-                          },
-                          child: const Text('Test Realtime Firebase')),
-                      const Divider(),
-                      TextButton(
-                        onPressed:  () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LogScreen()),
-                          );
-                        },
-                        child: const Text('Exercise Log'),
-                      ),
->>>>>>> Stashed changes
                     ],
                   ),
                 ),
@@ -456,9 +418,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: !showSaveButton
                     ? SizedBox(key: UniqueKey())
                     : TextButton(
-                  onPressed: isLoading ? null : updateDisplayName,
-                  child: const Text('Save changes'),
-                ),
+                        onPressed: isLoading ? null : updateDisplayName,
+                        child: const Text('Save changes'),
+                      ),
               ),
             )
           ],
@@ -469,7 +431,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ActionButton(
               onPressed: () => _showAction(context, 0),
               text: const Text("Create your Health Log"),
-
             ),
             ActionButton(
               onPressed: () => _showAction1(context, 1),
@@ -630,8 +591,8 @@ class _ExpandableFabState extends State<ExpandableFab>
     final count = widget.children.length;
     final step = 90.0 / (count - 1);
     for (var i = 0, angleInDegrees = 0.0;
-    i < count;
-    i++, angleInDegrees += step) {
+        i < count;
+        i++, angleInDegrees += step) {
       children.add(
         _ExpandingActionButton(
           directionInDegrees: angleInDegrees,
@@ -684,7 +645,6 @@ class _ExpandingActionButton extends StatelessWidget {
   final double maxDistance;
   final Animation<double> progress;
   final Widget child;
-
 
   @override
   Widget build(BuildContext context) {

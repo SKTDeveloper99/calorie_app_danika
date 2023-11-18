@@ -8,10 +8,6 @@ import 'firebase_options.dart';
 
 late final FirebaseApp app;
 late final FirebaseAuth auth;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
