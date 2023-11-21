@@ -117,7 +117,7 @@ class startScreen extends StatelessWidget {
                   stream: auth.authStateChanges(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return const BottomNavigationBarPage();
+                      return const homeScreen();
                     }
                     return const AuthGate();
                   },

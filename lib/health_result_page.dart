@@ -8,7 +8,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-
 class HealthResultPage extends StatefulWidget {
   HealthResultPage({
     super.key,
@@ -66,7 +65,7 @@ class HealthResultPageState extends State<HealthResultPage> {
   double breakfastValue = 0;
   double lunchValue = 0;
   double dinnerValue = 0;
-  var list = ["dumpling","fried rice", "ramen"];
+  var list = ["dumpling", "fried rice", "ramen"];
   var list1 = [537, 864, 1280];
   final _random = new Random();
   late String foodBreakfast = "";
@@ -115,44 +114,44 @@ class HealthResultPageState extends State<HealthResultPage> {
 
   Future<String> uploadBreakfastPics() async {
     String breakfastPicUrl = "";
-    final breakfastUrl = storageRef.child("Users/${user.uid}/${widget.date.year}-${widget.date.month}-${widget.date.day}-$key-breakfast.jpg");
+    final breakfastUrl = storageRef.child(
+        "Users/${user.uid}/${widget.date.year}-${widget.date.month}-${widget.date.day}-$key-breakfast.jpg");
     UploadTask uploadBreakfast = breakfastUrl.putFile(widget.breakfastImage);
     await uploadBreakfast.whenComplete(() async => {
-      isLoading = false,
-      breakfastPicUrl = await breakfastUrl.getDownloadURL(),
-    });
+          isLoading = false,
+          breakfastPicUrl = await breakfastUrl.getDownloadURL(),
+        });
     return breakfastPicUrl.toString();
   }
 
   Future<String> uploadLunchPics() async {
     String lunchPicUrl = "";
-    final lunchUrl = storageRef.child("Users/${user.uid}/${widget.date.year}-${widget.date.month}-${widget.date.day}-$key-lunch.jpg");
+    final lunchUrl = storageRef.child(
+        "Users/${user.uid}/${widget.date.year}-${widget.date.month}-${widget.date.day}-$key-lunch.jpg");
     UploadTask uploadLunch = lunchUrl.putFile(widget.lunchImage);
     await uploadLunch.whenComplete(() async => {
-      isLoading = false,
-      lunchPicUrl = await lunchUrl.getDownloadURL(),
-    });
+          isLoading = false,
+          lunchPicUrl = await lunchUrl.getDownloadURL(),
+        });
     return lunchPicUrl.toString();
   }
 
   Future<String> uploadDinnerPics() async {
     String dinnerPicUrl = "";
-    final dinnerUrl = storageRef.child("Users/${user.uid}/${widget.date.year}-${widget.date.month}-${widget.date.day}-$key-dinner.jpg");
+    final dinnerUrl = storageRef.child(
+        "Users/${user.uid}/${widget.date.year}-${widget.date.month}-${widget.date.day}-$key-dinner.jpg");
     UploadTask uploadDinner = dinnerUrl.putFile(widget.dinnerImage);
     await uploadDinner.whenComplete(() async => {
-      isLoading = false,
-      dinnerPicUrl = await dinnerUrl.getDownloadURL(),
-    });
+          isLoading = false,
+          dinnerPicUrl = await dinnerUrl.getDownloadURL(),
+        });
     return dinnerPicUrl;
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('Health and Exercise Log Results')
-      ),
+      appBar: AppBar(title: const Text('Health and Exercise Log Results')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -180,7 +179,9 @@ class HealthResultPageState extends State<HealthResultPage> {
                     });
                   },
                   validator: (String? value) {
-                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                    return (value != null && value.contains('@'))
+                        ? 'Do not use the @ char.'
+                        : null;
                   },
                 ),
                 TextFormField(
@@ -195,15 +196,16 @@ class HealthResultPageState extends State<HealthResultPage> {
                     });
                   },
                   validator: (String? value) {
-                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                    return (value != null && value.contains('@'))
+                        ? 'Do not use the @ char.'
+                        : null;
                   },
                 ),
                 SizedBox(
                     child: Image.file(
-                        widget.breakfastImage,
-                      scale: 0.5,
-                    )
-                ),
+                  widget.breakfastImage,
+                  scale: 0.5,
+                )),
                 const SizedBox(height: 20),
                 TextFormField(
                   decoration: InputDecoration(
@@ -216,7 +218,9 @@ class HealthResultPageState extends State<HealthResultPage> {
                     });
                   },
                   validator: (String? value) {
-                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                    return (value != null && value.contains('@'))
+                        ? 'Do not use the @ char.'
+                        : null;
                   },
                 ),
                 TextFormField(
@@ -231,14 +235,16 @@ class HealthResultPageState extends State<HealthResultPage> {
                     });
                   },
                   validator: (String? value) {
-                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                    return (value != null && value.contains('@'))
+                        ? 'Do not use the @ char.'
+                        : null;
                   },
                 ),
                 SizedBox(
-                    child: Image.file(
-                        widget.lunchImage,
-                      scale: 0.5,
-                    ),
+                  child: Image.file(
+                    widget.lunchImage,
+                    scale: 0.5,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -252,7 +258,9 @@ class HealthResultPageState extends State<HealthResultPage> {
                     });
                   },
                   validator: (String? value) {
-                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                    return (value != null && value.contains('@'))
+                        ? 'Do not use the @ char.'
+                        : null;
                   },
                 ),
                 TextFormField(
@@ -267,7 +275,9 @@ class HealthResultPageState extends State<HealthResultPage> {
                     });
                   },
                   validator: (String? value) {
-                    return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                    return (value != null && value.contains('@'))
+                        ? 'Do not use the @ char.'
+                        : null;
                   },
                 ),
                 Image.file(widget.dinnerImage),
@@ -279,7 +289,7 @@ class HealthResultPageState extends State<HealthResultPage> {
                   ),
                 ),
                 Text(
-                  'Morning Workout Calories Burned: ${widget.timeMorningExercise * 7 }',
+                  'Morning Workout Calories Burned: ${widget.timeMorningExercise * 7}',
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -312,36 +322,46 @@ class HealthResultPageState extends State<HealthResultPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: !userInteracts() ? null : () async {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        });
-                    final todayFood = <String, dynamic> {
-                      "date": widget.date.millisecondsSinceEpoch,
-                      // "breakfast": widget.breakfastInfo,
-                      "breakfast": foodBreakfast,
-                      "breakfastPicUrl": await uploadBreakfastPics(),
-                      "lunch": foodLunch,
-                      "lunchPicUrl": await uploadLunchPics(),
-                      "dinner": foodDinner,
-                      "dinnerPicUrl": await uploadDinnerPics(),
-                      "caloriesInput": caloriesBreakfast + caloriesLunch + caloriesDinner,
-                      "caloriesExercises": widget.timeMorningExercise + widget.timeNoonExercise + widget.timeNightExercise
-                    };
-                    todayFoodRef
-                        .child("/foodlogs/${key}")
-                        .set(todayFood)
-                        .then((_) => print('UID of Food Log has been posted to user'))
-                        .catchError((error) => print("You got error on $error"));
-                    if(mounted) {
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      const BottomNavigationBarPage()), (Route<dynamic> route) => false);
-                    }
-                  },
+                  onPressed: !userInteracts()
+                      ? null
+                      : () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
+                          final todayFood = <String, dynamic>{
+                            "date": widget.date.millisecondsSinceEpoch,
+                            // "breakfast": widget.breakfastInfo,
+                            "breakfast": foodBreakfast,
+                            "breakfastPicUrl": await uploadBreakfastPics(),
+                            "lunch": foodLunch,
+                            "lunchPicUrl": await uploadLunchPics(),
+                            "dinner": foodDinner,
+                            "dinnerPicUrl": await uploadDinnerPics(),
+                            "caloriesInput": caloriesBreakfast +
+                                caloriesLunch +
+                                caloriesDinner,
+                            "caloriesExercises": widget.timeMorningExercise +
+                                widget.timeNoonExercise +
+                                widget.timeNightExercise
+                          };
+                          todayFoodRef
+                              .child("/foodlogs/${key}")
+                              .set(todayFood)
+                              .then((_) => print(
+                                  'UID of Food Log has been posted to user'))
+                              .catchError(
+                                  (error) => print("You got error on $error"));
+                          if (mounted) {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => const homeScreen()),
+                                (Route<dynamic> route) => false);
+                          }
+                        },
                   child: const Text(
                     "Update your diet today!",
                     style: TextStyle(

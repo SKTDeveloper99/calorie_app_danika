@@ -1,25 +1,27 @@
 import 'package:calorie_app_danika/profile_page.dart';
 import 'package:calorie_app_danika/health_log_screen.dart';
+import 'package:calorie_app_danika/summary.dart';
+import 'package:calorie_app_danika/settings.dart';
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
 
-class BottomNavigationBarPage extends StatefulWidget {
-  const BottomNavigationBarPage({super.key});
+class homeScreen extends StatefulWidget {
+  const homeScreen({super.key});
 
   @override
-  State<BottomNavigationBarPage> createState() =>
-      _BottomNavigationBarPageState();
+  State<homeScreen> createState() => _homeScreenState();
 }
 
-class _BottomNavigationBarPageState
-    extends State<BottomNavigationBarPage> {
+class _homeScreenState extends State<homeScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
+    const SummaryScreen(),
     const ProfilePage(),
     const HealthLogScreen(),
+    const SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,6 +46,16 @@ class _BottomNavigationBarPageState
           BottomNavigationBarItem(
             icon: Icon(Icons.add_chart_rounded),
             label: 'Health Log',
+            backgroundColor: Colors.amberAccent,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.auto_fix_high),
+            label: 'Goals',
+            backgroundColor: Colors.amberAccent,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
             backgroundColor: Colors.amberAccent,
           ),
         ],

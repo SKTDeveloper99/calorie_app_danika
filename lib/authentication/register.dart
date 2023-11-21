@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:calorie_app_danika/size_config.dart";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:calorie_app_danika/size_config.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,16 +15,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RegisterForm(),
-          )
-        ],
+          // elevation: 0,
+          // backgroundColor: Colors.amber,
+          ),
+      body: Container(
+        width: SizeConfig.blockSizeHorizontal! * 100,
+        height: SizeConfig.blockSizeVertical! * 100,
+        // color: const Color.fromARGB(255, 35, 35, 35),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RegisterForm(),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -41,6 +48,16 @@ class _RegisterFormState extends State<RegisterForm> {
   String email = "";
   String password = "";
   String confirm = "";
+
+  // DELETE later
+  Future<void> createAccount() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +82,10 @@ class _RegisterFormState extends State<RegisterForm> {
                       email = value;
                     })),
             TextFormField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: "Password"),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    hintText: "Password"),
                 obscureText: true,
                 validator: (value) {
                   return null;
@@ -76,7 +95,9 @@ class _RegisterFormState extends State<RegisterForm> {
                     })),
             TextFormField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(), hintText: "Confirm Password"),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    hintText: "Confirm Password"),
                 obscureText: true,
                 validator: (value) {
                   return null;
@@ -86,7 +107,13 @@ class _RegisterFormState extends State<RegisterForm> {
                     })),
             SizedBox(
               width: SizeConfig.blockSizeHorizontal! * 50,
-              child: ElevatedButton(onPressed: () {}, child: Text("Register")),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await createAccount().then((_) {
+                      Navigator.pushNamed(context, "/homeScreen");
+                    });
+                  },
+                  child: Text("Register")),
             )
           ],
         ));

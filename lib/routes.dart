@@ -7,4 +7,5 @@ var screenRoutes = {
   "/": (context) => startScreen(),
   "/loginScreen": (context) => AuthGate(),
   "/registerScreen": (context) => RegisterScreen(),
+  "/homeScreen": (context) => homeScreen(),
 };
