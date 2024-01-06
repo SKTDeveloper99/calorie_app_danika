@@ -21,6 +21,7 @@ class _homeScreenState extends State<homeScreen> {
     const SummaryScreen(),
     const ProfilePage(),
     const HealthLogScreen(),
+    const HealthLogScreen(),
     const SettingsScreen(),
   ];
 
@@ -40,22 +41,27 @@ class _homeScreenState extends State<homeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'home',
             backgroundColor: Colors.amberAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_chart_rounded),
-            label: 'Health Log',
+            label: 'daily log',
             backgroundColor: Colors.amberAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.auto_fix_high),
-            label: 'Goals',
+            label: 'add',
+            backgroundColor: Colors.amberAccent,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.auto_fix_high),
+            label: 'my goals',
             backgroundColor: Colors.amberAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Settings',
+            label: 'settings',
             backgroundColor: Colors.amberAccent,
           ),
         ],

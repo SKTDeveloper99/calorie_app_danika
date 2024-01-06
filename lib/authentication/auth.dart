@@ -133,7 +133,7 @@ class _AuthGateState extends State<AuthGate> {
                           Container(
                               width: 150, height: 150, color: Colors.amber),
                           const SizedBox(height: 20),
-                          const Text("INSERT TITLE",
+                          const Text("PROPERPLATES",
                               style: TextStyle(fontSize: 45)),
                           Visibility(
                             visible: error.isNotEmpty,
@@ -248,32 +248,32 @@ class _AuthGateState extends State<AuthGate> {
                                 ),
                               )
                               .toList(),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: OutlinedButton(
-                              onPressed: isLoading
-                                  ? null
-                                  : () {
-                                      if (mode != AuthMode.phone) {
-                                        setState(() {
-                                          mode = AuthMode.phone;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          mode = AuthMode.login;
-                                        });
-                                      }
-                                    },
-                              child: isLoading
-                                  ? const CircularProgressIndicator.adaptive()
-                                  : Text(
-                                      mode != AuthMode.phone
-                                          ? 'Sign in with Phone Number'
-                                          : 'Sign in with Email and Password',
-                                    ),
-                            ),
-                          ),
+                          // SizedBox(
+                          //   width: double.infinity,
+                          //   height: 50,
+                          //   child: OutlinedButton(
+                          //     onPressed: isLoading
+                          //         ? null
+                          //         : () {
+                          //             if (mode != AuthMode.phone) {
+                          //               setState(() {
+                          //                 mode = AuthMode.phone;
+                          //               });
+                          //             } else {
+                          //               setState(() {
+                          //                 mode = AuthMode.login;
+                          //               });
+                          //             }
+                          //           },
+                          //     child: isLoading
+                          //         ? const CircularProgressIndicator.adaptive()
+                          //         : Text(
+                          //             mode != AuthMode.phone
+                          //                 ? 'Sign in with Phone Number'
+                          //                 : 'Sign in with Email and Password',
+                          //           ),
+                          //   ),
+                          // ),
                           const SizedBox(height: 20),
                           if (mode != AuthMode.phone)
                             RichText(
@@ -287,7 +287,7 @@ class _AuthGateState extends State<AuthGate> {
                                   ),
                                   TextSpan(
                                     text: mode == AuthMode.login
-                                        ? 'Register now'
+                                        ? 'Register Now'
                                         : 'Click to login',
                                     style: const TextStyle(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()

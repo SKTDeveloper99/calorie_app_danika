@@ -10,7 +10,6 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class HealthLogScreen extends StatefulWidget {
   const HealthLogScreen({Key? key}) : super(key: key);
 
@@ -85,7 +84,7 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
     }
 
     _counterSubscription = _counterRef.onValue.listen(
-          (DatabaseEvent event) {
+      (DatabaseEvent event) {
         setState(() {
           _error = null;
           _counter = (event.snapshot.value ?? 0) as int;
@@ -102,7 +101,7 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
     final messagesQuery = _messagesRef.limitToLast(10);
 
     _messagesSubscription = messagesQuery.onChildAdded.listen(
-          (DatabaseEvent event) {
+      (DatabaseEvent event) {
         // print('Child added: ${event.snapshot.value}');
       },
       onError: (Object o) {
@@ -114,7 +113,7 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
     final foodfactsQuery = _foodfactsRef.limitToLast(20);
 
     _foodFactsSubscription = foodfactsQuery.onChildAdded.listen(
-          (DatabaseEvent event) {
+      (DatabaseEvent event) {
         // print('Child added: ${event.snapshot.value}');
       },
       onError: (Object o) {
@@ -153,7 +152,19 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Health Logs'),
+        title: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () {},
+            ),
+            const Text('MONDAY, JAN 1'),
+            IconButton(
+              icon: Icon(Icons.volume_up),
+              onPressed: () {},
+            )
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -171,12 +182,14 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
               //reverse: _anchorToBottom,
               itemBuilder: (context, snapshot, animation, index) {
                 final healthList = snapshot.value! as Map;
-                List<String>  love = ["breakfast","lunch","dinner"];
+                List<String> love = ["breakfast", "lunch", "dinner"];
                 final _random = Random();
                 String superRandom = love[_random.nextInt(love.length)];
-                int timeSkip = healthList["date"] ;
-                final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(timeSkip);
-                String formattedDate = DateFormat('MM-dd-yyyy').format(timeStamp);
+                int timeSkip = healthList["date"];
+                final DateTime timeStamp =
+                    DateTime.fromMillisecondsSinceEpoch(timeSkip);
+                String formattedDate =
+                    DateFormat('MM-dd-yyyy').format(timeStamp);
                 return SizeTransition(
                   sizeFactor: animation,
                   child: GestureDetector(
@@ -184,15 +197,17 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DayDetailScreen(info: healthList, date: formattedDate)),
+                            builder: (context) => DayDetailScreen(
+                                info: healthList, date: formattedDate)),
                       );
                     },
                     child: BigCard(
-                        image: healthList["${superRandom}PicUrl"],
-                        meal: healthList[superRandom],
-                        calories: healthList["caloriesInput"].toString(),
-                        caloriesDeficit: (healthList["caloriesInput"] - healthList["caloriesExercises"]),
-                        date: formattedDate,
+                      image: healthList["${superRandom}PicUrl"],
+                      meal: healthList[superRandom],
+                      calories: healthList["caloriesInput"].toString(),
+                      caloriesDeficit: (healthList["caloriesInput"] -
+                          healthList["caloriesExercises"]),
+                      date: formattedDate,
                     ),
                   ),
                 );
@@ -213,7 +228,6 @@ class BigCard extends StatelessWidget {
     required this.calories,
     required this.date,
     required this.caloriesDeficit,
-
   }) : super(key: key);
 
   final String image;
@@ -230,7 +244,7 @@ class BigCard extends StatelessWidget {
     );
     Color color = Colors.yellow;
     if (caloriesDeficit > 0) {
-        color = Colors.redAccent;
+      color = Colors.redAccent;
     }
     if (caloriesDeficit <= 0) {
       color = Colors.lightGreenAccent;
@@ -252,12 +266,14 @@ class BigCard extends StatelessWidget {
                 //   style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
                 // ),
                 Text(
-                 "Net Gain: $caloriesDeficit",
-                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
+                  "Net Gain: $caloriesDeficit",
+                  style:
+                      style.copyWith(fontWeight: FontWeight.w200, fontSize: 45),
                 ),
                 Text(
                   date,
-                  style: style.copyWith(fontWeight: FontWeight.w200, fontSize: 30),
+                  style:
+                      style.copyWith(fontWeight: FontWeight.w200, fontSize: 30),
                 ),
               ],
             ),

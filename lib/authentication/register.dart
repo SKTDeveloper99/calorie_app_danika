@@ -113,7 +113,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       Navigator.pushNamed(context, "/homeScreen");
                     });
                   },
-                  child: Text("Register")),
+                  child: Text("CREATE ACCOUNT")),
             )
           ],
         ));

@@ -48,24 +48,30 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         borderRadius: BorderRadius.circular(25)),
                     child: Padding(
                         padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Row(
                           children: [
-                            Text("January 1, 2023",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 30.0)),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text("MONDAY, JAN 1",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 24.0)),
+                                Text("Calorie Budget: 1700",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15.0)),
                                 Stack(
                                   alignment: AlignmentDirectional.center,
                                   children: [
                                     SizedBox(
                                       width:
-                                          SizeConfig.blockSizeHorizontal! * 55,
+                                          SizeConfig.blockSizeHorizontal! * 50,
                                       height:
-                                          SizeConfig.blockSizeHorizontal! * 55,
+                                          SizeConfig.blockSizeHorizontal! * 50,
                                       child: SfCircularChart(
                                           margin: EdgeInsets.all(0.0),
                                           series: <CircularSeries>[
@@ -81,47 +87,91 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                                         data.y)
                                           ]),
                                     ),
-                                    Text(
-                                      "1000 Under",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 18.0),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "1000",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              fontSize: 18.0),
+                                        ),
+                                        Text(
+                                          "UNDER",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: const Color.fromARGB(
+                                                  255, 134, 185, 142),
+                                              fontSize: 18.0),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Net Calories:",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 18.0)),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Text("Total:",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 18.0)),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Text("Burned:",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 18.0))
-                                    ],
-                                  ),
-                                )
                               ],
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0.0, 0.0, 8.0, 0.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text("Net Calories:",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 18.0)),
+                                    Text("1,500",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 42.0)),
+                                    Text("kcal",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 18.0)),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text("Total:",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 15.0)),
+                                    Text("1800",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 36.0)),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text("Burned:",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 15.0)),
+                                    Text("300",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 36.0)),
+                                  ],
+                                ),
+                              ),
                             )
                           ],
                         )))),
