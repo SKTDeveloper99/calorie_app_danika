@@ -1,7 +1,10 @@
 import 'package:calorie_app_danika/profile_page.dart';
 import 'package:calorie_app_danika/health_log_screen.dart';
-import 'package:calorie_app_danika/summary.dart';
+import 'package:calorie_app_danika/screens/dashboard.dart';
 import 'package:calorie_app_danika/settings.dart';
+import 'package:calorie_app_danika/screens/daily_log.dart';
+import 'package:calorie_app_danika/screens/add_screen.dart';
+import 'package:calorie_app_danika/screens/goals.dart';
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
@@ -18,10 +21,10 @@ class _homeScreenState extends State<homeScreen> {
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
-    const SummaryScreen(),
-    const ProfilePage(),
-    const HealthLogScreen(),
-    const HealthLogScreen(),
+    const DashboardScreen(),
+    const DailyLogScreen(),
+    const AddScreen(),
+    const GoalScreen(),
     const SettingsScreen(),
   ];
 
