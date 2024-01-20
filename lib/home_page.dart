@@ -1,7 +1,7 @@
 import 'package:calorie_app_danika/profile_page.dart';
 import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:calorie_app_danika/screens/dashboard.dart';
-import 'package:calorie_app_danika/settings.dart';
+import 'package:calorie_app_danika/screens/settings.dart';
 import 'package:calorie_app_danika/screens/daily_log.dart';
 import 'package:calorie_app_danika/screens/add_screen.dart';
 import 'package:calorie_app_danika/screens/goals.dart';

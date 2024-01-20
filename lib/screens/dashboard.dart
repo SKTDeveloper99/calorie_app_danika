@@ -238,12 +238,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20))),
                                     child: LinearProgressIndicator(
+                                      borderRadius: BorderRadius.circular(15.0),
                                       color: const Color.fromARGB(
                                           255, 146, 235, 114),
                                       backgroundColor: const Color.fromARGB(
-                                          255, 195, 161, 72),
+                                          255, 159, 159, 159),
                                       minHeight:
-                                          SizeConfig.blockSizeVertical! * 5,
+                                          SizeConfig.blockSizeVertical! * 4,
                                     ))
                               ])))),
                   SizedBox(width: SizeConfig.blockSizeHorizontal! * 4),
