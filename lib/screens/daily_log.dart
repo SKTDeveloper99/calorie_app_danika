@@ -33,7 +33,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
             child: Container(
                 decoration: BoxDecoration(
                     // border: Border.all(
@@ -41,8 +41,9 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
                     // ),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: LinearProgressIndicator(
+                  borderRadius: BorderRadius.circular(15.0),
                   color: const Color.fromARGB(255, 146, 235, 114),
-                  backgroundColor: const Color.fromARGB(255, 195, 161, 72),
+                  backgroundColor: const Color.fromARGB(255, 159, 159, 159),
                   minHeight: SizeConfig.blockSizeVertical! * 5,
                 )),
           ),

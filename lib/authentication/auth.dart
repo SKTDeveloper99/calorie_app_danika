@@ -599,3 +599,8 @@ Future<String?> getSmsCodeFromUser(BuildContext context) async {
 
   return smsCode;
 }
+
+Future logout() async {
+  await FirebaseAuth.instance.signOut();
+  return null;
+}
