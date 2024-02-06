@@ -22,7 +22,20 @@ class _homeScreenState extends State<homeScreen> {
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardScreen(),
-    const DailyLogScreen(),
+    DailyLogScreen(subtitleList: [
+      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      TextButton(
+          // TODO: make custom text button widget that is shorter
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+          ),
+          child:
+              Text("Setup Automatic Tracking", style: TextStyle(fontSize: 15)))
+    ]),
     const AddScreen(),
     const GoalScreen(),
     const SettingsScreen(),

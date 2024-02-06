@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../size_config.dart';
 
 class DailyLogScreen extends StatefulWidget {
-  const DailyLogScreen({super.key});
+  final entryList = ["BREAKFAST", "LUNCH", "DINNER", "SNACKS", "EXERCISE"];
+  var subtitleList;
+  DailyLogScreen({super.key, required this.subtitleList});
 
   @override
   State<DailyLogScreen> createState() => _DailyLogScreenState();
@@ -58,7 +60,10 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
             child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (_, int index) {
-                  return MealCard();
+                  return EntryCard(
+                    title: widget.entryList[index],
+                    subtitle: widget.subtitleList[index],
+                  );
                 }),
           )
         ],
@@ -67,14 +72,23 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
   }
 }
 
-class MealCard extends StatefulWidget {
-  const MealCard({super.key});
+class EntryCard extends StatefulWidget {
+  String title;
+  Widget subtitle;
+  var entries;
+
+  EntryCard(
+      {super.key,
+      this.title = "Meal",
+      this.subtitle = const Text("100 Calories Recommended",
+          style: TextStyle(fontSize: 15)),
+      this.entries});
 
   @override
-  State<MealCard> createState() => _MealCardState();
+  State<EntryCard> createState() => _EntryCardState();
 }
 
-class _MealCardState extends State<MealCard> {
+class _EntryCardState extends State<EntryCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -88,22 +102,23 @@ class _MealCardState extends State<MealCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "BREAKFAST",
+                  widget.title,
                   style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.start,
                 ),
-                Text("350 Calories Recommended",
-                    style: TextStyle(fontSize: 15)),
+                widget.subtitle,
                 SizedBox(height: 10),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical! * 5,
-                  child: MealEntry(),
+                  child: Entry(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                        onPressed: () {}, child: Text("ADD BREAKFAST")),
+                        onPressed: () {},
+                        child: Text(
+                            "ADD${(widget.title != 'EXERCISE') ? ' ${widget.title}' : " WORKOUT"}")),
                   ],
                 )
               ],
@@ -115,8 +130,12 @@ class _MealCardState extends State<MealCard> {
   }
 }
 
-class MealEntry extends StatelessWidget {
-  const MealEntry({super.key});
+class Entry extends StatelessWidget {
+  var name;
+  var quantity;
+  var calories;
+
+  Entry({super.key, this.name, this.quantity, this.calories});
 
   @override
   Widget build(BuildContext context) {

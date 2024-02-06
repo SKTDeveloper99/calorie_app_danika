@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import '../size_config.dart';
 import "package:calorie_app_danika/authentication/auth.dart";
 
-class SettingsScreen extends StatelessWidget {
+const List<String> dropdownList = <String>['Male', 'Female'];
+
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool profileEdit = false;
   @override
   Widget build(BuildContext context) {
     int colorButtonSize = 9;
@@ -36,25 +44,39 @@ class SettingsScreen extends StatelessWidget {
                           "assets/empty_icon 1.png",
                           width: SizeConfig.blockSizeHorizontal! * 30,
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Username",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                            Text("Sex: Female", style: TextStyle(fontSize: 15)),
-                            Text("Height: 5' 4''",
-                                style: TextStyle(fontSize: 15)),
-                            Text("Age: 16", style: TextStyle(fontSize: 15)),
-                            ElevatedButton(
-                              // TODO: get rid of the elevation shadow, what you see here rn does not work :(
-                              onPressed: () {},
-                              child: Text("Edit Profile"),
-                              style: ElevatedButton.styleFrom(elevation: 0.0),
-                            )
-                          ],
-                        )
+                        (!profileEdit)
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Username",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20)),
+                                  Text("Sex: Female",
+                                      style: TextStyle(fontSize: 15)),
+                                  Text("Height: 5' 4''",
+                                      style: TextStyle(fontSize: 15)),
+                                  Text("Age: 16",
+                                      style: TextStyle(fontSize: 15)),
+                                  ElevatedButton(
+                                    // TODO: get rid of the elevation shadow, what you see here rn does not work :(
+                                    onPressed: () {
+                                      // setState(() {
+                                      //   profileEdit = true;
+                                      // });
+                                    },
+                                    child: Text("Edit Profile"),
+                                    style: ElevatedButton.styleFrom(
+                                        elevation: 0.0),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [EditProfileForm()],
+                              )
                       ],
                     ))),
                 SizedBox(height: SizeConfig.blockSizeVertical! * 2),
@@ -92,7 +114,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFFB23A48), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -110,7 +132,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFFE39348), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -128,7 +150,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFFF5CB5C), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -146,7 +168,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFF90A955), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -164,7 +186,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFF48CAE4), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -182,7 +204,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFF00509D), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -207,7 +229,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFFCBC0D3), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -225,7 +247,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFF5E548E), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -243,7 +265,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFFFFB1B1), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -261,7 +283,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFF984066), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -279,7 +301,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFFD0B8AC), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -297,7 +319,7 @@ class SettingsScreen extends StatelessWidget {
                                     shape: CircleBorder(),
                                     // padding: EdgeInsets.all(20),
                                     backgroundColor:
-                                        Colors.red, // <-- Button color
+                                        Color(0xFF6D6875), // <-- Button color
                                     foregroundColor:
                                         Colors.white, // <-- Splash color
                                   ),
@@ -365,6 +387,72 @@ class ThemeButton extends StatelessWidget {
           foregroundColor: Colors.white, // <-- Splash color
         ),
       ),
+    );
+  }
+}
+
+class EditProfileForm extends StatefulWidget {
+  const EditProfileForm({super.key});
+
+  @override
+  State<EditProfileForm> createState() => _EditProfileFormState();
+}
+
+class _EditProfileFormState extends State<EditProfileForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  String username = "";
+  String sex = "";
+  int age = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormField(
+                initialValue: username,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    hintText: "Username"),
+                validator: (value) {
+                  return null;
+                },
+                onChanged: (value) => setState(() {
+                      username = value;
+                    })),
+            Row(
+              children: [
+                Text("Sex:"),
+                // DropdownButton(
+                //   isExpanded: true,
+                //   value: sex,
+                //   onChanged: (value) {
+                //     setState(() {
+                //       sex = value.toString();
+                //     });
+                //   },
+                //   items: dropdownList
+                //       .map<DropdownMenuItem<String>>((String value) {
+                //     return DropdownMenuItem<String>(
+                //       value: value,
+                //       child: Text(value),
+                //     );
+                //   }).toList(),
+                // )
+              ],
+            ),
+            Row(
+              children: [Text("Height:")],
+            ),
+            // Row(
+            //   children: [Text("Age:"), TextFormField()],
+            // ),
+          ]),
     );
   }
 }
