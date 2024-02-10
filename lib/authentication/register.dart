@@ -18,17 +18,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
           // elevation: 0,
           // backgroundColor: Colors.amber,
           ),
-      body: Container(
-        width: SizeConfig.blockSizeHorizontal! * 100,
-        height: SizeConfig.blockSizeVertical! * 100,
-        // color: const Color.fromARGB(255, 35, 35, 35),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RegisterForm(),
-            )
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(50.0),
+        child: Container(
+          width: SizeConfig.blockSizeHorizontal! * 100,
+          height: SizeConfig.blockSizeVertical! * 100,
+          // color: const Color.fromARGB(255, 35, 35, 35),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 14,
+              ),
+              Text(
+                "Register",
+                style: TextStyle(fontSize: 65),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RegisterForm(),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -66,26 +77,53 @@ class _RegisterFormState extends State<RegisterForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Register",
-              style: TextStyle(fontSize: 65),
-            ),
             TextFormField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    hintText: "Email"),
+                  filled: true,
+                  // fillColor: const Color.fromARGB(255, 74, 70, 72),
+                  // hintText: "Email",
+                  // hintStyle: const TextStyle(
+                  //     fontSize: 22,
+                  //     color: Color.fromARGB(255, 32, 32, 32),
+                  //     fontStyle: FontStyle.italic),
+                  labelText: "Email",
+                  // label: Container(
+                  //     color: Colors.amber, child: Text("Email or phone #")),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        style: BorderStyle.none,
+                        color: Color.fromARGB(0, 0, 0, 0)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 validator: (value) {
                   return null;
                 },
                 onChanged: (value) => setState(() {
                       email = value;
                     })),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical! * 2,
+            ),
             TextFormField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    hintText: "Password"),
+                  filled: true,
+                  // fillColor: const Color.fromARGB(255, 74, 70, 72),
+                  // hintText: "Email",
+                  // hintStyle: const TextStyle(
+                  //     fontSize: 22,
+                  //     color: Color.fromARGB(255, 32, 32, 32),
+                  //     fontStyle: FontStyle.italic),
+                  labelText: "Password",
+                  // label: Container(
+                  //     color: Colors.amber, child: Text("Email or phone #")),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        style: BorderStyle.none,
+                        color: Color.fromARGB(0, 0, 0, 0)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 obscureText: true,
                 validator: (value) {
                   return null;
@@ -93,11 +131,28 @@ class _RegisterFormState extends State<RegisterForm> {
                 onChanged: (value) => setState(() {
                       password = value;
                     })),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical! * 2,
+            ),
             TextFormField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    hintText: "Confirm Password"),
+                  filled: true,
+                  // fillColor: const Color.fromARGB(255, 74, 70, 72),
+                  // hintText: "Email",
+                  // hintStyle: const TextStyle(
+                  //     fontSize: 22,
+                  //     color: Color.fromARGB(255, 32, 32, 32),
+                  //     fontStyle: FontStyle.italic),
+                  labelText: "Confirm Password",
+                  // label: Container(
+                  //     color: Colors.amber, child: Text("Email or phone #")),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        style: BorderStyle.none,
+                        color: Color.fromARGB(0, 0, 0, 0)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 obscureText: true,
                 validator: (value) {
                   return null;
@@ -106,7 +161,10 @@ class _RegisterFormState extends State<RegisterForm> {
                       confirm = value;
                     })),
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal! * 50,
+              height: SizeConfig.blockSizeVertical! * 2,
+            ),
+            SizedBox(
+              width: SizeConfig.blockSizeHorizontal! * 100,
               child: ElevatedButton(
                   onPressed: () async {
                     await createAccount().then((_) {

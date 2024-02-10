@@ -1,3 +1,5 @@
+import 'package:calorie_app_danika/authentication/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:calorie_app_danika/size_config.dart';
 
@@ -8,39 +10,42 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        alignment: Alignment.center,
+        // alignment: Alignment.center,
         padding: const EdgeInsets.all(50),
         child: SingleChildScrollView(
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: SizeConfig.blockSizeVertical! * 10),
+            SizedBox(height: SizeConfig.blockSizeVertical! * 5),
+            Container(
+                color: Colors.amber,
+                width: SizeConfig.blockSizeHorizontal! * 45,
+                height: SizeConfig.blockSizeHorizontal! * 45,
+                child: Image.asset("assets/app_icon.png")),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical! * 4,
+            ),
             const Text("PROPERPLATES",
                 style: TextStyle(
-                    fontSize: 50,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 240, 217, 181))),
             SizedBox(
-              height: SizeConfig.blockSizeVertical! * 10,
+              height: SizeConfig.blockSizeVertical! * 4,
             ),
             const LoginForm(),
-            SizedBox(height: SizeConfig.blockSizeVertical! * 20),
-            SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 95,
-                height: 60,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        backgroundColor:
-                            const Color.fromARGB(255, 240, 217, 181)),
+            // SizedBox(height: SizeConfig.blockSizeVertical! * 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Don't have an account?"),
+                TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/registerScreen');
+                      Navigator.pushNamed(context, "/registerScreen");
                     },
-                    child: const Text('Register',
-                        style: TextStyle(
-                            fontSize: 30,
-                            color: Color.fromARGB(255, 96, 59, 26))))),
+                    child: Text("Register Now"))
+              ],
+            )
           ],
         )),
       ),
@@ -64,6 +69,22 @@ class _LoginFormState extends State<LoginForm> {
 
   final bool _obscureText = true;
 
+  // TODO: REPLACE THIS WHEN NEW AUTH IS MADE
+  Future login(loginUsername, loginPassword) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: loginUsername, password: loginPassword);
+      return null;
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'user-not-found') {
+        // print('username unfound');
+      } else if (error.code == 'wrong-password') {
+        // print('wrong password');
+      }
+      return error.message;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -74,12 +95,15 @@ class _LoginFormState extends State<LoginForm> {
           TextFormField(
             decoration: InputDecoration(
               filled: true,
-              fillColor: const Color.fromARGB(255, 74, 70, 72),
-              hintText: "Email",
-              hintStyle: const TextStyle(
-                  fontSize: 22,
-                  color: Color.fromARGB(255, 32, 32, 32),
-                  fontStyle: FontStyle.italic),
+              // fillColor: const Color.fromARGB(255, 74, 70, 72),
+              // hintText: "Email",
+              // hintStyle: const TextStyle(
+              //     fontSize: 22,
+              //     color: Color.fromARGB(255, 32, 32, 32),
+              //     fontStyle: FontStyle.italic),
+              labelText: "Email or phone #",
+              // label: Container(
+              //     color: Colors.amber, child: Text("Email or phone #")),
               border: OutlineInputBorder(
                 borderSide: const BorderSide(
                     style: BorderStyle.none, color: Color.fromARGB(0, 0, 0, 0)),
@@ -99,55 +123,32 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(
             height: SizeConfig.blockSizeVertical! * 2,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 59,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 74, 70, 72),
-                    hintText: "Password",
-                    hintStyle: const TextStyle(
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 32, 32, 32),
-                        fontStyle: FontStyle.italic),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          style: BorderStyle.none,
-                          color: Color.fromARGB(0, 0, 0, 0)),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  obscureText: _obscureText,
-                  onChanged: (value) => setState(() => password = value),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  style: const TextStyle(
-                      fontSize: 22, color: Color.fromARGB(255, 240, 217, 181)),
-                ),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: "Password",
+              filled: true,
+              // fillColor: const Color.fromARGB(255, 74, 70, 72),
+              // hintText: "Password",
+              // hintStyle: const TextStyle(
+              //     fontSize: 22,
+              //     color: Color.fromARGB(255, 32, 32, 32),
+              //     fontStyle: FontStyle.italic),
+              border: OutlineInputBorder(
+                borderSide: const BorderSide(
+                    style: BorderStyle.none, color: Color.fromARGB(0, 0, 0, 0)),
+                borderRadius: BorderRadius.circular(10),
               ),
-              SizedBox(width: SizeConfig.blockSizeHorizontal! * 2),
-              SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor:
-                              const Color.fromARGB(255, 74, 70, 72)),
-                      onPressed: () {},
-                      child: const Text('?',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Color.fromARGB(255, 240, 217, 181))))),
-            ],
+            ),
+            obscureText: _obscureText,
+            onChanged: (value) => setState(() => password = value),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            style: const TextStyle(
+                fontSize: 22, color: Color.fromARGB(255, 240, 217, 181)),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical! * 3),
           SizedBox(
@@ -160,15 +161,19 @@ class _LoginFormState extends State<LoginForm> {
                       backgroundColor:
                           const Color.fromARGB(255, 240, 217, 181)),
                   onPressed: () {
-                    // Auth().login(email, password).then((result) {
-                    //   Navigator.of(context)
-                    //       .pushNamedAndRemoveUntil('/', (route) => false);
-                    // });
+                    login(email, password).then((result) {
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/', (route) => false);
+                    });
                   },
-                  child: const Text('Login',
+                  child: const Text('LOG IN',
                       style: TextStyle(
                           fontSize: 30,
                           color: Color.fromARGB(255, 96, 59, 26))))),
+          TextButton(
+              onPressed: () {},
+              child: Text("Forgot Password?",
+                  style: TextStyle(color: Colors.red))),
         ],
       ),
     );
