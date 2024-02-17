@@ -168,7 +168,7 @@ class _RegisterFormState extends State<RegisterForm> {
               child: ElevatedButton(
                   onPressed: () async {
                     await createAccount().then((_) {
-                      Navigator.pushNamed(context, "/homeScreen");
+                      Navigator.pushNamed(context, "/setupScreen");
                     });
                   },
                   child: Text("CREATE ACCOUNT")),
