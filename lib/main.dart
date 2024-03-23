@@ -4,6 +4,8 @@ import 'package:calorie_app_danika/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:calorie_app_danika/services/singleton.dart';
 import 'routes.dart';
 import 'size_config.dart';
 import 'firebase_options.dart';
@@ -17,7 +19,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   auth = FirebaseAuth.instanceFor(app: app);
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => Singleton(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

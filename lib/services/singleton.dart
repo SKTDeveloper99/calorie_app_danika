@@ -13,5 +13,10 @@ class Singleton extends ChangeNotifier {
     });
   }
 
+  void setUserData(Map<String, dynamic> data) {
+    userdata = data;
+    notifyListenersSafe();
+  }
+
   Map<String, dynamic>? userdata;
 }
