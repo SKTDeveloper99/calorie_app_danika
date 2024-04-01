@@ -1,3 +1,5 @@
+import 'package:calorie_app_danika/size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const List<String> mealOptions = <String>[
@@ -25,22 +27,49 @@ class _AddScreenState extends State<AddScreen> {
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SearchBar(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                      onPressed: () {}, child: Text("Scan a food item")),
-                  ElevatedButton(
-                      onPressed: () {}, child: Text("Scan a barcode"))
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 10,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/foodCamera");
+                        },
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.camera_alt),
+                            Text("Scan a food item"),
+                          ],
+                        )),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical! * 10,
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(CupertinoIcons.barcode),
+                            Text("Scan a barcode"),
+                          ],
+                        )),
+                  ),
                 ],
               ),
               const TabBar(
+                labelColor: Colors.red,
+                indicatorColor: Colors.blue,
                 tabs: [
-                  Tab(icon: Icon(Icons.directions_car)),
-                  Tab(icon: Icon(Icons.directions_transit)),
-                  Tab(icon: Icon(Icons.directions_bike)),
+                  Tab(text: "All"),
+                  Tab(text: "My foods"),
+                  Tab(
+                    text: "My recipes",
+                  ),
                 ],
               ),
               Row(
