@@ -5,6 +5,7 @@ import 'package:calorie_app_danika/screens/settings.dart';
 import 'package:calorie_app_danika/screens/daily_log.dart';
 import 'package:calorie_app_danika/screens/add_screen.dart';
 import 'package:calorie_app_danika/screens/goals.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
@@ -54,35 +55,35 @@ class _homeScreenState extends State<homeScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: const FaIcon(FontAwesomeIcons.home),
             label: 'home',
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_chart_rounded),
+            icon: const Icon(Icons.add_chart_rounded),
             label: 'daily log',
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.auto_fix_high),
+            icon: const Icon(Icons.auto_fix_high),
             label: 'add',
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.auto_fix_high),
+            icon: const Icon(Icons.auto_fix_high),
             label: 'my goals',
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             label: 'settings',
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        // selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
     );

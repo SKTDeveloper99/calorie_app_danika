@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase Example App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.grey, brightness: Brightness.light)),
       routes: screenRoutes,
       // home: Scaffold(
       //   body: LayoutBuilder(

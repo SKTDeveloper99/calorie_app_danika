@@ -21,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(75.0),
           child: AppBar(
-              backgroundColor: Colors.amberAccent,
+              backgroundColor: ThemeData.dark().colorScheme.primary,
               centerTitle: true,
               title: Text("My Profile", style: TextStyle(color: Colors.black))),
         ),
