@@ -44,3 +44,7 @@ app.*.map.json
 /android/app/release
 
 .fvm/
+
+AI_Code/venv/
+
+AI_Code/config.py
