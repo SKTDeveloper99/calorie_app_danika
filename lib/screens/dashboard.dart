@@ -24,6 +24,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   List<double> stops = <double>[0.2, 1];
 
+  double stepsProgress = 0.85;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -318,22 +320,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ],
                                   ),
                                   Container(
+                                    decoration: BoxDecoration(
+                                        // border: Border.all(
+                                        //   color: Colors.red[500],
+                                        // ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
+                                    // child: LinearProgressIndicator(
+                                    //   borderRadius:
+                                    //       BorderRadius.circular(15.0),
+                                    //   color: const Color.fromARGB(
+                                    //       255, 146, 235, 114),
+                                    //   backgroundColor: const Color.fromARGB(
+                                    //       255, 159, 159, 159),
+                                    //   minHeight:
+                                    //       SizeConfig.blockSizeVertical! * 4,
+                                    // )
+                                    child: Container(
+                                      width: double.infinity,
                                       decoration: BoxDecoration(
-                                          // border: Border.all(
-                                          //   color: Colors.red[500],
-                                          // ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      child: LinearProgressIndicator(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        color: const Color.fromARGB(
-                                            255, 146, 235, 114),
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 159, 159, 159),
-                                        minHeight:
-                                            SizeConfig.blockSizeVertical! * 4,
-                                      ))
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          gradient: // TODO: make the colored interior rounded
+                                              LinearGradient(colors: const [
+                                            Color.fromARGB(255, 125, 176, 142),
+                                            Color.fromARGB(255, 146, 235, 114),
+                                            Colors.grey,
+                                          ], stops: [
+                                            stepsProgress / 2,
+                                            stepsProgress,
+                                            stepsProgress,
+                                          ])),
+                                      child: SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeVertical! *
+                                                  4),
+                                    ),
+                                  )
                                 ])))),
                     SizedBox(width: SizeConfig.blockSizeHorizontal! * 4),
                     SizedBox(
@@ -357,12 +380,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     // color: Colors.white,
-                                                    fontSize: 20.0)),
+                                                    fontSize: 18.0)),
                                             Text("150 cal",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     // color: Colors.white,
-                                                    fontSize: 20.0)),
+                                                    fontSize: 18.0)),
                                           ]),
                                       Row(
                                         mainAxisAlignment:
@@ -372,12 +395,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   // color: Colors.white,
-                                                  fontSize: 20.0)),
+                                                  fontSize: 18.0)),
                                           Text("99 min",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   // color: Colors.white,
-                                                  fontSize: 20.0))
+                                                  fontSize: 18.0))
                                         ],
                                       ),
                                       Row(
@@ -388,12 +411,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   // color: Colors.white,
-                                                  fontSize: 20.0)),
+                                                  fontSize: 18.0)),
                                           Text("24 hrs",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   // color: Colors.white,
-                                                  fontSize: 20.0))
+                                                  fontSize: 18.0))
                                         ],
                                       )
                                     ]))))
@@ -455,6 +478,7 @@ class DailyRing extends StatelessWidget {
                           strokeColor: Colors.grey,
                           strokeWidth: 6.0,
                           dataSource: chartData,
+                          animationDuration: 0,
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y)
                     ]),

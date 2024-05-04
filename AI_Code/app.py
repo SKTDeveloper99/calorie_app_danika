@@ -1,15 +1,82 @@
-import flask
+import math
+from flask import Flask, request, jsonify
 import flask_cors
+import base64
+import numpy as np
+import cv2
+import ultralytics
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 flask_cors.CORS(app)
 
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
+def convertBase64ToImage(base64_string):
+    # # # Convert base64 string to numpy array
+    # img_data = base64.b64decode(base64_string)
+    # nparr = np.frombuffer(img_data, np.uint8)
+    # # Convert numpy array to image
+    # return cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    nparr = np.frombuffer(base64.b64decode(base64_string), np.uint8)
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    return image
+
+def convertImageToBase64(image):
+    # Convert image to numpy array
+    _, buffer = cv2.imencode('.jpg', image)
+    # Convert numpy array to base64 string
+    return base64.b64encode(buffer).decode("utf-8")
+
 @app.route('/process_image', methods=['POST'])
 def process_image():
+    try:
+        data = request.get_json()
+        base64_image = data['image']
+
+        image = convertBase64ToImage(base64_image)
+
+        # Process image with AI here
+        identifiedObject = ""
+        # Load model
+        model = ultralytics.YOLO('yolov8n.pt')
+
+        # object classes
+        classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
+              "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
+              "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
+              "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat",
+              "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "wine glass", "cup",
+              "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli",
+              "carrot", "hot dog", "pizza", "donut", "cake", "chair", "sofa", "pottedplant", "bed",
+              "diningtable", "toilet", "tvmonitor", "laptop", "mouse", "remote", "keyboard", "cell phone",
+              "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
+              "teddy bear", "hair drier", "toothbrush"
+        ]
+
+        # Inference
+        results = model(image)
+        for r in results:
+            boxes = r.boxes
+
+            # for box in boxes:
+            #     # confidence
+            #     confidence = math.ceil((box.conf[0]*100))/100
+            #     print("Confidence --->",confidence)
+
+            #     # class name
+            #     cls = int(box.cls[0])
+            #     print("Class name -->", classNames[cls])
+
+            identifiedObject = classNames[int(boxes[0].cls[0])]
+
+        # DEBUG: Save image to disk
+        cv2.imwrite('test.jpg', image)
+
+        return jsonify({'identified': identifiedObject}), 200
+    except Exception as e:
+        print(e)
     return 'Image processed!'
 
 @app.route('/get_privacy_policy', methods=['GET'])
@@ -17,4 +84,4 @@ def get_privacy_policy():
     return 'Privacy policy'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=8000)

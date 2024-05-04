@@ -30,6 +30,10 @@ class Initializer extends StatelessWidget {
                   snapshot.data!.snapshot.value as Map));
             }
             print(_singleton.userdata?["daily_log"]);
+
+            // print current timestamp
+            // print(DateTime.now().millisecondsSinceEpoch);
+
             return homeScreen();
           }
           return const Center(

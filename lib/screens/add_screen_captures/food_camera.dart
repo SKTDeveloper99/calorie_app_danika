@@ -1,5 +1,26 @@
+import "dart:io";
+
+import "package:calorie_app_danika/size_config.dart";
 import "package:camera/camera.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+// import "package:syncfusion_flutter_charts/charts.dart";
+import 'package:calorie_app_danika/utils/utils.dart';
+import 'package:image/image.dart' as imglib;
+
+class _MediaSizeClipper extends CustomClipper<Rect> {
+  final Size mediaSize;
+  const _MediaSizeClipper(this.mediaSize);
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(0, 0, mediaSize.width, mediaSize.height);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Rect> oldClipper) {
+    return true;
+  }
+}
 
 class FoodCamera extends StatefulWidget {
   const FoodCamera({super.key});
@@ -11,10 +32,26 @@ class FoodCamera extends StatefulWidget {
 class _FoodCameraState extends State<FoodCamera> with WidgetsBindingObserver {
   CameraController? controller;
   XFile? imageFile;
+  double scale = 1.0;
+
+  Future<void> initCamera() async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+    controller = CameraController(firstCamera, ResolutionPreset.medium);
+    controller!.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
+    await controller!.lockCaptureOrientation(DeviceOrientation.portraitUp);
+  }
 
   @override
   void initState() {
     super.initState();
+
+    initCamera();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -26,20 +63,70 @@ class _FoodCameraState extends State<FoodCamera> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final mediaSize = MediaQuery.of(context).size;
+    if (controller != null) {
+      scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
+    }
     return Scaffold(
-        // appBar: AppBar(),
+        // appBar: AppBar(
+        //   forceMaterialTransparency: true,
+        //   shadowColor: Colors.transparent,
+        //   backgroundColor: Colors.transparent,
+        //   leading: IconButton(
+        //     icon: const Icon(Icons.arrow_back),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        // ),
         body: Stack(
       children: [
         _cameraPreviewWidget(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(Icons.camera),
-              onPressed: () {},
+        Positioned(
+          top: SizeConfig.blockSizeVertical! * 5,
+          left: SizeConfig.blockSizeHorizontal! * 5,
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: SizeConfig.blockSizeHorizontal! * 10,
             ),
-          ],
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        SizedBox(
+          width: SizeConfig.blockSizeHorizontal! * 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                iconSize: SizeConfig.blockSizeHorizontal! * 25,
+                color: Colors.white,
+                icon: const Icon(Icons.camera),
+                onPressed: () {
+                  controller!.takePicture().then((XFile file) {
+                    if (mounted) {
+                      setState(() {
+                        imageFile = file;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PhotoPreview(
+                                      imageFile: imageFile!,
+                                      mediaSize: mediaSize,
+                                      scale: scale,
+                                    )));
+                      });
+                    }
+                  });
+                },
+              ),
+              SizedBox(height: SizeConfig.blockSizeVertical! * 10),
+            ],
+          ),
         )
       ],
     ));
@@ -48,6 +135,12 @@ class _FoodCameraState extends State<FoodCamera> with WidgetsBindingObserver {
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _cameraPreviewWidget() {
     final CameraController? cameraController = controller;
+    final mediaSize = MediaQuery.of(context).size;
+    var scale = 1.0;
+
+    if (controller != null) {
+      scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
+    }
 
     if (cameraController == null || !cameraController.value.isInitialized) {
       return const Text(
@@ -59,24 +152,82 @@ class _FoodCameraState extends State<FoodCamera> with WidgetsBindingObserver {
         ),
       );
     } else {
-      return Container();
-      // return Listener(
-      //   onPointerDown: (_) => _pointers++,
-      //   onPointerUp: (_) => _pointers--,
-      //   child: CameraPreview(
-      //     controller!,
-      //     child: LayoutBuilder(
-      //         builder: (BuildContext context, BoxConstraints constraints) {
-      //       return GestureDetector(
-      //         behavior: HitTestBehavior.opaque,
-      //         onScaleStart: _handleScaleStart,
-      //         onScaleUpdate: _handleScaleUpdate,
-      //         onTapDown: (TapDownDetails details) =>
-      //             onViewFinderTap(details, constraints),
-      //       );
-      //     }),
-      //   ),
-      // );
+      return ClipRect(
+        clipper: _MediaSizeClipper(mediaSize),
+        child: Transform.scale(
+          scale: scale,
+          alignment: Alignment.topCenter,
+          child: CameraPreview(cameraController),
+        ),
+      );
     }
+  }
+}
+
+class PhotoPreview extends StatelessWidget {
+  XFile imageFile;
+  Size mediaSize;
+  double scale = 1.0;
+  PhotoPreview(
+      {super.key,
+      required this.imageFile,
+      required this.mediaSize,
+      this.scale = 1.0});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ClipRect(
+            clipper: _MediaSizeClipper(mediaSize),
+            child: Transform.scale(
+                scale: scale,
+                alignment: Alignment.topCenter,
+                child: Image.file(File(imageFile.path)))),
+        Positioned(
+          top: SizeConfig.blockSizeVertical! * 80,
+          left: 0,
+          right: 0,
+          child: SizedBox(
+            width: SizeConfig.blockSizeHorizontal! * 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal! * 18,
+                  height: SizeConfig.blockSizeHorizontal! * 18,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(Icons.close)),
+                ),
+                SizedBox(
+                    width: SizeConfig.blockSizeHorizontal! * 18,
+                    height: SizeConfig.blockSizeHorizontal! * 18,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          // turn XFile into CameraImage
+
+                          await convertXFileToImageColor(imageFile)
+                              .then((value) {
+                            if (value != null) {
+                              print("Sending image to server...");
+                              sendImageToServer(
+                                      "http://192.168.0.123:8000/process_image",
+                                      value)
+                                  .then((value) {
+                                print("Response: ${value.body}");
+                              });
+                            }
+                          });
+                        },
+                        child: Icon(Icons.check)))
+              ],
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

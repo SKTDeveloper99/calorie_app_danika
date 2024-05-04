@@ -56,7 +56,10 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
       },
       itemCount: pageList.length,
       itemBuilder: (context, index) {
-        return DailyLogPage(date: pageList[index]);
+        return DailyLogPage(
+          date: pageList[index],
+          pageController: _pageController,
+        );
       },
       // child: SafeArea(
       //       child: Column(
@@ -233,6 +236,7 @@ class Entry extends StatelessWidget {
 
 class DailyLogPage extends StatefulWidget {
   String date;
+  PageController pageController;
   final entryList = ["BREAKFAST", "LUNCH", "DINNER", "SNACKS", "EXERCISE"];
   var subtitleList = [
     Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
@@ -247,7 +251,7 @@ class DailyLogPage extends StatefulWidget {
   List<Entry> snackEntries = [];
   List<Entry> exerciseEntries = [];
 
-  DailyLogPage({super.key, required this.date});
+  DailyLogPage({super.key, required this.date, required this.pageController});
 
   @override
   State<DailyLogPage> createState() => _DailyLogPageState();
@@ -256,6 +260,58 @@ class DailyLogPage extends StatefulWidget {
 class _DailyLogPageState extends State<DailyLogPage> {
   final Singleton _singleton = Singleton();
   List<List<Entry>> entries = [];
+  double calorieBudget = 0.5;
+
+  String convertTimestampToDateString(String timestamp) {
+    int numTimestamp = int.parse(timestamp);
+    var date = DateTime.fromMillisecondsSinceEpoch(numTimestamp);
+
+    // figure out which day of the week it is
+    String dayOfWeek = date.weekday == 1
+        ? "MONDAY"
+        : date.weekday == 2
+            ? "TUESDAY"
+            : date.weekday == 3
+                ? "WEDNESDAY"
+                : date.weekday == 4
+                    ? "THURSDAY"
+                    : date.weekday == 5
+                        ? "FRIDAY"
+                        : date.weekday == 6
+                            ? "SATURDAY"
+                            : "SUNDAY";
+
+    // figure out which month it is
+    String month = date.month == 1
+        ? "JAN"
+        : date.month == 2
+            ? "FEB"
+            : date.month == 3
+                ? "MAR"
+                : date.month == 4
+                    ? "APR"
+                    : date.month == 5
+                        ? "MAY"
+                        : date.month == 6
+                            ? "JUN"
+                            : date.month == 7
+                                ? "JUL"
+                                : date.month == 8
+                                    ? "AUG"
+                                    : date.month == 9
+                                        ? "SEP"
+                                        : date.month == 10
+                                            ? "OCT"
+                                            : date.month == 11
+                                                ? "NOV"
+                                                : "DEC";
+
+    // figure out which day of the month it is
+    String dayOfMonth = date.day.toString();
+
+    return "$dayOfWeek, $month $dayOfMonth";
+  }
+
   void populateEntryList(collection, entryList) {
     print(collection);
     if (collection == null) {
@@ -288,6 +344,9 @@ class _DailyLogPageState extends State<DailyLogPage> {
       // Map<String, dynamic> dailyLog =
       //     _singleton.userdata?["daily_log"][widget.date];
       // print(dailyLog);
+
+      print(widget.date);
+      print(widget.date.runtimeType);
 
       populateEntryList(
           _singleton.userdata?["daily_log"][widget.date]["breakfast"],
@@ -330,31 +389,56 @@ class _DailyLogPageState extends State<DailyLogPage> {
             children: [
               IconButton(
                 icon: const Icon(Icons.arrow_left_rounded, size: 50),
-                onPressed: () {},
+                onPressed: () {
+                  widget.pageController.previousPage(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease);
+                },
               ),
-              Text(widget.date,
+              Text((convertTimestampToDateString(widget.date)),
                   style:
                       TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
               IconButton(
                 icon: const Icon(Icons.arrow_right_rounded, size: 50),
-                onPressed: () {},
+                onPressed: () {
+                  widget.pageController.nextPage(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease);
+                },
               ),
             ],
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
             child: Container(
+              decoration: BoxDecoration(
+                  // border: Border.all(
+                  //   color: Colors.red[500],
+                  // ),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              // child: LinearProgressIndicator(
+              //   borderRadius: BorderRadius.circular(15.0),
+              //   color: const Color.fromARGB(255, 146, 235, 114),
+              //   backgroundColor: const Color.fromARGB(255, 159, 159, 159),
+              //   minHeight: SizeConfig.blockSizeVertical! * 5,
+              // )
+              child: Container(
+                width: double.infinity,
                 decoration: BoxDecoration(
-                    // border: Border.all(
-                    //   color: Colors.red[500],
-                    // ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: LinearProgressIndicator(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: const Color.fromARGB(255, 146, 235, 114),
-                  backgroundColor: const Color.fromARGB(255, 159, 159, 159),
-                  minHeight: SizeConfig.blockSizeVertical! * 5,
-                )),
+                    borderRadius: BorderRadius.circular(15),
+                    gradient: // TODO: make the colored interior rounded
+                        LinearGradient(colors: const [
+                      Color.fromARGB(255, 125, 176, 142),
+                      Color.fromARGB(255, 146, 235, 114),
+                      Colors.grey,
+                    ], stops: [
+                      calorieBudget / 2,
+                      calorieBudget,
+                      calorieBudget,
+                    ])),
+                child: SizedBox(height: SizeConfig.blockSizeVertical! * 4),
+              ),
+            ),
           ),
           SizedBox(
             width: SizeConfig.blockSizeHorizontal! * 90,

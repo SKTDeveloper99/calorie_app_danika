@@ -62,17 +62,17 @@ class _homeScreenState extends State<homeScreen> {
             backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.add_chart_rounded),
+            icon: const FaIcon(FontAwesomeIcons.clipboard),
             label: 'daily log',
             backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.auto_fix_high),
+            icon: const FaIcon(FontAwesomeIcons.plusCircle),
             label: 'add',
             backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.auto_fix_high),
+            icon: const FaIcon(FontAwesomeIcons.bullseye),
             label: 'my goals',
             backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
