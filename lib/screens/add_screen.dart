@@ -137,7 +137,7 @@ class FoodEntry extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [Text("Cereal"), Text("99 cups, 1000 cal")],
                 ),
-                IconButton(icon: const Icon(Icons.volume_up), onPressed: () {})
+                IconButton(icon: const Icon(Icons.add), onPressed: () {})
               ],
             ),
           ),

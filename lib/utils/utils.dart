@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,6 +10,7 @@ import 'dart:typed_data';
 // import 'dart:io';
 // import 'package:image/image.dart' as imglib;
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 String getToday() {
   DateTime now = DateTime.now();
@@ -116,3 +118,14 @@ Future<http.Response> sendImageToServer(String url, imglib.Image image) async {
 
   return response;
 }
+
+// Future<void> getCalorieReference() async {
+//   // Get the calorie reference from the database at node calorie_reference
+//   final databaseReference = FirebaseDatabase.instance.ref();
+//   databaseReference
+//       .child("calorie_reference")
+//       .once()
+//       .then((DataSnapshot snapshot) {
+//         print('Data : ${snapshot.value}');
+//       } as FutureOr Function(DatabaseEvent value));
+// }

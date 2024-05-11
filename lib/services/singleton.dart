@@ -19,4 +19,10 @@ class Singleton extends ChangeNotifier {
   }
 
   Map<String, dynamic>? userdata;
+
+  Map<String, dynamic> calorieReference = {
+    "apple": 95,
+    "banana": 105,
+    "orange": 45,
+  };
 }

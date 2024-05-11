@@ -1,5 +1,5 @@
 import "dart:io";
-
+import 'dart:convert';
 import "package:calorie_app_danika/size_config.dart";
 import "package:camera/camera.dart";
 import "package:flutter/material.dart";
@@ -7,6 +7,7 @@ import "package:flutter/services.dart";
 // import "package:syncfusion_flutter_charts/charts.dart";
 import 'package:calorie_app_danika/utils/utils.dart';
 import 'package:image/image.dart' as imglib;
+import 'package:calorie_app_danika/screens/add_screen_captures/results.dart';
 
 class _MediaSizeClipper extends CustomClipper<Rect> {
   final Size mediaSize;
@@ -214,10 +215,18 @@ class PhotoPreview extends StatelessWidget {
                             if (value != null) {
                               print("Sending image to server...");
                               sendImageToServer(
-                                      "http://192.168.0.123:8000/process_image",
+                                      "http://192.168.0.125:8000/process_image",
                                       value)
                                   .then((value) {
                                 print("Response: ${value.body}");
+                                Map valueMap = json.decode(value.body);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ResultScreen(
+                                              identifiedObject:
+                                                  valueMap["identified"],
+                                            )));
                               });
                             }
                           });

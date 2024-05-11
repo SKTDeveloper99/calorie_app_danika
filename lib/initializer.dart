@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:calorie_app_danika/authentication/login.dart';
@@ -31,6 +33,18 @@ class Initializer extends StatelessWidget {
             }
             print(_singleton.userdata?["daily_log"]);
 
+            final ref = FirebaseDatabase.instance.ref();
+            ref.child('calorie_reference').get().then(
+              (value) {
+                if (value.exists) {
+                  print(value.value);
+                  _singleton.calorieReference =
+                      Map<String, dynamic>.from(value.value as Map);
+                } else {
+                  print('No data available.');
+                }
+              },
+            );
             // print current timestamp
             // print(DateTime.now().millisecondsSinceEpoch);
 
