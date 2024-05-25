@@ -1,5 +1,6 @@
 import "dart:io";
 import 'dart:convert';
+import "package:calorie_app_danika/services/singleton.dart";
 import "package:calorie_app_danika/size_config.dart";
 import "package:camera/camera.dart";
 import "package:flutter/material.dart";
@@ -175,6 +176,8 @@ class PhotoPreview extends StatelessWidget {
       required this.mediaSize,
       this.scale = 1.0});
 
+  Singleton _singleton = Singleton();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -215,7 +218,8 @@ class PhotoPreview extends StatelessWidget {
                             if (value != null) {
                               print("Sending image to server...");
                               sendImageToServer(
-                                      "http://192.168.0.125:8000/process_image",
+                                      // "http://192.168.0.125:8000/process_image",
+                                      _singleton.serverURL,
                                       value)
                                   .then((value) {
                                 print("Response: ${value.body}");

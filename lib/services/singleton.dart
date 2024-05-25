@@ -20,6 +20,8 @@ class Singleton extends ChangeNotifier {
 
   Map<String, dynamic>? userdata;
 
+  String serverURL = "https://calorie-app-danika.onrender.com";
+
   Map<String, dynamic> calorieReference = {
     "apple": 95,
     "banana": 105,

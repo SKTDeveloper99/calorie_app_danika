@@ -27,8 +27,15 @@ class _GoalScreenState extends State<GoalScreen> {
 
   Calendar calendarView = Calendar.week;
 
+  double originalWeight = 201;
+  double currentWeight = 158;
+  double targetWeight = 115;
+
   @override
   Widget build(BuildContext context) {
+    double weightProgress =
+        (currentWeight - targetWeight) / (originalWeight - targetWeight);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(75.0),
@@ -77,11 +84,11 @@ class _GoalScreenState extends State<GoalScreen> {
             // SizedBox(height: 10),
             SizedBox(
                 width: SizeConfig.blockSizeHorizontal! * 90,
-                height: SizeConfig.blockSizeHorizontal! * 80,
+                height: SizeConfig.blockSizeHorizontal! * 87,
                 child: Card(
                     // TODO: make chart look exactly like figma
                     child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -113,9 +120,9 @@ class _GoalScreenState extends State<GoalScreen> {
                     child: Text(
                       "UPDATE WEIGHT",
                       style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ))),
             SizedBox(height: 10),
             SizedBox(
@@ -189,20 +196,46 @@ class _GoalScreenState extends State<GoalScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Container(
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
+                        child: Container(
                           decoration: BoxDecoration(
-                              // border: Border.all(
-                              //   color: Colors.red[500],
-                              // ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
-                          child: LinearProgressIndicator(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: const Color.fromARGB(255, 146, 235, 114),
-                            backgroundColor:
-                                const Color.fromARGB(255, 159, 159, 159),
-                            minHeight: SizeConfig.blockSizeVertical! * 4,
-                          ))
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                gradient: // TODO: make the colored interior rounded
+                                    LinearGradient(colors: const [
+                                  Color.fromARGB(255, 125, 176, 142),
+                                  Color.fromARGB(255, 146, 235, 114),
+                                  Colors.grey,
+                                ], stops: [
+                                  weightProgress / 2,
+                                  weightProgress,
+                                  weightProgress,
+                                ])),
+                            child: SizedBox(
+                                height: SizeConfig.blockSizeVertical! * 4),
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //     decoration: BoxDecoration(
+                      //         // border: Border.all(
+                      //         //   color: Colors.red[500],
+                      //         // ),
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(20))),
+                      //     child: LinearProgressIndicator(
+                      //       borderRadius: BorderRadius.circular(15.0),
+                      //       color: const Color.fromARGB(255, 146, 235, 114),
+                      //       backgroundColor:
+                      //           const Color.fromARGB(255, 159, 159, 159),
+                      //       minHeight: SizeConfig.blockSizeVertical! * 4,
+                      //     ))
                     ],
                   ),
                 ))),
@@ -219,9 +252,9 @@ class _GoalScreenState extends State<GoalScreen> {
                   child: Text(
                     "ADD PROGRESS PICTURES",
                     style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   )),
             ),
           ],
