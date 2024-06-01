@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../size_config.dart';
+import 'package:calorie_app_danika/services/database.dart';
+import 'package:calorie_app_danika/services/singleton.dart';
 
 enum Calendar { week, month }
 
 class ChartData {
   ChartData(this.x, this.y);
 
-  final int x;
+  final DateTime x;
   final double y;
 }
 
@@ -20,16 +23,52 @@ class GoalScreen extends StatefulWidget {
 
 class _GoalScreenState extends State<GoalScreen> {
   final List<ChartData> chartData = [
-    ChartData(1, 35),
-    ChartData(8, 28),
-    ChartData(15, 34),
+    // ChartData(DateTime.now(), 35),
+    // ChartData(DateTime.now(), 28),
+    // ChartData(DateTime.now(), 34),
   ];
 
   Calendar calendarView = Calendar.week;
+  Singleton _singleton = Singleton();
 
   double originalWeight = 201;
   double currentWeight = 158;
   double targetWeight = 115;
+
+  List<double> updateChartData() {
+    double lowestWeight = 1000;
+    double highestWeight = 0;
+    if (_singleton.userdata?['account_info']['weight_history'] != null) {
+      var weightHistory =
+          _singleton.userdata?['account_info']['weight_history'];
+
+      // print("THING: $weightHistory");
+      chartData.clear();
+
+      for (var key in weightHistory.keys) {
+        print("Key: $key Value: ${weightHistory[key]}");
+
+        // convert the key to a DateTime object
+        DateTime time =
+            DateTime.fromMillisecondsSinceEpoch(int.parse(key) * 1000);
+
+        print(time);
+
+        if (weightHistory[key] < lowestWeight) {
+          lowestWeight = weightHistory[key] * 1.0;
+        }
+
+        if (weightHistory[key] > highestWeight) {
+          highestWeight = weightHistory[key] * 1.0;
+        }
+
+        chartData.add(ChartData(time, weightHistory[key] * 1.0));
+      }
+
+      print(chartData);
+    }
+    return [lowestWeight, highestWeight];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,16 +133,27 @@ class _GoalScreenState extends State<GoalScreen> {
                     children: [
                       Text("WEIGHT",
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      SfCartesianChart(
-                          plotAreaBorderColor: Colors.transparent,
-                          primaryXAxis: CategoryAxis(),
-                          series: <CartesianSeries>[
-                            // Renders line chart
-                            LineSeries<ChartData, int>(
-                                dataSource: chartData,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y)
-                          ]),
+                      Consumer(
+                        builder: (context, Singleton singleton, child) {
+                          var weightRange = updateChartData();
+                          return SfCartesianChart(
+                              primaryYAxis: NumericAxis(
+                                minimum: weightRange[0] - 10,
+                                maximum: weightRange[1] + 10,
+                                interval: 50,
+                                // labelFormat: '{value} lbs'
+                              ),
+                              plotAreaBorderColor: Colors.transparent,
+                              primaryXAxis: CategoryAxis(),
+                              series: <CartesianSeries>[
+                                // Renders line chart
+                                LineSeries<ChartData, DateTime>(
+                                    dataSource: chartData,
+                                    xValueMapper: (ChartData data, _) => data.x,
+                                    yValueMapper: (ChartData data, _) => data.y)
+                              ]);
+                        },
+                      ),
                     ],
                   ),
                 ))),
@@ -116,7 +166,12 @@ class _GoalScreenState extends State<GoalScreen> {
                         shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     )),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => UpdateWeightPopup(),
+                      );
+                    },
                     child: Text(
                       "UPDATE WEIGHT",
                       style: TextStyle(
@@ -125,120 +180,126 @@ class _GoalScreenState extends State<GoalScreen> {
                       ),
                     ))),
             SizedBox(height: 10),
-            SizedBox(
-                width: SizeConfig.blockSizeHorizontal! * 90,
-                height: SizeConfig.blockSizeHorizontal! * 45,
-                child: Card(
-                    child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("MY PROGRESS",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                          TextButton(
-                              onPressed: () => showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        AlertDialog(
-                                      // title: const Text('AlertDialog Title'),
-                                      content: const TextField(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: 'Enter a search term',
+            Consumer(builder: (context, Singleton singleton, child) {
+              return SizedBox(
+                  width: SizeConfig.blockSizeHorizontal! * 90,
+                  height: SizeConfig.blockSizeHorizontal! * 45,
+                  child: Card(
+                      child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 24.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("MY PROGRESS",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            TextButton(
+                                onPressed: () => showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        // title: const Text('AlertDialog Title'),
+                                        content: const TextField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Enter a search term',
+                                          ),
                                         ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                context, 'Cancel'),
+                                            child: const Text('Cancel'),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context, 'DONE'),
+                                            child: const Text('DONE'),
+                                          ),
+                                        ],
                                       ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'Cancel'),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'DONE'),
-                                          child: const Text('DONE'),
-                                        ),
-                                      ],
                                     ),
-                                  ),
-                              child: Text("Edit"))
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              Text("Current"),
-                              Text("158 lbs",
-                                  style: TextStyle(fontWeight: FontWeight.bold))
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text("Left"),
-                              Text("43 lbs",
-                                  style: TextStyle(fontWeight: FontWeight.bold))
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text("Target"),
-                              Text("115 lbs",
-                                  style: TextStyle(fontWeight: FontWeight.bold))
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
+                                child: Text("Edit"))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                Text("Current"),
+                                Text("158 lbs",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold))
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Left"),
+                                Text("43 lbs",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold))
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Target"),
+                                Text(
+                                    "${_singleton.userdata?['account_info']['weight_target']} lbs",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold))
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
                           child: Container(
-                            width: double.infinity,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: // TODO: make the colored interior rounded
-                                    LinearGradient(colors: const [
-                                  Color.fromARGB(255, 125, 176, 142),
-                                  Color.fromARGB(255, 146, 235, 114),
-                                  Colors.grey,
-                                ], stops: [
-                                  weightProgress / 2,
-                                  weightProgress,
-                                  weightProgress,
-                                ])),
-                            child: SizedBox(
-                                height: SizeConfig.blockSizeVertical! * 4),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  gradient: // TODO: make the colored interior rounded
+                                      LinearGradient(colors: const [
+                                    Color.fromARGB(255, 125, 176, 142),
+                                    Color.fromARGB(255, 146, 235, 114),
+                                    Colors.grey,
+                                  ], stops: [
+                                    weightProgress / 2,
+                                    weightProgress,
+                                    weightProgress,
+                                  ])),
+                              child: SizedBox(
+                                  height: SizeConfig.blockSizeVertical! * 4),
+                            ),
                           ),
                         ),
-                      ),
-                      // Container(
-                      //     decoration: BoxDecoration(
-                      //         // border: Border.all(
-                      //         //   color: Colors.red[500],
-                      //         // ),
-                      //         borderRadius:
-                      //             BorderRadius.all(Radius.circular(20))),
-                      //     child: LinearProgressIndicator(
-                      //       borderRadius: BorderRadius.circular(15.0),
-                      //       color: const Color.fromARGB(255, 146, 235, 114),
-                      //       backgroundColor:
-                      //           const Color.fromARGB(255, 159, 159, 159),
-                      //       minHeight: SizeConfig.blockSizeVertical! * 4,
-                      //     ))
-                    ],
-                  ),
-                ))),
+                        // Container(
+                        //     decoration: BoxDecoration(
+                        //         // border: Border.all(
+                        //         //   color: Colors.red[500],
+                        //         // ),
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(20))),
+                        //     child: LinearProgressIndicator(
+                        //       borderRadius: BorderRadius.circular(15.0),
+                        //       color: const Color.fromARGB(255, 146, 235, 114),
+                        //       backgroundColor:
+                        //           const Color.fromARGB(255, 159, 159, 159),
+                        //       minHeight: SizeConfig.blockSizeVertical! * 4,
+                        //     ))
+                      ],
+                    ),
+                  )));
+            }),
             SizedBox(height: 10),
             SizedBox(
               width: SizeConfig.blockSizeHorizontal! * 90,
@@ -260,6 +321,60 @@ class _GoalScreenState extends State<GoalScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class UpdateWeightPopup extends StatefulWidget {
+  UpdateWeightPopup({super.key});
+
+  TextEditingController weightController = TextEditingController();
+
+  @override
+  State<UpdateWeightPopup> createState() => _UpdateWeightPopupState();
+}
+
+class _UpdateWeightPopupState extends State<UpdateWeightPopup> {
+  // check if string only has numbers and decimal
+  bool isNumeric(String s) {
+    return double.tryParse(s) != null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      // insetPadding: EdgeInsets.all(1.0),
+      // title: const Text('AlertDialog Title'),
+      content: SizedBox(
+        width: SizeConfig.blockSizeHorizontal! * 90,
+        child: TextField(
+          controller: widget.weightController,
+          // keyboardType: TextInputType.number,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            hintText: 'Enter New Target Weight',
+          ),
+          onChanged: (value) => setState(() {}),
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: (isNumeric(widget.weightController.text))
+              ? () async {
+                  await Database().updateWeightTarget(
+                      double.parse(widget.weightController.text));
+                  Navigator.pop(context, 'DONE');
+                }
+              : null,
+          child: const Text('DONE'),
+        ),
+      ],
     );
   }
 }

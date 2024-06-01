@@ -48,7 +48,25 @@ class Initializer extends StatelessWidget {
             // print current timestamp
             // print(DateTime.now().millisecondsSinceEpoch);
 
-            return homeScreen();
+            return StreamBuilder(
+                stream: FirebaseDatabase.instance.ref("ai_server_url").onValue,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.snapshot.value != null) {
+                      print(
+                          "Setting server URL to ${snapshot.data!.snapshot.value}");
+
+                      _singleton.serverURL =
+                          snapshot.data!.snapshot.value.toString();
+                    }
+
+                    _singleton.notifyListenersSafe();
+                    return homeScreen();
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                });
           }
           return const Center(
             child: CircularProgressIndicator(),

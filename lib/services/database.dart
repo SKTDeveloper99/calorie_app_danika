@@ -12,4 +12,10 @@ class Database {
   Future<void> updateData(String path, Map<String, dynamic> data) async {
     await ref.child("users/${user?.uid}/$path").update(data);
   }
+
+  Future<void> updateWeightTarget(double weightTarget) async {
+    await ref
+        .child("users/${user?.uid}/account_info/weight_target")
+        .set(weightTarget);
+  }
 }

@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             SizedBox(height: SizeConfig.blockSizeVertical! * 5),
             Container(
-                color: Colors.amber,
+                // color: Colors.amber,
                 width: SizeConfig.blockSizeHorizontal! * 45,
                 height: SizeConfig.blockSizeHorizontal! * 45,
                 child: Image.asset("assets/app_icon.png")),
@@ -27,9 +27,10 @@ class LoginScreen extends StatelessWidget {
             ),
             const Text("PROPERPLATES",
                 style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 240, 217, 181))),
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  // color: Color.fromARGB(255, 240, 217, 181)
+                )),
             SizedBox(
               height: SizeConfig.blockSizeVertical! * 4,
             ),
@@ -43,7 +44,10 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, "/registerScreen");
                     },
-                    child: Text("Register Now"))
+                    child: Text(
+                      "Register Now",
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ))
               ],
             )
           ],
@@ -101,13 +105,14 @@ class _LoginFormState extends State<LoginForm> {
               //     fontSize: 22,
               //     color: Color.fromARGB(255, 32, 32, 32),
               //     fontStyle: FontStyle.italic),
-              labelText: "Email or phone #",
+              labelText: "Email",
               // label: Container(
               //     color: Colors.amber, child: Text("Email or phone #")),
               border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    style: BorderStyle.none, color: Color.fromARGB(0, 0, 0, 0)),
-                borderRadius: BorderRadius.circular(10),
+                // borderSide: const BorderSide(
+                //     style: BorderStyle.none, color: Color.fromARGB(0, 0, 0, 0)
+                //     ),
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
             validator: (value) {
@@ -118,7 +123,9 @@ class _LoginFormState extends State<LoginForm> {
             },
             onChanged: (value) => setState(() => email = value),
             style: const TextStyle(
-                fontSize: 22, color: Color.fromARGB(255, 240, 217, 181)),
+              fontSize: 22,
+              // color: Color.fromARGB(255, 240, 217, 181)
+            ),
           ),
           SizedBox(
             height: SizeConfig.blockSizeVertical! * 2,
@@ -134,9 +141,10 @@ class _LoginFormState extends State<LoginForm> {
               //     color: Color.fromARGB(255, 32, 32, 32),
               //     fontStyle: FontStyle.italic),
               border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    style: BorderStyle.none, color: Color.fromARGB(0, 0, 0, 0)),
-                borderRadius: BorderRadius.circular(10),
+                // borderSide: const BorderSide(
+                //     style: BorderStyle.none, color: Color.fromARGB(0, 0, 0, 0)
+                //     ),
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
             obscureText: _obscureText,
@@ -148,7 +156,9 @@ class _LoginFormState extends State<LoginForm> {
               return null;
             },
             style: const TextStyle(
-                fontSize: 22, color: Color.fromARGB(255, 240, 217, 181)),
+              fontSize: 22,
+              // color: Color.fromARGB(255, 240, 217, 181)
+            ),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical! * 3),
           SizedBox(
@@ -156,10 +166,11 @@ class _LoginFormState extends State<LoginForm> {
               height: 60,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      backgroundColor:
-                          const Color.fromARGB(255, 240, 217, 181)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    // backgroundColor:
+                    //     const Color.fromARGB(255, 240, 217, 181)
+                  ),
                   onPressed: () {
                     login(email, password).then((result) {
                       Navigator.of(context)
@@ -168,12 +179,16 @@ class _LoginFormState extends State<LoginForm> {
                   },
                   child: const Text('LOG IN',
                       style: TextStyle(
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 96, 59, 26))))),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        // color: Color.fromARGB(255, 96, 59, 26)
+                      )))),
           TextButton(
               onPressed: () {},
-              child: Text("Forgot Password?",
-                  style: TextStyle(color: Colors.red))),
+              child: Text(
+                "Forgot Password?",
+                // style: TextStyle(color: Colors.red)
+              )),
         ],
       ),
     );
