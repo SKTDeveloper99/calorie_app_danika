@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +10,7 @@ import 'dart:typed_data';
 // import 'dart:io';
 // import 'package:image/image.dart' as imglib;
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 
 String getToday() {
   DateTime now = DateTime.now();

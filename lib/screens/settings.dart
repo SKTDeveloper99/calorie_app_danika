@@ -153,11 +153,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     int colorButtonSize = 9;
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75.0),
+          preferredSize: const Size.fromHeight(75.0),
           child: AppBar(
               backgroundColor: ThemeData.dark().colorScheme.primary,
               centerTitle: true,
-              title: Text("My Profile", style: TextStyle(color: Colors.black))),
+              title: const Text("My Profile",
+                  style: TextStyle(color: Colors.black))),
         ),
         body: SingleChildScrollView(
           child: Center(
@@ -185,25 +186,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(Auth().user!.email.toString().split('@')[0],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
-                              Text("Sex: Female",
+                              const Text("Sex: Female",
                                   style: TextStyle(fontSize: 15)),
-                              Text("Height: 5' 4''",
+                              const Text("Height: 5' 4''",
                                   style: TextStyle(fontSize: 15)),
-                              Text("Age: 16", style: TextStyle(fontSize: 15)),
+                              const Text("Age: 16",
+                                  style: TextStyle(fontSize: 15)),
                               ElevatedButton(
                                 // TODO: get rid of the elevation shadow, what you see here rn does not work :(
                                 onPressed: () {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return ProfilePopup();
+                                        return const ProfilePopup();
                                       });
                                 },
-                                child: Text("Edit Profile"),
                                 style: ElevatedButton.styleFrom(elevation: 0.0),
+                                child: const Text("Edit Profile"),
                               )
                             ],
                           )
@@ -225,9 +227,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 3.0),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 3.0),
                               child: Text("Color Theme",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -244,15 +245,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFFB23A48), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFFB23A48), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -262,15 +263,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFFE39348), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFFE39348), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -280,15 +281,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFFF5CB5C), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFFF5CB5C), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -298,15 +299,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFF90A955), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFF90A955), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -316,15 +317,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFF48CAE4), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFF48CAE4), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -334,15 +335,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFF00509D), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFF00509D), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                               ],
@@ -359,15 +360,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFFCBC0D3), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFFCBC0D3), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -377,15 +378,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFF5E548E), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFF5E548E), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -395,15 +396,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFFFFB1B1), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFFFFB1B1), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -413,15 +414,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFF984066), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFF984066), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -431,15 +432,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFFD0B8AC), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFFD0B8AC), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                                 SizedBox(
@@ -449,22 +450,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       colorButtonSize,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Container(),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
-                                      backgroundColor:
-                                          Color(0xFF6D6875), // <-- Button color
+                                      backgroundColor: const Color(
+                                          0xFF6D6875), // <-- Button color
                                       foregroundColor:
                                           Colors.white, // <-- Splash color
                                     ),
+                                    child: Container(),
                                   ),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
                               child: Text("Appearance",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -494,8 +494,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           onPressed: () {
                             logout();
                           },
-                          child: Text("LOG OUT"))),
-                  TextButton(onPressed: () {}, child: Text("Delete Account"))
+                          child: const Text("LOG OUT"))),
+                  TextButton(
+                      onPressed: () {}, child: const Text("Delete Account"))
                 ],
               ),
             ),
@@ -515,13 +516,13 @@ class ThemeButton extends StatelessWidget {
       height: SizeConfig.blockSizeHorizontal! * 5,
       child: ElevatedButton(
         onPressed: () {},
-        child: Container(),
         style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           // padding: EdgeInsets.all(20),
           backgroundColor: Colors.red, // <-- Button color
           foregroundColor: Colors.white, // <-- Splash color
         ),
+        child: Container(),
       ),
     );
   }
@@ -535,7 +536,7 @@ class EditProfileForm extends StatefulWidget {
 }
 
 class _EditProfileFormState extends State<EditProfileForm> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   String username = "";
   String sex = "";
@@ -543,7 +544,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: SizeConfig.blockSizeHorizontal! * 70,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -553,7 +554,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 width: SizeConfig.blockSizeHorizontal! * 35,
                 height: SizeConfig.blockSizeHorizontal! * 35,
                 child: ElevatedButton(
-                    onPressed: () {}, child: Icon(Icons.camera_alt))),
+                    onPressed: () {}, child: const Icon(Icons.camera_alt))),
             TextFormField(
                 initialValue: username,
                 decoration: InputDecoration(
@@ -568,7 +569,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                     })),
             Row(
               children: [
-                Text("Sex:"),
+                const Text("Sex:"),
                 DropdownButton(
                   // isExpanded: true,
                   value: sex,
@@ -587,7 +588,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 )
               ],
             ),
-            Row(
+            const Row(
               // https://api.flutter.dev/flutter/cupertino/CupertinoPicker-class.html
               children: [Text("Height:")],
             ),
@@ -609,19 +610,19 @@ class ProfilePopup extends StatelessWidget {
       child: AlertDialog(
         insetPadding: EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical! * 20,
             0, SizeConfig.blockSizeVertical! * 20),
-        title: Text("Edit Profile"),
-        content: EditProfileForm(),
+        title: const Text("Edit Profile"),
+        content: const EditProfileForm(),
         actions: [
           TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel")),
+              child: const Text("Cancel")),
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Save"))
+              child: const Text("Save"))
         ],
       ),
     );

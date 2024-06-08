@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 
 class Auth {
   final userStream = FirebaseAuth.instance.authStateChanges();
@@ -13,9 +14,9 @@ class Auth {
       return null;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
-        print('username unfound'); // TODO: replace with UI element
+        if (kDebugMode) print('username unfound');
       } else if (error.code == 'wrong-password') {
-        print('wrong password');
+        if (kDebugMode) print('wrong password');
       }
       return error.message;
     }
@@ -27,7 +28,8 @@ class Auth {
           .createUserWithEmailAndPassword(
               email: creationEmail, password: creationPassword);
 
-      // User? user = accountCreateAttempt.user;
+      User? user = accountCreateAttempt.user;
+      if (kDebugMode) print(user?.email);
       // user?.updateDisplayName(username);
 
       // DatabaseReference ref =
@@ -42,11 +44,11 @@ class Auth {
       return null;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'weak-password') {
-        print('password is too weak');
+        if (kDebugMode) print('password is too weak');
       } else if (error.code == 'email-already-in-use') {
-        print('email is already in use');
+        if (kDebugMode) print('email is already in use');
       } else if (error.code == 'invalid-email') {
-        print('this email address does not exist');
+        if (kDebugMode) print('this email address does not exist');
       }
       return error.message;
     }
@@ -60,14 +62,14 @@ class Auth {
   Future verifyEmail() async {
     // return;
     if (user != null && !user!.emailVerified) {
-      print("User was sent an email!");
+      if (kDebugMode) print("User was sent an email!");
       await user?.sendEmailVerification();
       return null;
     } else if (user == null) {
-      print("Hmm, user does not seem to exist");
+      if (kDebugMode) print("Hmm, user does not seem to exist");
       return null;
     } else {
-      print(user?.emailVerified);
+      if (kDebugMode) print(user?.emailVerified);
       return user;
     }
   }
@@ -75,14 +77,14 @@ class Auth {
   // forgot password
   Future forgotPassword(email) async {
     try {
-      print("Attempting to send an email to $email");
+      if (kDebugMode) print("Attempting to send an email to $email");
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return null;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'invalid-email') {
-        print('this email address does not exist');
+        if (kDebugMode) print('this email address does not exist');
       } else if (error.code == 'user-not-found') {
-        print('this email address does not exist');
+        if (kDebugMode) print('this email address does not exist');
       }
       return error.message;
     }

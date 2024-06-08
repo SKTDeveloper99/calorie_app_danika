@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:health/health.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:calorie_app_danika/utils/utils.dart';
+import 'package:calorie_app_danika/services/health.dart';
 import '../size_config.dart';
 import 'dart:ui' as ui;
 
@@ -14,7 +15,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   List<ChartData> chartData = [
-    ChartData("asdf", 123),
+    ChartData("asdf", 0),
+    ChartData("asdf", 100),
   ];
 
   List<Color> colors = <Color>[
@@ -26,403 +28,494 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   double stepsProgress = 0.85;
 
+  int totalCalories = 0;
+  int burnedCalories = 0;
+  int calorieBudget = 1700;
+  int steps = 12345;
+  int activeCalories = 0;
+  int exerciseMinutes = 0;
+  int standHours = 24;
+
+  final HealthDataUtil _healthDataUtil = HealthDataUtil();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHealthData();
+  }
+
+  int doubleToInt(double value) {
+    return value.round();
+  }
+
+  Future<void> _fetchHealthData() async {
+    bool authorized = await _healthDataUtil.authorize();
+    if (authorized) {
+      List<HealthDataPoint> healthData = await _healthDataUtil.fetchData();
+      int steps = await _healthDataUtil.fetchStepData();
+
+      // Process and update the state with fetched data
+      setState(() {
+        this.steps = steps;
+        stepsProgress = steps / 10000;
+        for (var point in healthData) {
+          switch (point.type) {
+            case HealthDataType.ACTIVE_ENERGY_BURNED:
+              // print(
+              //     "Active calories: ${point.value.toString().substring(35, point.value.toString().length)}");
+              activeCalories += doubleToInt(double.parse(point.value
+                  .toString()
+                  .substring(35, point.value.toString().length)));
+              break;
+            case HealthDataType.BASAL_ENERGY_BURNED:
+              // print(
+              //     "Basal calories: ${point.value.toString().substring(35, point.value.toString().length)}");
+              burnedCalories += doubleToInt(double.parse(point.value
+                  .toString()
+                  .substring(35, point.value.toString().length)));
+              break;
+            case HealthDataType.STEPS:
+              // print("Steps: ${point.value}");
+              // steps += point.value.round();
+              break;
+            case HealthDataType.EXERCISE_TIME:
+              // print(
+              //     "Exercise minutes: ${point.value.toString().substring(35, point.value.toString().length)}");
+              exerciseMinutes += doubleToInt(double.parse(point.value
+                  .toString()
+                  .substring(35, point.value.toString().length)));
+              break;
+            // case HealthDataType.STAND_HOURS:
+            //   standHours += point.value.round();
+            //   break;
+            // Add more cases as needed
+            default:
+              break;
+          }
+        }
+        // Assuming some logic to calculate totalCalories and calorieBudget
+        totalCalories = activeCalories + burnedCalories;
+        calorieBudget = 2000; // example value
+
+        // Update chartData
+        if (totalCalories - burnedCalories > calorieBudget) {
+          chartData = [
+            ChartData("asdf", calorieBudget.toDouble()),
+          ];
+        } else {
+          chartData = [
+            ChartData("asdf", (totalCalories - burnedCalories).toDouble()),
+          ];
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75.0),
+          preferredSize: const Size.fromHeight(75.0),
           child: AppBar(
             backgroundColor: ThemeData.dark().colorScheme.primary,
-            leading: ElevatedButton(
-                onPressed: () {},
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+              child: InkWell(
+                onTap: () {},
                 child: Image.asset(
                   "assets/empty_icon 1.png",
                   fit: BoxFit.contain,
-                )),
-            title: Text("Dashboard"),
+                ),
+              ),
+            ),
+            title: const Text("Dashboard"),
             centerTitle: true,
           ),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            // color: const Color.fromARGB(255, 34, 34, 34),
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(height: 35),
-                  Text("Weekly Summary", style: TextStyle(fontSize: 16.0)),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(width: 10),
-                      DailyRing(
-                        day: "S",
-                        percentage: 75,
-                      ),
-                      DailyRing(
-                        day: "M",
-                        percentage: 75,
-                      ),
-                      DailyRing(
-                        day: "T",
-                        percentage: 75,
-                      ),
-                      DailyRing(
-                        day: "W",
-                        percentage: 75,
-                      ),
-                      DailyRing(
-                        day: "T",
-                        percentage: 125,
-                      ),
-                      DailyRing(
-                        day: "F",
-                        percentage: 75,
-                      ),
-                      DailyRing(
-                        day: "S",
-                        percentage: 75,
-                      ),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical! * 2),
-                  SizedBox(
-                      width: SizeConfig.blockSizeHorizontal! * 90,
-                      child: Card(
-                          // color: Colors.amberAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                // color: Colors.red,
-                                width: SizeConfig.blockSizeHorizontal! * 55,
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 35),
+                const Text("Weekly Summary", style: TextStyle(fontSize: 16.0)),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const SizedBox(width: 10),
+                    DailyRing(
+                      day: "S",
+                      percentage: 75,
+                    ),
+                    DailyRing(
+                      day: "M",
+                      percentage: 75,
+                    ),
+                    DailyRing(
+                      day: "T",
+                      percentage: 75,
+                    ),
+                    DailyRing(
+                      day: "W",
+                      percentage: 75,
+                    ),
+                    DailyRing(
+                      day: "T",
+                      percentage: 125,
+                    ),
+                    DailyRing(
+                      day: "F",
+                      percentage: 75,
+                    ),
+                    DailyRing(
+                      day: "S",
+                      percentage: 75,
+                    ),
+                    const SizedBox(width: 10),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical! * 2),
+                SizedBox(
+                    width: SizeConfig.blockSizeHorizontal! * 90,
+                    child: Card(
+                        // color: Colors.amberAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              // color: Colors.red,
+                              width: SizeConfig.blockSizeHorizontal! * 55,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16.0, 16.0, 0.0, 0.0),
+                                    child: Text(getToday(),
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            // color: Colors.white,
+                                            fontSize: 20.0)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16.0, 0.0, 0.0, 0.0),
+                                    child:
+                                        Text("Calorie Budget: $calorieBudget",
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                                // color: Colors.white,
+                                                fontSize: 15.0)),
+                                  ),
+                                  Stack(
+                                    alignment: AlignmentDirectional.center,
+                                    children: [
+                                      SizedBox(
+                                        width: SizeConfig.blockSizeHorizontal! *
+                                            60,
+                                        height:
+                                            SizeConfig.blockSizeHorizontal! *
+                                                60,
+                                        child: SfCircularChart(
+                                            palette: const [Colors.grey],
+                                            margin: const EdgeInsets.all(0.0),
+                                            series: <CircularSeries>[
+                                              // Renders radial bar chart
+                                              DoughnutSeries<ChartData, String>(
+                                                  innerRadius: "65%",
+                                                  animationDuration: 0,
+                                                  strokeColor: Colors.grey,
+                                                  strokeWidth: 8.0,
+                                                  dataSource: [
+                                                    ChartData("asdf", 100),
+                                                  ],
+                                                  xValueMapper:
+                                                      (ChartData data, _) =>
+                                                          data.x,
+                                                  yValueMapper:
+                                                      (ChartData data, _) =>
+                                                          data.y)
+                                            ]),
+                                      ),
+                                      SizedBox(
+                                        width: SizeConfig.blockSizeHorizontal! *
+                                            60,
+                                        height:
+                                            SizeConfig.blockSizeHorizontal! *
+                                                60,
+                                        child: SfCircularChart(
+                                            onCreateShader: (ChartShaderDetails
+                                                chartShaderDetails) {
+                                              return ui.Gradient.linear(
+                                                  chartShaderDetails
+                                                      .outerRect.topCenter,
+                                                  chartShaderDetails
+                                                      .outerRect.bottomCenter,
+                                                  colors,
+                                                  stops);
+                                            },
+                                            palette: const [
+                                              Color.fromARGB(
+                                                  255, 146, 235, 114),
+                                              Colors.grey
+                                            ],
+                                            margin: const EdgeInsets.all(0.0),
+                                            series: <CircularSeries>[
+                                              // Renders radial bar chart
+                                              RadialBarSeries<ChartData,
+                                                      String>(
+                                                  maximumValue:
+                                                      calorieBudget.toDouble(),
+                                                  trackColor: Colors.grey,
+                                                  innerRadius: "65%",
+                                                  strokeColor: Colors.grey,
+                                                  cornerStyle: (calorieBudget >
+                                                          (totalCalories -
+                                                              burnedCalories))
+                                                      ? CornerStyle.bothCurve
+                                                      : CornerStyle.bothFlat,
+                                                  strokeWidth: 8.0,
+                                                  dataSource: chartData,
+                                                  xValueMapper:
+                                                      (ChartData data, _) =>
+                                                          data.x,
+                                                  yValueMapper:
+                                                      (ChartData data, _) =>
+                                                          data.y)
+                                            ]),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "${totalCalories - burnedCalories} kcal",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                // color: Colors.white,
+                                                fontSize: 18.0),
+                                          ),
+                                          Text(
+                                            (calorieBudget >
+                                                    (totalCalories -
+                                                        burnedCalories))
+                                                ? "UNDER"
+                                                : "OVER",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 134, 185, 142),
+                                                fontSize: 18.0),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              // color: Colors.red,
+                              width: SizeConfig.blockSizeHorizontal! * 30,
+                              height: SizeConfig.blockSizeVertical! * 38,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0.0, 8.0, 8.0, 8.0),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16.0, 16.0, 0.0, 0.0),
-                                      child: Text(getToday(),
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              // color: Colors.white,
-                                              fontSize: 20.0)),
+                                    const Text("Net Calories:",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0)),
+                                    Text("${totalCalories - burnedCalories}",
+                                        textAlign: TextAlign.right,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 42.0)),
+                                    const Text("kcal",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0)),
+                                    Expanded(
+                                      child: Container(),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16.0, 0.0, 0.0, 0.0),
-                                      child: Text("Calorie Budget: 1700",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              // color: Colors.white,
-                                              fontSize: 15.0)),
-                                    ),
-                                    Stack(
-                                      alignment: AlignmentDirectional.center,
-                                      children: [
-                                        SizedBox(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  60,
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  60,
-                                          child: SfCircularChart(
-                                              palette: const [Colors.grey],
-                                              margin: const EdgeInsets.all(0.0),
-                                              series: <CircularSeries>[
-                                                // Renders radial bar chart
-                                                DoughnutSeries<ChartData,
-                                                        String>(
-                                                    innerRadius: "65%",
-                                                    animationDuration: 0,
-                                                    strokeColor: Colors.grey,
-                                                    strokeWidth: 8.0,
-                                                    dataSource: chartData,
-                                                    xValueMapper:
-                                                        (ChartData data, _) =>
-                                                            data.x,
-                                                    yValueMapper:
-                                                        (ChartData data, _) =>
-                                                            data.y)
-                                              ]),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  60,
-                                          height:
-                                              SizeConfig.blockSizeHorizontal! *
-                                                  60,
-                                          child: SfCircularChart(
-                                              onCreateShader:
-                                                  (ChartShaderDetails
-                                                      chartShaderDetails) {
-                                                return ui.Gradient.linear(
-                                                    chartShaderDetails
-                                                        .outerRect.topCenter,
-                                                    chartShaderDetails
-                                                        .outerRect.bottomCenter,
-                                                    colors,
-                                                    stops);
-                                              },
-                                              palette: const [
-                                                Color.fromARGB(
-                                                    255, 146, 235, 114),
-                                                Colors.grey
-                                              ],
-                                              margin: EdgeInsets.all(0.0),
-                                              series: <CircularSeries>[
-                                                // Renders radial bar chart
-                                                DoughnutSeries<ChartData,
-                                                        String>(
-                                                    innerRadius: "65%",
-                                                    strokeColor: Colors.grey,
-                                                    cornerStyle:
-                                                        CornerStyle.bothCurve,
-                                                    strokeWidth: 8.0,
-                                                    dataSource: chartData,
-                                                    xValueMapper:
-                                                        (ChartData data, _) =>
-                                                            data.x,
-                                                    yValueMapper:
-                                                        (ChartData data, _) =>
-                                                            data.y)
-                                              ]),
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "1000",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  // color: Colors.white,
-                                                  fontSize: 18.0),
-                                            ),
-                                            Text(
-                                              "UNDER",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: const Color.fromARGB(
-                                                      255, 134, 185, 142),
-                                                  fontSize: 18.0),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                    const Text("Total:",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.0)),
+                                    Text("$totalCalories",
+                                        textAlign: TextAlign.right,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 36.0)),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    const Text("Burned:",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15.0)),
+                                    Text("$burnedCalories",
+                                        textAlign: TextAlign.right,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 36.0)),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                // color: Colors.red,
-                                width: SizeConfig.blockSizeHorizontal! * 30,
-                                height: SizeConfig.blockSizeVertical! * 38,
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      0.0, 8.0, 8.0, 8.0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text("Net Calories:",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18.0)),
-                                      Text("1,500",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 42.0)),
-                                      Text("kcal",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18.0)),
-                                      Expanded(
-                                        child: Container(),
-                                      ),
-                                      Text("Total:",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15.0)),
-                                      Text("1800",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 36.0)),
-                                      // SizedBox(
-                                      //   height: 10,
-                                      // ),
-                                      Text("Burned:",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15.0)),
-                                      Text("300",
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 36.0)),
-                                    ],
-                                  ),
+                            )
+                          ],
+                        ))),
+                SizedBox(height: SizeConfig.blockSizeHorizontal! * 4),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(
+                      width: SizeConfig.blockSizeHorizontal! * 43,
+                      height: SizeConfig.blockSizeHorizontal! * 43,
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          // color: Colors.amberAccent,
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(children: [
+                                const Text("Steps",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        // color: Colors.white,
+                                        fontSize: 30.0)),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.run_circle),
+                                    Text("$steps steps",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            // color: Colors.white,
+                                            fontSize: 18.0))
+                                  ],
                                 ),
-                              )
-                            ],
-                          ))),
-                  SizedBox(height: SizeConfig.blockSizeHorizontal! * 4),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 43,
-                        height: SizeConfig.blockSizeHorizontal! * 43,
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
-                            // color: Colors.amberAccent,
-                            child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(children: [
-                                  Text("Steps",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          // color: Colors.white,
-                                          fontSize: 30.0)),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.run_circle),
-                                      Text("12,345 steps",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              // color: Colors.white,
-                                              fontSize: 18.0))
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                          Icons.local_fire_department_outlined),
-                                      Text("200 cal",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              // color: Colors.white,
-                                              fontSize: 18.0))
-                                    ],
-                                  ),
-                                  Container(
+                                Row(
+                                  children: [
+                                    const Icon(
+                                        Icons.local_fire_department_outlined),
+                                    Text("$activeCalories cal",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            // color: Colors.white,
+                                            fontSize: 18.0))
+                                  ],
+                                ),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                      // border: Border.all(
+                                      //   color: Colors.red[500],
+                                      // ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  // child: LinearProgressIndicator(
+                                  //   borderRadius:
+                                  //       BorderRadius.circular(15.0),
+                                  //   color: const Color.fromARGB(
+                                  //       255, 146, 235, 114),
+                                  //   backgroundColor: const Color.fromARGB(
+                                  //       255, 159, 159, 159),
+                                  //   minHeight:
+                                  //       SizeConfig.blockSizeVertical! * 4,
+                                  // )
+                                  child: Container(
+                                    width: double.infinity,
                                     decoration: BoxDecoration(
-                                        // border: Border.all(
-                                        //   color: Colors.red[500],
-                                        // ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    // child: LinearProgressIndicator(
-                                    //   borderRadius:
-                                    //       BorderRadius.circular(15.0),
-                                    //   color: const Color.fromARGB(
-                                    //       255, 146, 235, 114),
-                                    //   backgroundColor: const Color.fromARGB(
-                                    //       255, 159, 159, 159),
-                                    //   minHeight:
-                                    //       SizeConfig.blockSizeVertical! * 4,
-                                    // )
-                                    child: Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          gradient: // TODO: make the colored interior rounded
-                                              LinearGradient(colors: const [
-                                            Color.fromARGB(255, 125, 176, 142),
-                                            Color.fromARGB(255, 146, 235, 114),
-                                            Colors.grey,
-                                          ], stops: [
-                                            stepsProgress / 2,
-                                            stepsProgress,
-                                            stepsProgress,
-                                          ])),
-                                      child: SizedBox(
-                                          height:
-                                              SizeConfig.blockSizeVertical! *
-                                                  4),
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient: // TODO: make the colored interior rounded
+                                            LinearGradient(colors: const [
+                                          Color.fromARGB(255, 125, 176, 142),
+                                          Color.fromARGB(255, 146, 235, 114),
+                                          Colors.grey,
+                                        ], stops: [
+                                          stepsProgress / 2,
+                                          stepsProgress,
+                                          stepsProgress,
+                                        ])),
+                                    child: SizedBox(
+                                        height:
+                                            SizeConfig.blockSizeVertical! * 4),
+                                  ),
+                                )
+                              ])))),
+                  SizedBox(width: SizeConfig.blockSizeHorizontal! * 4),
+                  SizedBox(
+                      width: SizeConfig.blockSizeHorizontal! * 43,
+                      height: SizeConfig.blockSizeHorizontal! * 43,
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          // color: Colors.amberAccent,
+                          child: Padding(
+                              padding: const EdgeInsets.all(9.0),
+                              child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text("Move",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  // color: Colors.white,
+                                                  fontSize: 18.0)),
+                                          Text("$activeCalories cal",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  // color: Colors.white,
+                                                  fontSize: 18.0)),
+                                        ]),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text("Exercise",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                // color: Colors.white,
+                                                fontSize: 18.0)),
+                                        Text("$exerciseMinutes min",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                // color: Colors.white,
+                                                fontSize: 18.0))
+                                      ],
                                     ),
-                                  )
-                                ])))),
-                    SizedBox(width: SizeConfig.blockSizeHorizontal! * 4),
-                    SizedBox(
-                        width: SizeConfig.blockSizeHorizontal! * 43,
-                        height: SizeConfig.blockSizeHorizontal! * 43,
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
-                            // color: Colors.amberAccent,
-                            child: Padding(
-                                padding: EdgeInsets.all(9.0),
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Move",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    // color: Colors.white,
-                                                    fontSize: 18.0)),
-                                            Text("150 cal",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    // color: Colors.white,
-                                                    fontSize: 18.0)),
-                                          ]),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Exercise",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  // color: Colors.white,
-                                                  fontSize: 18.0)),
-                                          Text("99 min",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  // color: Colors.white,
-                                                  fontSize: 18.0))
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Stand",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  // color: Colors.white,
-                                                  fontSize: 18.0)),
-                                          Text("24 hrs",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  // color: Colors.white,
-                                                  fontSize: 18.0))
-                                        ],
-                                      )
-                                    ]))))
-                  ])
-                ],
-              ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text("Stand",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                // color: Colors.white,
+                                                fontSize: 18.0)),
+                                        Text("$standHours hrs",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                // color: Colors.white,
+                                                fontSize: 18.0))
+                                      ],
+                                    )
+                                  ]))))
+                ])
+              ],
             ),
           ),
         ));
@@ -436,6 +529,7 @@ class ChartData {
   final double y;
 }
 
+// ignore: must_be_immutable
 class DailyRing extends StatelessWidget {
   DailyRing({super.key, required this.day, required this.percentage});
   String day;
@@ -447,7 +541,6 @@ class DailyRing extends StatelessWidget {
     if (percentage < 100) {
       chartData = [
         ChartData("asdf", percentage),
-        ChartData("asdf", 100 - percentage),
       ];
     } else {
       chartData = [
@@ -460,7 +553,8 @@ class DailyRing extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(day,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0)),
           Stack(
             children: [
               SizedBox(
@@ -468,8 +562,8 @@ class DailyRing extends StatelessWidget {
                 width: 45,
                 height: 45,
                 child: SfCircularChart(
-                    palette: [Colors.grey],
-                    margin: EdgeInsets.all(0.0),
+                    palette: const [Colors.grey],
+                    margin: const EdgeInsets.all(0.0),
                     series: <CircularSeries>[
                       // Renders radial bar chart
                       DoughnutSeries<ChartData, String>(
@@ -477,7 +571,9 @@ class DailyRing extends StatelessWidget {
                           innerRadius: "75%",
                           strokeColor: Colors.grey,
                           strokeWidth: 6.0,
-                          dataSource: chartData,
+                          dataSource: [
+                            ChartData("asdf", 100),
+                          ],
                           animationDuration: 0,
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y)
@@ -494,10 +590,12 @@ class DailyRing extends StatelessWidget {
                           : const Color.fromARGB(255, 255, 96, 96)),
                       Colors.grey
                     ],
-                    margin: EdgeInsets.all(0.0),
+                    margin: const EdgeInsets.all(0.0),
                     series: <CircularSeries>[
                       // Renders radial bar chart
-                      DoughnutSeries<ChartData, String>(
+                      RadialBarSeries<ChartData, String>(
+                          maximumValue: 100,
+                          trackColor: Colors.grey,
                           cornerStyle: (percentage < 100)
                               ? CornerStyle.bothCurve
                               : CornerStyle.bothFlat,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import "package:calorie_app_danika/size_config.dart";
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:calorie_app_danika/size_config.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:calorie_app_danika/size_config.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class SetupScreen extends StatefulWidget {
@@ -24,11 +24,11 @@ class _SetupScreenState extends State<SetupScreen> {
       //       ),
       body: Padding(
         padding: const EdgeInsets.all(50.0),
-        child: Container(
+        child: SizedBox(
           width: SizeConfig.blockSizeHorizontal! * 100,
           height: SizeConfig.blockSizeVertical! * 100,
           // color: const Color.fromARGB(255, 35, 35, 35),
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //   SizedBox(
@@ -39,7 +39,7 @@ class _SetupScreenState extends State<SetupScreen> {
               //     style: TextStyle(fontSize: 65),
               //   ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: RegisterForm(),
               )
             ],
@@ -66,11 +66,11 @@ class _RegisterFormState extends State<RegisterForm> {
   int age = 0;
   String gender = "";
   String height = "";
-  int height_feet = 0;
-  int height_inches = 0;
+  int heightFeet = 0;
+  int heightInches = 0;
   int currentWeight = 1;
   int goalWeight = 0;
-  int fat_percentage = 20;
+  int fatPercentage = 20;
 
 //   // DELETE later
 //   Future<void> createAccount() async {
@@ -121,7 +121,7 @@ class _RegisterFormState extends State<RegisterForm> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Gender"),
+                const Text("Gender"),
                 Row(
                   children: [
                     Radio(
@@ -132,7 +132,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             _gender = value;
                           });
                         }),
-                    Text("Male"),
+                    const Text("Male"),
                     Radio(
                         value: Gender.female,
                         groupValue: _gender,
@@ -141,7 +141,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             _gender = value;
                           });
                         }),
-                    Text("Female"),
+                    const Text("Female"),
                   ],
                 ),
               ],
@@ -152,7 +152,7 @@ class _RegisterFormState extends State<RegisterForm> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Height"),
+                const Text("Height"),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -182,7 +182,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               return null;
                             },
                             onChanged: (value) => setState(() {
-                                  height_feet = int.parse(value);
+                                  heightFeet = int.parse(value);
                                 })),
                       ),
                       SizedBox(
@@ -211,7 +211,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               return null;
                             },
                             onChanged: (value) => setState(() {
-                                  height_inches = int.parse(value);
+                                  heightInches = int.parse(value);
                                 })),
                       ),
                     ]),
@@ -281,7 +281,7 @@ class _RegisterFormState extends State<RegisterForm> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Activity"),
+                const Text("Activity"),
                 DropdownButtonFormField(
                     value: activity,
                     items: [
@@ -344,7 +344,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       return null;
                     },
                     onChanged: (value) => setState(() {
-                          fat_percentage = int.parse(value);
+                          fatPercentage = int.parse(value);
                         }))
                 : Container(),
             SizedBox(
@@ -365,17 +365,18 @@ class _RegisterFormState extends State<RegisterForm> {
                         "age": age,
                         "color_theme": "grey",
                         "gender": _gender,
-                        "height": "$height_feet'$height_inches\""
+                        "height": "$heightFeet'$heightInches\""
                       },
                       "weight": {
-                        "body_fat_percentage": fat_percentage,
+                        "body_fat_percentage": fatPercentage,
                         "current_weight": currentWeight,
                         "goal_weight": goalWeight
                       }
+                    }).then((value) {
+                      Navigator.pushNamed(context, "/homeScreen");
                     });
-                    Navigator.pushNamed(context, "/homeScreen");
                   },
-                  child: Text("CONFIRM")),
+                  child: const Text("CONFIRM")),
             )
           ],
         ));

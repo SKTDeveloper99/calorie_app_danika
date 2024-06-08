@@ -31,6 +31,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_barcode_scanner: ^2.0.0
   font_awesome_flutter: ^9.2.0
+  health: ^10.2.0
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

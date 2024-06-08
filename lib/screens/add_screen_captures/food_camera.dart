@@ -3,11 +3,12 @@ import 'dart:convert';
 import "package:calorie_app_danika/services/singleton.dart";
 import "package:calorie_app_danika/size_config.dart";
 import "package:camera/camera.dart";
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 // import "package:syncfusion_flutter_charts/charts.dart";
 import 'package:calorie_app_danika/utils/utils.dart';
-import 'package:image/image.dart' as imglib;
+// import 'package:image/image.dart' as imglib;
 import 'package:calorie_app_danika/screens/add_screen_captures/results.dart';
 
 class _MediaSizeClipper extends CustomClipper<Rect> {
@@ -167,16 +168,16 @@ class _FoodCameraState extends State<FoodCamera> with WidgetsBindingObserver {
 }
 
 class PhotoPreview extends StatelessWidget {
-  XFile imageFile;
-  Size mediaSize;
-  double scale = 1.0;
+  final XFile imageFile;
+  final Size mediaSize;
+  final double scale;
   PhotoPreview(
       {super.key,
       required this.imageFile,
       required this.mediaSize,
-      this.scale = 1.0});
+      required this.scale});
 
-  Singleton _singleton = Singleton();
+  final Singleton _singleton = Singleton();
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +205,7 @@ class PhotoPreview extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(Icons.close)),
+                      child: const Icon(Icons.close)),
                 ),
                 SizedBox(
                     width: SizeConfig.blockSizeHorizontal! * 18,
@@ -216,13 +217,15 @@ class PhotoPreview extends StatelessWidget {
                           await convertXFileToImageColor(imageFile)
                               .then((value) {
                             if (value != null) {
-                              print("Sending image to server...");
+                              if (kDebugMode)
+                                print("Sending image to server...");
                               sendImageToServer(
                                       // "http://192.168.0.125:8000/process_image",
                                       _singleton.serverURL,
                                       value)
                                   .then((value) {
-                                print("Response: ${value.body}");
+                                if (kDebugMode)
+                                  print("Response: ${value.body}");
                                 Map valueMap = json.decode(value.body);
                                 Navigator.push(
                                     context,
@@ -235,7 +238,7 @@ class PhotoPreview extends StatelessWidget {
                             }
                           });
                         },
-                        child: Icon(Icons.check)))
+                        child: const Icon(Icons.check)))
               ],
             ),
           ),

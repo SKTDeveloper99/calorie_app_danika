@@ -1,4 +1,4 @@
-import 'package:calorie_app_danika/authentication/register.dart';
+// import 'package:calorie_app_danika/authentication/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:calorie_app_danika/size_config.dart';
@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: SizeConfig.blockSizeVertical! * 5),
-            Container(
+            SizedBox(
                 // color: Colors.amber,
                 width: SizeConfig.blockSizeHorizontal! * 45,
                 height: SizeConfig.blockSizeHorizontal! * 45,
@@ -39,12 +39,12 @@ class LoginScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Don't have an account?"),
+                const Text("Don't have an account?"),
                 TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, "/registerScreen");
                     },
-                    child: Text(
+                    child: const Text(
                       "Register Now",
                       style: TextStyle(decoration: TextDecoration.underline),
                     ))
@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -185,7 +185,7 @@ class _LoginFormState extends State<LoginForm> {
                       )))),
           TextButton(
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 "Forgot Password?",
                 // style: TextStyle(color: Colors.red)
               )),

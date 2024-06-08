@@ -3,18 +3,18 @@ import 'package:calorie_app_danika/services/singleton.dart';
 import 'package:calorie_app_danika/size_config.dart';
 
 class ConfirmResultsScreen extends StatefulWidget {
-  String identifiedObject;
-  ConfirmResultsScreen({super.key, required this.identifiedObject});
-
-  String dropdownValue = 'Breakfast';
-  int quantity = 1;
+  final String identifiedObject;
+  const ConfirmResultsScreen({super.key, required this.identifiedObject});
 
   @override
   State<ConfirmResultsScreen> createState() => _ConfirmResultsScreenState();
 }
 
 class _ConfirmResultsScreenState extends State<ConfirmResultsScreen> {
-  Singleton _singleton = Singleton();
+  final Singleton _singleton = Singleton();
+
+  String dropdownValue = 'Breakfast';
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -34,31 +34,31 @@ class _ConfirmResultsScreenState extends State<ConfirmResultsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Identified Food: ',
+                        const Text('Identified Food: ',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Text(widget.identifiedObject,
-                            style: TextStyle(fontSize: 20)),
+                            style: const TextStyle(fontSize: 20)),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Calories per ${widget.identifiedObject}: ",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Text(
                             (_singleton.calorieReference
                                     .containsKey(widget.identifiedObject))
                                 ? "${_singleton.calorieReference[widget.identifiedObject]} kcal"
                                 : "N/A",
-                            style: TextStyle(fontSize: 20)),
+                            style: const TextStyle(fontSize: 20)),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Quantity: ",
+                        const Text("Quantity: ",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         SizedBox(
@@ -66,9 +66,9 @@ class _ConfirmResultsScreenState extends State<ConfirmResultsScreen> {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             onChanged: (value) {
-                              widget.quantity = int.parse(value);
+                              quantity = int.parse(value);
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'Enter quantity',
                             ),
@@ -79,11 +79,11 @@ class _ConfirmResultsScreenState extends State<ConfirmResultsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Meal Type: ",
+                        const Text("Meal Type: ",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         DropdownButton<String>(
-                          value: widget.dropdownValue,
+                          value: dropdownValue,
                           icon: const Icon(Icons.arrow_downward),
                           iconSize: 24,
                           elevation: 16,
@@ -94,7 +94,7 @@ class _ConfirmResultsScreenState extends State<ConfirmResultsScreen> {
                           ),
                           onChanged: (String? value) {
                             setState(() {
-                              widget.dropdownValue = value!;
+                              dropdownValue = value!;
                             });
                           },
                           items: <String>[
@@ -115,7 +115,7 @@ class _ConfirmResultsScreenState extends State<ConfirmResultsScreen> {
                       onPressed: () {
                         Navigator.pushNamed(context, "/addScreen");
                       },
-                      child: Text('Confirm'),
+                      child: const Text('Confirm'),
                     ),
                   ],
                 ),

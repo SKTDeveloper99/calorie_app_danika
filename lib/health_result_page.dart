@@ -358,7 +358,7 @@ class HealthResultPageState extends State<HealthResultPage> {
                           if (mounted) {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) => const homeScreen()),
+                                    builder: (context) => const HomeScreen()),
                                 (Route<dynamic> route) => false);
                           }
                         },

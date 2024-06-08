@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:calorie_app_danika/health_result_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
+// import 'package:intl/intl.dart' as intl;
 
 class ExercisesLogPage extends StatefulWidget {
   const ExercisesLogPage({
@@ -41,16 +41,18 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
   double timeMorningExercise = 0;
   double timeNoonExercise = 0;
   double timeNightExercise = 0;
-  var activities = ['No exercise', 'Running','Tennis','Treadmill','Swimming'];
-
-
+  var activities = [
+    'No exercise',
+    'Running',
+    'Tennis',
+    'Treadmill',
+    'Swimming'
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('Exercise Log')
-      ),
+      appBar: AppBar(title: const Text('Exercise Log')),
       body: Form(
         key: _formKey,
         child: Scrollbar(
@@ -96,7 +98,8 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 filled: true,
-                                hintText: 'Enter the number of minutes you exercised...',
+                                hintText:
+                                    'Enter the number of minutes you exercised...',
                                 labelText: 'Morning Exercise Minutes',
                               ),
                               onChanged: (value) {
@@ -136,7 +139,8 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 filled: true,
-                                hintText: 'Enter the number of minutes you exercised...',
+                                hintText:
+                                    'Enter the number of minutes you exercised...',
                                 labelText: 'Noon Exercise Minutes',
                               ),
                               onChanged: (value) {
@@ -176,7 +180,8 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 filled: true,
-                                hintText: 'Enter the number of minutes you exercised...',
+                                hintText:
+                                    'Enter the number of minutes you exercised...',
                                 labelText: 'Night Exercise Minutes',
                               ),
                               onChanged: (value) {
@@ -187,7 +192,7 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                           ],
                         ),
                         ElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => HealthResultPage(
@@ -211,10 +216,9 @@ class _ExercisesLogPageState extends State<ExercisesLogPage> {
                                 ),
                               );
                             },
-                            child: const Text('Log Your Exercise Results')
-                        )
+                            child: const Text('Log Your Exercise Results'))
                       ].expand(
-                            (widget) => [
+                        (widget) => [
                           widget,
                           const SizedBox(
                             height: 24,

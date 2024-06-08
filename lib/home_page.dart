@@ -1,5 +1,5 @@
-import 'package:calorie_app_danika/profile_page.dart';
-import 'package:calorie_app_danika/health_log_screen.dart';
+// import 'package:calorie_app_danika/profile_page.dart';
+// import 'package:calorie_app_danika/health_log_screen.dart';
 import 'package:calorie_app_danika/screens/dashboard.dart';
 import 'package:calorie_app_danika/screens/settings.dart';
 import 'package:calorie_app_danika/screens/daily_log.dart';
@@ -10,32 +10,32 @@ import 'package:flutter/material.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
 
-class homeScreen extends StatefulWidget {
-  const homeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<homeScreen> createState() => _homeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardScreen(),
     DailyLogScreen(subtitleList: [
-      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
-      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
-      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
-      Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      const Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      const Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      const Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+      const Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
       TextButton(
           // TODO: make custom text button widget that is shorter
           onPressed: () {},
           style: TextButton.styleFrom(
             padding: EdgeInsets.zero,
           ),
-          child:
-              Text("Setup Automatic Tracking", style: TextStyle(fontSize: 15)))
+          child: const Text("Setup Automatic Tracking",
+              style: TextStyle(fontSize: 15)))
     ]),
     const AddScreen(),
     const GoalScreen(),

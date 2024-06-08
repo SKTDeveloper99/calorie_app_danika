@@ -1,21 +1,21 @@
 import 'package:calorie_app_danika/authentication/register.dart';
 import 'package:calorie_app_danika/authentication/login.dart';
-import 'package:calorie_app_danika/authentication/auth.dart';
+// import 'package:calorie_app_danika/authentication/auth.dart';
 import 'package:calorie_app_danika/home_page.dart';
 import 'package:calorie_app_danika/initializer.dart';
 import 'package:calorie_app_danika/screens/setup.dart';
 import 'package:calorie_app_danika/screens/add_screen_captures/food_camera.dart';
 // import 'package:calorie_app_danika/screens/add_screen_captures/results.dart';
-import 'main.dart';
+// import 'main.dart';
 
 var screenRoutes = {
   // "/": (context) => startScreen(),
-  "/": (context) => Initializer(),
+  "/": (context) => const Initializer(),
   // "/loginScreen": (context) => AuthGate(),
-  "/loginScreen": (context) => LoginScreen(),
-  "/registerScreen": (context) => RegisterScreen(),
-  "/setupScreen": (context) => SetupScreen(),
-  "/homeScreen": (context) => homeScreen(),
+  "/loginScreen": (context) => const LoginScreen(),
+  "/registerScreen": (context) => const RegisterScreen(),
+  "/setupScreen": (context) => const SetupScreen(),
+  "/homeScreen": (context) => HomeScreen(),
   "/foodCamera": (context) => FoodCamera(),
   // "/resultsScreen": (context) => ResultScreen(identifiedObject: '',),
 };

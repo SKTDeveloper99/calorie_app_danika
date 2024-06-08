@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -29,7 +30,7 @@ class _GoalScreenState extends State<GoalScreen> {
   ];
 
   Calendar calendarView = Calendar.week;
-  Singleton _singleton = Singleton();
+  final Singleton _singleton = Singleton();
 
   double originalWeight = 201;
   double currentWeight = 158;
@@ -46,13 +47,13 @@ class _GoalScreenState extends State<GoalScreen> {
       chartData.clear();
 
       for (var key in weightHistory.keys) {
-        print("Key: $key Value: ${weightHistory[key]}");
+        if (kDebugMode) print("Key: $key Value: ${weightHistory[key]}");
 
         // convert the key to a DateTime object
         DateTime time =
             DateTime.fromMillisecondsSinceEpoch(int.parse(key) * 1000);
 
-        print(time);
+        if (kDebugMode) print(time);
 
         if (weightHistory[key] < lowestWeight) {
           lowestWeight = weightHistory[key] * 1.0;
@@ -65,7 +66,7 @@ class _GoalScreenState extends State<GoalScreen> {
         chartData.add(ChartData(time, weightHistory[key] * 1.0));
       }
 
-      print(chartData);
+      if (kDebugMode) print(chartData);
     }
     return [lowestWeight, highestWeight];
   }
@@ -77,10 +78,10 @@ class _GoalScreenState extends State<GoalScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(75.0),
+        preferredSize: const Size.fromHeight(75.0),
         child: AppBar(
           backgroundColor: ThemeData.dark().colorScheme.primary,
-          title: Text("My Summary"),
+          title: const Text("My Summary"),
           centerTitle: true,
         ),
       ),
@@ -100,7 +101,7 @@ class _GoalScreenState extends State<GoalScreen> {
                     height: SizeConfig.blockSizeHorizontal! * 10,
                     child: SegmentedButton<Calendar>(
                       showSelectedIcon: false,
-                      segments: [
+                      segments: const [
                         ButtonSegment<Calendar>(
                             value: Calendar.week, label: Text('Week')),
                         ButtonSegment<Calendar>(
@@ -131,7 +132,7 @@ class _GoalScreenState extends State<GoalScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("WEIGHT",
+                      const Text("WEIGHT",
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Consumer(
                         builder: (context, Singleton singleton, child) {
@@ -144,7 +145,7 @@ class _GoalScreenState extends State<GoalScreen> {
                                 // labelFormat: '{value} lbs'
                               ),
                               plotAreaBorderColor: Colors.transparent,
-                              primaryXAxis: CategoryAxis(),
+                              primaryXAxis: const CategoryAxis(),
                               series: <CartesianSeries>[
                                 // Renders line chart
                                 LineSeries<ChartData, DateTime>(
@@ -157,7 +158,7 @@ class _GoalScreenState extends State<GoalScreen> {
                     ],
                   ),
                 ))),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             SizedBox(
                 width: SizeConfig.blockSizeHorizontal! * 90,
                 height: SizeConfig.blockSizeVertical! * 7,
@@ -172,14 +173,14 @@ class _GoalScreenState extends State<GoalScreen> {
                         builder: (BuildContext context) => UpdateWeightPopup(),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "UPDATE WEIGHT",
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                     ))),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Consumer(builder: (context, Singleton singleton, child) {
               return SizedBox(
                   width: SizeConfig.blockSizeHorizontal! * 90,
@@ -193,7 +194,7 @@ class _GoalScreenState extends State<GoalScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("MY PROGRESS",
+                            const Text("MY PROGRESS",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                             TextButton(
@@ -222,13 +223,13 @@ class _GoalScreenState extends State<GoalScreen> {
                                         ],
                                       ),
                                     ),
-                                child: Text("Edit"))
+                                child: const Text("Edit"))
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Column(
+                            const Column(
                               children: [
                                 Text("Current"),
                                 Text("158 lbs",
@@ -236,7 +237,7 @@ class _GoalScreenState extends State<GoalScreen> {
                                         TextStyle(fontWeight: FontWeight.bold))
                               ],
                             ),
-                            Column(
+                            const Column(
                               children: [
                                 Text("Left"),
                                 Text("43 lbs",
@@ -246,21 +247,21 @@ class _GoalScreenState extends State<GoalScreen> {
                             ),
                             Column(
                               children: [
-                                Text("Target"),
+                                const Text("Target"),
                                 Text(
                                     "${_singleton.userdata?['account_info']['weight_target']} lbs",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold))
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold))
                               ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Padding(
                           padding:
                               const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
                             child: Container(
@@ -300,7 +301,7 @@ class _GoalScreenState extends State<GoalScreen> {
                     ),
                   )));
             }),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             SizedBox(
               width: SizeConfig.blockSizeHorizontal! * 90,
               height: SizeConfig.blockSizeVertical! * 7,
@@ -310,7 +311,7 @@ class _GoalScreenState extends State<GoalScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                   )),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "ADD PROGRESS PICTURES",
                     style: TextStyle(
                       fontSize: 22,
@@ -326,15 +327,15 @@ class _GoalScreenState extends State<GoalScreen> {
 }
 
 class UpdateWeightPopup extends StatefulWidget {
-  UpdateWeightPopup({super.key});
-
-  TextEditingController weightController = TextEditingController();
+  const UpdateWeightPopup({super.key});
 
   @override
   State<UpdateWeightPopup> createState() => _UpdateWeightPopupState();
 }
 
 class _UpdateWeightPopupState extends State<UpdateWeightPopup> {
+  TextEditingController weightController = TextEditingController();
+
   // check if string only has numbers and decimal
   bool isNumeric(String s) {
     return double.tryParse(s) != null;
@@ -348,7 +349,7 @@ class _UpdateWeightPopupState extends State<UpdateWeightPopup> {
       content: SizedBox(
         width: SizeConfig.blockSizeHorizontal! * 90,
         child: TextField(
-          controller: widget.weightController,
+          controller: weightController,
           // keyboardType: TextInputType.number,
           decoration: const InputDecoration(
             border: OutlineInputBorder(
@@ -365,11 +366,13 @@ class _UpdateWeightPopupState extends State<UpdateWeightPopup> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-          onPressed: (isNumeric(widget.weightController.text))
+          onPressed: (isNumeric(weightController.text))
               ? () async {
-                  await Database().updateWeightTarget(
-                      double.parse(widget.weightController.text));
-                  Navigator.pop(context, 'DONE');
+                  await Database()
+                      .updateWeightTarget(double.parse(weightController.text))
+                      .then((value) {
+                    Navigator.pop(context, 'DONE');
+                  });
                 }
               : null,
           child: const Text('DONE'),

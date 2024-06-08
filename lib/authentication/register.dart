@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:calorie_app_danika/size_config.dart";
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:calorie_app_danika/size_config.dart';
+// import 'package:calorie_app_danika/size_config.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
       body: Padding(
         padding: const EdgeInsets.all(50.0),
-        child: Container(
+        child: SizedBox(
           width: SizeConfig.blockSizeHorizontal! * 100,
           height: SizeConfig.blockSizeVertical! * 100,
           // color: const Color.fromARGB(255, 35, 35, 35),
@@ -30,12 +30,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical! * 14,
               ),
-              Text(
+              const Text(
                 "Register",
                 style: TextStyle(fontSize: 65),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: RegisterForm(),
               )
             ],
@@ -171,7 +171,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       Navigator.pushNamed(context, "/setupScreen");
                     });
                   },
-                  child: Text("CREATE ACCOUNT")),
+                  child: const Text("CREATE ACCOUNT")),
             )
           ],
         ));

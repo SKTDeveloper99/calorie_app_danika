@@ -1,5 +1,6 @@
-import 'dart:async';
+// import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:calorie_app_danika/authentication/login.dart';
@@ -15,10 +16,10 @@ class Initializer extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    Singleton _singleton = Singleton();
+    final Singleton _singleton = Singleton();
 
     if (FirebaseAuth.instance.currentUser == null) {
-      return LoginScreen();
+      return const LoginScreen();
     }
 
     return StreamBuilder(
@@ -31,17 +32,17 @@ class Initializer extends StatelessWidget {
               _singleton.setUserData(Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map));
             }
-            print(_singleton.userdata?["daily_log"]);
+            if (kDebugMode) print(_singleton.userdata?["daily_log"]);
 
             final ref = FirebaseDatabase.instance.ref();
             ref.child('calorie_reference').get().then(
               (value) {
                 if (value.exists) {
-                  print(value.value);
+                  if (kDebugMode) print(value.value);
                   _singleton.calorieReference =
                       Map<String, dynamic>.from(value.value as Map);
                 } else {
-                  print('No data available.');
+                  if (kDebugMode) print('No data available.');
                 }
               },
             );
@@ -53,15 +54,17 @@ class Initializer extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.snapshot.value != null) {
-                      print(
-                          "Setting server URL to ${snapshot.data!.snapshot.value}");
+                      if (kDebugMode) {
+                        print(
+                            "Setting server URL to ${snapshot.data!.snapshot.value}");
+                      }
 
                       _singleton.serverURL =
                           snapshot.data!.snapshot.value.toString();
                     }
 
                     _singleton.notifyListenersSafe();
-                    return homeScreen();
+                    return const HomeScreen();
                   }
                   return const Center(
                     child: CircularProgressIndicator(),

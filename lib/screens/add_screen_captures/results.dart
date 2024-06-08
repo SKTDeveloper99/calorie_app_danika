@@ -4,13 +4,8 @@ import 'package:calorie_app_danika/services/singleton.dart';
 import 'package:calorie_app_danika/screens/add_screen_captures/confirm_results.dart';
 
 class ResultScreen extends StatefulWidget {
-  String identifiedObject;
-  ResultScreen({super.key, required this.identifiedObject});
-
-  TextEditingController foodController = TextEditingController();
-  TextEditingController calorieController = TextEditingController();
-
-  bool isCorrect = true;
+  final String identifiedObject;
+  const ResultScreen({super.key, required this.identifiedObject});
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -18,6 +13,12 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   final Singleton _singleton = Singleton();
+
+  TextEditingController foodController = TextEditingController();
+  TextEditingController calorieController = TextEditingController();
+
+  bool isCorrect = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,17 +35,17 @@ class _ResultScreenState extends State<ResultScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Identified Food: ',
+                      const Text('Identified Food: ',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      Text('${widget.identifiedObject}',
-                          style: TextStyle(fontSize: 20)),
+                      Text(widget.identifiedObject,
+                          style: const TextStyle(fontSize: 20)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Calorie Estimation: ",
+                      const Text("Calorie Estimation: ",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       Text(
@@ -52,13 +53,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                   .containsKey(widget.identifiedObject))
                               ? "${_singleton.calorieReference[widget.identifiedObject]} kcal"
                               : "N/A",
-                          style: TextStyle(fontSize: 20)),
+                          style: const TextStyle(fontSize: 20)),
                     ],
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical! * 2.5,
                   ),
-                  Text("Is the identified food correct?",
+                  const Text("Is the identified food correct?",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(
@@ -71,10 +72,10 @@ class _ResultScreenState extends State<ResultScreen> {
                         width: SizeConfig.blockSizeHorizontal! * 25,
                         child: ElevatedButton(
                             onPressed: () {
-                              widget.isCorrect = false;
+                              isCorrect = false;
                               setState(() {});
                             },
-                            child: Text('No')),
+                            child: const Text('No')),
                       ),
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal! * 25,
@@ -91,7 +92,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                               identifiedObject:
                                                   widget.identifiedObject)));
                             },
-                            child: Text('Yes')),
+                            child: const Text('Yes')),
                       )
                     ],
                   ),
@@ -100,7 +101,7 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
           ),
         ),
-        (!widget.isCorrect)
+        (!isCorrect)
             ? Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Card(
@@ -108,15 +109,15 @@ class _ResultScreenState extends State<ResultScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                           "Enter the correct name of the food and the calorie amount:",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       TextField(
-                        controller: widget.foodController,
-                        decoration: InputDecoration(hintText: 'Food:'),
+                        controller: foodController,
+                        decoration: const InputDecoration(hintText: 'Food:'),
                       ),
-                      TextField(
+                      const TextField(
                         decoration:
                             InputDecoration(hintText: 'Calorie Amount:'),
                       ),
@@ -129,7 +130,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text('Confirm')),
+                            child: const Text('Confirm')),
                       )
                     ],
                   ),

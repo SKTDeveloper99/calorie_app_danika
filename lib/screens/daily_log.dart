@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:calorie_app_danika/services/singleton.dart';
 import '../size_config.dart';
@@ -5,10 +6,8 @@ import 'package:provider/provider.dart';
 
 class DailyLogScreen extends StatefulWidget {
   final entryList = ["BREAKFAST", "LUNCH", "DINNER", "SNACKS", "EXERCISE"];
-  var subtitleList;
-  List<Entry> entries = [
-    Entry(name: "Cereal", quantity: "99 cups", calories: 1000),
-  ];
+  final List<Widget> subtitleList;
+
   DailyLogScreen({super.key, required this.subtitleList});
 
   @override
@@ -18,7 +17,12 @@ class DailyLogScreen extends StatefulWidget {
 class _DailyLogScreenState extends State<DailyLogScreen> {
   late PageController _pageController;
   // late TabController _tabController;
-  int _currentPageIndex = 0;
+
+  List<Entry> entries = [
+    Entry(name: "Cereal", quantity: "99 cups", calories: 1000),
+  ];
+
+  // int _currentPageIndex = 0;
   Map<Object?, Object?> pageData = {};
   List<dynamic> pageList = [];
 
@@ -27,14 +31,19 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+
     // _tabController = TabController(length: 5, vsync: this);
     if (_singleton.userdata?["daily_log"] != null) {
       // print(_singleton.userdata?["daily_log"]);
       pageData = _singleton.userdata?["daily_log"];
       pageList = pageData.keys.toList();
-      print(pageList);
+
+      // Reverse the list so that the most recent date is first
+      pageList = pageList.reversed.toList();
+
+      if (kDebugMode) print(pageList);
     }
+    _pageController = PageController(initialPage: pageList.length - 1);
   }
 
   @override
@@ -51,7 +60,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
       controller: _pageController,
       onPageChanged: (int index) {
         setState(() {
-          _currentPageIndex = index;
+          // _currentPageIndex = index;
         });
       },
       itemCount: pageList.length,
@@ -145,11 +154,11 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
 }
 
 class EntryCard extends StatefulWidget {
-  String title;
-  Widget subtitle;
-  List<Entry> entries;
+  final String title;
+  final Widget subtitle;
+  final List<Entry> entries;
 
-  EntryCard(
+  const EntryCard(
       {super.key,
       this.title = "Meal",
       this.subtitle = const Text("100 Calories Recommended",
@@ -207,12 +216,12 @@ class _EntryCardState extends State<EntryCard> {
 }
 
 class Entry extends StatelessWidget {
-  String name;
-  String quantity;
-  int calories;
-  String mealtype;
+  final String name;
+  final String quantity;
+  final int calories;
+  final String mealtype;
 
-  Entry(
+  const Entry(
       {super.key,
       this.name = "",
       this.quantity = "",
@@ -235,21 +244,16 @@ class Entry extends StatelessWidget {
 }
 
 class DailyLogPage extends StatefulWidget {
-  String date;
-  PageController pageController;
+  final String date;
+  final PageController pageController;
   final entryList = ["BREAKFAST", "LUNCH", "DINNER", "SNACKS", "EXERCISE"];
-  var subtitleList = [
-    Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
-    Text("200 Calories Recommended", style: TextStyle(fontSize: 15)),
-    Text("300 Calories Recommended", style: TextStyle(fontSize: 15)),
-    Text("400 Calories Recommended", style: TextStyle(fontSize: 15)),
-    Text("Setup Automatic Tracking", style: TextStyle(fontSize: 15)),
+  final List<Widget> subtitleList = [
+    const Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
+    const Text("200 Calories Recommended", style: TextStyle(fontSize: 15)),
+    const Text("300 Calories Recommended", style: TextStyle(fontSize: 15)),
+    const Text("400 Calories Recommended", style: TextStyle(fontSize: 15)),
+    const Text("Setup Automatic Tracking", style: TextStyle(fontSize: 15)),
   ];
-  List<Entry> breakfastEntries = [];
-  List<Entry> lunchEntries = [];
-  List<Entry> dinnerEntries = [];
-  List<Entry> snackEntries = [];
-  List<Entry> exerciseEntries = [];
 
   DailyLogPage({super.key, required this.date, required this.pageController});
 
@@ -261,6 +265,12 @@ class _DailyLogPageState extends State<DailyLogPage> {
   final Singleton _singleton = Singleton();
   List<List<Entry>> entries = [];
   double calorieBudget = 0.5;
+
+  List<Entry> breakfastEntries = [];
+  List<Entry> lunchEntries = [];
+  List<Entry> dinnerEntries = [];
+  List<Entry> snackEntries = [];
+  List<Entry> exerciseEntries = [];
 
   String convertTimestampToDateString(String timestamp) {
     int numTimestamp = int.parse(timestamp);
@@ -313,15 +323,15 @@ class _DailyLogPageState extends State<DailyLogPage> {
   }
 
   void populateEntryList(collection, entryList) {
-    print(collection);
+    if (kDebugMode) print(collection);
     if (collection == null) {
       return;
     }
     for (var entry in collection.keys) {
       var name = entry;
       entry = collection[entry];
-      print("TESTING");
-      print(entry);
+      if (kDebugMode) print("TESTING");
+      if (kDebugMode) print(entry);
       entryList.add(Entry(
           name: name,
           quantity: entry["quantity"],
@@ -333,34 +343,34 @@ class _DailyLogPageState extends State<DailyLogPage> {
   void initState() {
     super.initState();
     entries = [
-      widget.breakfastEntries,
-      widget.lunchEntries,
-      widget.dinnerEntries,
-      widget.snackEntries,
-      widget.exerciseEntries
+      breakfastEntries,
+      lunchEntries,
+      dinnerEntries,
+      snackEntries,
+      exerciseEntries
     ];
     if (_singleton.userdata?["daily_log"] != null) {
-      print("DOWN HERE");
+      if (kDebugMode) print("DOWN HERE");
       // Map<String, dynamic> dailyLog =
       //     _singleton.userdata?["daily_log"][widget.date];
       // print(dailyLog);
 
-      print(widget.date);
-      print(widget.date.runtimeType);
+      if (kDebugMode) print(widget.date);
+      if (kDebugMode) print(widget.date.runtimeType);
 
       populateEntryList(
           _singleton.userdata?["daily_log"][widget.date]["breakfast"],
-          widget.breakfastEntries);
+          breakfastEntries);
       populateEntryList(_singleton.userdata?["daily_log"][widget.date]["lunch"],
-          widget.breakfastEntries);
+          breakfastEntries);
       populateEntryList(
           _singleton.userdata?["daily_log"][widget.date]["dinner"],
-          widget.breakfastEntries);
+          breakfastEntries);
       populateEntryList(_singleton.userdata?["daily_log"][widget.date]["snack"],
-          widget.breakfastEntries);
+          breakfastEntries);
       populateEntryList(
           _singleton.userdata?["daily_log"][widget.date]["exercise"],
-          widget.breakfastEntries);
+          breakfastEntries);
 
       // for (var entry in _singleton.userdata?["daily_log"][widget.date]) {
       //   if (entry.key == "breakfast") {
@@ -391,18 +401,18 @@ class _DailyLogPageState extends State<DailyLogPage> {
                 icon: const Icon(Icons.arrow_left_rounded, size: 50),
                 onPressed: () {
                   widget.pageController.previousPage(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.ease);
                 },
               ),
               Text((convertTimestampToDateString(widget.date)),
-                  style:
-                      TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 25.0, fontWeight: FontWeight.bold)),
               IconButton(
                 icon: const Icon(Icons.arrow_right_rounded, size: 50),
                 onPressed: () {
                   widget.pageController.nextPage(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.ease);
                 },
               ),
@@ -411,7 +421,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   // border: Border.all(
                   //   color: Colors.red[500],
                   // ),
@@ -442,7 +452,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
           ),
           SizedBox(
             width: SizeConfig.blockSizeHorizontal! * 90,
-            child: Text(
+            child: const Text(
               "500 Calories Left",
               textAlign: TextAlign.end,
             ),
