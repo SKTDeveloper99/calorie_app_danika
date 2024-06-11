@@ -19,7 +19,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
   // late TabController _tabController;
 
   List<Entry> entries = [
-    Entry(name: "Cereal", quantity: "99 cups", calories: 1000),
+    const Entry(name: "Cereal", quantity: "99 cups", calories: 1000),
   ];
 
   // int _currentPageIndex = 0;
@@ -70,85 +70,6 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
           pageController: _pageController,
         );
       },
-      // child: SafeArea(
-      //       child: Column(
-      // mainAxisAlignment: MainAxisAlignment.start,
-      // children: [
-      //   Row(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       IconButton(
-      //         icon: const Icon(Icons.arrow_left_rounded, size: 50),
-      //         onPressed: () {},
-      //       ),
-      //       Text("MONDAY, JAN 1",
-      //           style:
-      //               TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-      //       IconButton(
-      //         icon: const Icon(Icons.arrow_right_rounded, size: 50),
-      //         onPressed: () {},
-      //       ),
-      //     ],
-      //   ),
-      //   Padding(
-      //     padding: const EdgeInsets.fromLTRB(22.0, 8.0, 22.0, 8.0),
-      //     child: Container(
-      //         decoration: BoxDecoration(
-      //             // border: Border.all(
-      //             //   color: Colors.red[500],
-      //             // ),
-      //             borderRadius: BorderRadius.all(Radius.circular(20))),
-      //         child: LinearProgressIndicator(
-      //           borderRadius: BorderRadius.circular(15.0),
-      //           color: const Color.fromARGB(255, 146, 235, 114),
-      //           backgroundColor: const Color.fromARGB(255, 159, 159, 159),
-      //           minHeight: SizeConfig.blockSizeVertical! * 5,
-      //         )),
-      //   ),
-      //   SizedBox(
-      //     width: SizeConfig.blockSizeHorizontal! * 90,
-      //     child: Text(
-      //       "500 Calories Left",
-      //       textAlign: TextAlign.end,
-      //     ),
-      //   ),
-      //   Expanded(
-      //     child: Consumer<Singleton>(
-      //       builder: (context, singleton, child) {
-      //         List<Entry> entries = [];
-      //         // if (singleton.userdata?["daily_log"] != null) {
-      //         //   for (var entry in singleton.userdata?["daily_log"]) {
-      //         //     entries.add(Entry(
-      //         //         name: entry["name"],
-      //         //         quantity: entry["quantity"],
-      //         //         calories: entry["calories"]));
-      //         //   }
-      //         // }
-
-      //         return ListView.builder(
-      //             itemCount: 5,
-      //             itemBuilder: (_, int index) {
-      //               return EntryCard(
-      //                 title: widget.entryList[index],
-      //                 subtitle: widget.subtitleList[index],
-      //                 entries: widget.entries,
-      //               );
-      //             });
-      //       },
-      //       // child: ListView.builder(
-      //       //     itemCount: 5,
-      //       //     itemBuilder: (_, int index) {
-      //       //       return EntryCard(
-      //       //         title: widget.entryList[index],
-      //       //         subtitle: widget.subtitleList[index],
-      //       //         entries: widget.entries,
-      //       //       );
-      //       //     }),
-      //     ),
-      //   )
-      // ],
-      //       ),
-      //     ),
     ));
   }
 }
@@ -248,10 +169,10 @@ class DailyLogPage extends StatefulWidget {
   final PageController pageController;
   final entryList = ["BREAKFAST", "LUNCH", "DINNER", "SNACKS", "EXERCISE"];
   final List<Widget> subtitleList = [
+    const Text("600 Calories Recommended", style: TextStyle(fontSize: 15)),
+    const Text("900 Calories Recommended", style: TextStyle(fontSize: 15)),
+    const Text("900 Calories Recommended", style: TextStyle(fontSize: 15)),
     const Text("100 Calories Recommended", style: TextStyle(fontSize: 15)),
-    const Text("200 Calories Recommended", style: TextStyle(fontSize: 15)),
-    const Text("300 Calories Recommended", style: TextStyle(fontSize: 15)),
-    const Text("400 Calories Recommended", style: TextStyle(fontSize: 15)),
     const Text("Setup Automatic Tracking", style: TextStyle(fontSize: 15)),
   ];
 
@@ -264,7 +185,10 @@ class DailyLogPage extends StatefulWidget {
 class _DailyLogPageState extends State<DailyLogPage> {
   final Singleton _singleton = Singleton();
   List<List<Entry>> entries = [];
-  double calorieBudget = 0.5;
+  double calorieLimit = 0.5;
+
+  double caloriesConsumed = 0;
+  double calorieBudget = 0;
 
   List<Entry> breakfastEntries = [];
   List<Entry> lunchEntries = [];
@@ -351,41 +275,39 @@ class _DailyLogPageState extends State<DailyLogPage> {
     ];
     if (_singleton.userdata?["daily_log"] != null) {
       if (kDebugMode) print("DOWN HERE");
-      // Map<String, dynamic> dailyLog =
-      //     _singleton.userdata?["daily_log"][widget.date];
+      Map<Object?, Object?> dailyLog =
+          _singleton.userdata?["daily_log"][widget.date];
       // print(dailyLog);
 
       if (kDebugMode) print(widget.date);
       if (kDebugMode) print(widget.date.runtimeType);
 
-      populateEntryList(
-          _singleton.userdata?["daily_log"][widget.date]["breakfast"],
-          breakfastEntries);
-      populateEntryList(_singleton.userdata?["daily_log"][widget.date]["lunch"],
-          breakfastEntries);
-      populateEntryList(
-          _singleton.userdata?["daily_log"][widget.date]["dinner"],
-          breakfastEntries);
-      populateEntryList(_singleton.userdata?["daily_log"][widget.date]["snack"],
-          breakfastEntries);
-      populateEntryList(
-          _singleton.userdata?["daily_log"][widget.date]["exercise"],
-          breakfastEntries);
+      populateEntryList(dailyLog["breakfast"], breakfastEntries);
+      populateEntryList(dailyLog["lunch"], lunchEntries);
+      populateEntryList(dailyLog["dinner"], dinnerEntries);
+      populateEntryList(dailyLog["snack"], snackEntries);
+      populateEntryList(dailyLog["exercise"], exerciseEntries);
 
-      // for (var entry in _singleton.userdata?["daily_log"][widget.date]) {
-      //   if (entry.key == "breakfast") {
-      //     populateEntryList(entry.value, widget.breakfastEntries);
-      //   } else if (entry.key == "lunch") {
-      //     populateEntryList(entry.value, widget.lunchEntries);
-      //   } else if (entry.key == "dinner") {
-      //     populateEntryList(entry.value, widget.dinnerEntries);
-      //   } else if (entry.key == "snacks") {
-      //     populateEntryList(entry.value, widget.snackEntries);
-      //   } else if (entry.key == "exercise") {
-      //     populateEntryList(entry.value, widget.exerciseEntries);
-      //   }
-      // }
+      calorieBudget = double.parse(dailyLog["calorie_budget"].toString());
+
+      // go through each entry and add the calories to the total
+      caloriesConsumed = 0;
+      for (int i = 0; i < entries.length - 1; i++) {
+        var entry = entries[i];
+        for (var food in entry) {
+          caloriesConsumed += food.calories;
+        }
+      }
+
+      // subtrack the calories from the last entry group
+      for (var exercise in entries[4]) {
+        caloriesConsumed -= exercise.calories;
+      }
+
+      print("Calories for date: $caloriesConsumed" + " out of $calorieBudget");
+      calorieLimit = caloriesConsumed / calorieBudget;
     }
+    print("ENTRIES: $entries");
   }
 
   @override
@@ -437,23 +359,33 @@ class _DailyLogPageState extends State<DailyLogPage> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     gradient: // TODO: make the colored interior rounded
-                        LinearGradient(colors: const [
-                      Color.fromARGB(255, 125, 176, 142),
-                      Color.fromARGB(255, 146, 235, 114),
-                      Colors.grey,
-                    ], stops: [
-                      calorieBudget / 2,
-                      calorieBudget,
-                      calorieBudget,
-                    ])),
+                        (calorieBudget >= caloriesConsumed)
+                            ? LinearGradient(colors: const [
+                                Color.fromARGB(255, 125, 176, 142),
+                                Color.fromARGB(255, 146, 235, 114),
+                                Colors.grey,
+                              ], stops: [
+                                calorieLimit / 2,
+                                calorieLimit,
+                                calorieLimit,
+                              ])
+                            : LinearGradient(colors: const [
+                                Color.fromARGB(255, 176, 125, 125),
+                                Color.fromARGB(255, 235, 114, 114),
+                                Colors.grey,
+                              ], stops: [
+                                calorieLimit / 2,
+                                calorieLimit,
+                                calorieLimit,
+                              ])),
                 child: SizedBox(height: SizeConfig.blockSizeVertical! * 4),
               ),
             ),
           ),
           SizedBox(
             width: SizeConfig.blockSizeHorizontal! * 90,
-            child: const Text(
-              "500 Calories Left",
+            child: Text(
+              "${(calorieBudget - caloriesConsumed).floor()} Calories Left",
               textAlign: TextAlign.end,
             ),
           ),

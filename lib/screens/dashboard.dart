@@ -1,3 +1,4 @@
+import 'package:calorie_app_danika/services/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -37,6 +38,122 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int standHours = 24;
 
   final HealthDataUtil _healthDataUtil = HealthDataUtil();
+
+  List<double> getWeeklySummary() {
+    // get the daily_log from the singleton userdata
+    Singleton singleton = Singleton();
+    // check if key 'daily_log' exists
+    if (singleton.userdata!["daily_log"] != null) {
+      List<double> result = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+      // get the daily_log
+      Map<Object?, Object?> dailyLog = singleton.userdata!["daily_log"];
+
+      // get the keys of the daily_log
+      List<String> keys = dailyLog.keys.map((key) => key.toString()).toList();
+
+      // check the current date from datetime.now()
+      DateTime now = DateTime.now();
+      //get rid of the hours, minutes, and seconds
+      DateTime currentDay = DateTime(now.year, now.month, now.day);
+      // convert to timestamp
+      int currentDayTimestamp = currentDay.millisecondsSinceEpoch;
+      // check which day of the week it is
+      int currentDayOfWeek = now.weekday;
+
+      // iterate through the timestamp keys
+      for (int i = 0; i < ((keys.length < 7) ? keys.length : 7); i++) {
+        print(keys[i]);
+
+        // check if key is within the last 7 days
+        if (int.parse(keys[i]) > currentDayTimestamp - 604800000) {
+          // get the day of the week for the key
+          DateTime day =
+              DateTime.fromMillisecondsSinceEpoch(int.parse(keys[i]));
+          int dayOfWeek = day.weekday;
+          // print("Checking day: $dayOfWeek on date $day");
+
+          if ((dayOfWeek <= currentDayOfWeek || dayOfWeek == 7) &&
+              result[dayOfWeek - 1] == 0.0) {
+            // get the daily log for that day
+            Map<Object?, Object?> dailyLogForDay =
+                dailyLog[keys[i]] as Map<Object?, Object?>;
+
+            double calorieBudget =
+                double.parse(dailyLogForDay["calorie_budget"].toString());
+            double caloriesBurned =
+                double.parse(dailyLogForDay["burned_calories"].toString());
+            double caloriesConsumed = 0.0;
+
+            // go through the meals to calculate the total calories consumed
+            for (int j = 0; j < dailyLogForDay.length; j++) {
+              // check key is not calorie_budget or calories_burned
+              if (dailyLogForDay.keys.elementAt(j) != "calorie_budget" &&
+                  dailyLogForDay.keys.elementAt(j) != "burned_calories" &&
+                  dailyLogForDay.keys.elementAt(j) != "exercise") {
+                // print(
+                //     "THING: ${dailyLogForDay[dailyLogForDay.keys.elementAt(j)]}");
+                // get the meal
+                Map<Object?, Object?> meal =
+                    dailyLogForDay[dailyLogForDay.keys.elementAt(j)]
+                        as Map<Object?, Object?>;
+                // get the keys of the meal
+                List<String> mealKeys =
+                    meal.keys.map((key) => key.toString()).toList();
+                // iterate through the meal keys
+                for (int k = 0; k < mealKeys.length; k++) {
+                  // get the food
+                  Map<Object?, Object?> food =
+                      meal[mealKeys[k]] as Map<Object?, Object?>;
+                  // get the keys of the food
+                  // List<String> foodKeys =
+                  //     food.keys.map((key) => key.toString()).toList();
+                  // print("Food keys: $foodKeys");
+
+                  double calories = double.parse(food["calories"].toString());
+                  caloriesConsumed += calories.toInt();
+                  // iterate through the food keys
+                  // for (int l = 0; l < foodKeys.length; l++) {
+                  //   print("A: ${food[foodKeys[l]]}");
+                  //   // get the food item
+                  //   Map<Object?, Object?> foodItem =
+                  //       food[foodKeys[l]] as Map<Object?, Object?>;
+                  //   // get the calories
+                  //   double calories = double.parse(foodItem["calories"].toString());
+                  //   // add to the total calories consumed
+                  //   calories_consumed += calories.toInt();
+                  // }
+                }
+              }
+            }
+
+            // print("Calories consumed: $caloriesConsumed");
+            // print(
+            //     "For day $dayOfWeek: ${((caloriesConsumed - caloriesBurned) / calorieBudget) * 100}");
+            result[dayOfWeek - 1] =
+                ((caloriesConsumed - caloriesBurned) / calorieBudget) * 100;
+
+            // calculate the percentage
+            // if (calorieBudget > caloriesConsumed) {
+            //   print(
+            //       "For day $dayOfWeek: ${((caloriesConsumed - caloriesBurned) / calorieBudget) * 100}");
+            //   result[dayOfWeek - 1] =
+            //       ((caloriesConsumed - caloriesBurned) / calorieBudget) * 100;
+            // } else {
+            //   print("For day $dayOfWeek: 100");
+            //   result[dayOfWeek - 1] = 100;
+            // }
+          }
+        }
+      }
+
+      // return the percentage for each day of the week
+      // print("RESULT: $result");
+      return result;
+    } else {
+      return [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    }
+  }
 
   @override
   void initState() {
@@ -113,6 +230,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int dayOfWeek = getCurrentDayOfWeek();
+    List<double> weeklySummary = getWeeklySummary();
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(75.0),
@@ -146,31 +265,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(width: 10),
                     DailyRing(
                       day: "S",
-                      percentage: 75,
+                      percentage: weeklySummary[6],
                     ),
                     DailyRing(
                       day: "M",
-                      percentage: 75,
+                      percentage: (dayOfWeek > 0) ? weeklySummary[0] : 0,
                     ),
                     DailyRing(
                       day: "T",
-                      percentage: 75,
+                      percentage: (dayOfWeek > 1) ? weeklySummary[1] : 0,
                     ),
                     DailyRing(
                       day: "W",
-                      percentage: 75,
+                      percentage: (dayOfWeek > 2) ? weeklySummary[2] : 0,
                     ),
                     DailyRing(
                       day: "T",
-                      percentage: 125,
+                      percentage: (dayOfWeek > 3) ? weeklySummary[3] : 0,
                     ),
                     DailyRing(
                       day: "F",
-                      percentage: 75,
+                      percentage: (dayOfWeek > 4) ? weeklySummary[4] : 0,
                     ),
                     DailyRing(
                       day: "S",
-                      percentage: 75,
+                      percentage: (dayOfWeek > 5) ? weeklySummary[5] : 0,
                     ),
                     const SizedBox(width: 10),
                   ],
@@ -291,7 +410,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       Column(
                                         children: [
                                           Text(
-                                            "${totalCalories - burnedCalories} kcal",
+                                            "${totalCalories - burnedCalories}",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -547,6 +666,8 @@ class DailyRing extends StatelessWidget {
         ChartData("asdf", 100),
       ];
     }
+
+    // print("MY PERCENTAGE IS: $percentage");
 
     return Center(
       child: Column(

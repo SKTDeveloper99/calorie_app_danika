@@ -12,6 +12,12 @@ import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 // import 'package:firebase_database/firebase_database.dart';
 
+String getDayFromTimestamp(int timestamp) {
+  // format the timestamp to a DateTime object
+  DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+  return date.toString();
+}
+
 String getToday() {
   DateTime now = DateTime.now();
 
@@ -129,3 +135,32 @@ Future<http.Response> sendImageToServer(String url, imglib.Image image) async {
 //         print('Data : ${snapshot.value}');
 //       } as FutureOr Function(DatabaseEvent value));
 // }
+
+int getCurrentDayOfWeek() {
+  DateTime now = DateTime.now();
+  // String day = now.weekday.toString();
+  // switch (day) {
+  //   case "1":
+  //     day = "MONDAY";
+  //     break;
+  //   case "2":
+  //     day = "TUESDAY";
+  //     break;
+  //   case "3":
+  //     day = "WEDNESDAY";
+  //     break;
+  //   case "4":
+  //     day = "THURSDAY";
+  //     break;
+  //   case "5":
+  //     day = "FRIDAY";
+  //     break;
+  //   case "6":
+  //     day = "SATURDAY";
+  //     break;
+  //   case "7":
+  //     day = "SUNDAY";
+  //     break;
+  // }
+  return now.weekday;
+}
