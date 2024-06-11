@@ -4,7 +4,8 @@ import 'package:calorie_app_danika/screens/dashboard.dart';
 import 'package:calorie_app_danika/screens/settings.dart';
 import 'package:calorie_app_danika/screens/daily_log.dart';
 import 'package:calorie_app_danika/screens/add_screen.dart';
-import 'package:calorie_app_danika/screens/goals.dart';
+// import 'package:calorie_app_danika/screens/goals.dart';
+import 'package:calorie_app_danika/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardScreen(),
     DailyLogScreen(subtitleList: [
@@ -38,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 15)))
     ]),
     const AddScreen(),
-    const GoalScreen(),
-    const SettingsScreen(),
+    // const GoalScreen(), // TODO: implement goals screen in an update
+    // const SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -50,9 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Create a list of widgets for the body
+    final List<Widget> _bodyOptions = <Widget>[
+      ..._widgetOptions,
+      // Add the SettingsScreen with the changeColorScheme function
+      SettingsScreen(onColorSelected: (color, isDarkMode) {
+        // Access the changeColorScheme method from the MyAppState
+        MyApp.of(context).changeColorScheme(color, isDarkMode);
+      }),
+    ];
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _bodyOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
@@ -71,11 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'add',
             backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
-          BottomNavigationBarItem(
-            icon: const FaIcon(FontAwesomeIcons.bullseye),
-            label: 'my goals',
-            backgroundColor: ThemeData.dark().colorScheme.primary,
-          ),
+          // TODO: implement goals screen in an update
+          // BottomNavigationBarItem(
+          //   icon: const FaIcon(FontAwesomeIcons.bullseye),
+          //   label: 'my goals',
+          //   backgroundColor: ThemeData.dark().colorScheme.primary,
+          // ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.settings),
             label: 'settings',

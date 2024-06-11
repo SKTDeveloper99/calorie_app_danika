@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Auth {
   final userStream = FirebaseAuth.instance.authStateChanges();
@@ -85,6 +85,24 @@ class Auth {
         if (kDebugMode) print('this email address does not exist');
       } else if (error.code == 'user-not-found') {
         if (kDebugMode) print('this email address does not exist');
+      }
+      return error.message;
+    }
+  }
+
+  // delete account
+  Future deleteAccount() async {
+    try {
+      DatabaseReference ref =
+          FirebaseDatabase.instance.ref("users/${user?.uid}");
+      await ref.remove().then((value) {
+        if (kDebugMode) print("User data removed");
+        user?.delete();
+      });
+      return null;
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'requires-recent-login') {
+        if (kDebugMode) print('this operation requires a recent login');
       }
       return error.message;
     }

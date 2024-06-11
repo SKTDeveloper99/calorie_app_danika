@@ -24,93 +24,97 @@ class _AddScreenState extends State<AddScreen> {
       length: 3,
       child: Scaffold(
           body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SearchBar(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 10,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/foodCamera");
-                        },
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.camera_alt),
-                            Text("Scan a food item"),
-                          ],
-                        )),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical! * 10,
-                    child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(CupertinoIcons.barcode),
-                            Text("Scan a barcode"),
-                          ],
-                        )),
-                  ),
-                ],
-              ),
-              const TabBar(
-                labelColor: Colors.red,
-                indicatorColor: Colors.blue,
-                tabs: [
-                  Tab(text: "All"),
-                  Tab(text: "My foods"),
-                  Tab(
-                    text: "My recipes",
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Recently Added"),
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_downward),
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // SearchBar(), // TODO: implement search bar in an update
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical! * 10,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/foodCamera");
+                          },
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.camera_alt),
+                              Text("Scan a food item"),
+                            ],
+                          )),
                     ),
-                    onChanged: (String? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
-                    items: mealOptions
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )
-                ],
-              ),
-              FoodEntry(),
-              FoodEntry(),
-              FoodEntry(),
-              TextButton(onPressed: () {}, child: Text("Show more options")),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [Text("Other")],
-              ),
-              FoodEntry()
-            ],
+                    // TODO: re-enable the barcode scanner in the next update
+                    // SizedBox(
+                    //   height: SizeConfig.blockSizeVertical! * 10,
+                    //   child: ElevatedButton(
+                    //       onPressed: () {},
+                    //       child: const Column(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Icon(CupertinoIcons.barcode),
+                    //           Text("Scan a barcode"),
+                    //         ],
+                    //       )),
+                    // ),
+                  ],
+                ),
+                // TODO: implement the tab bar and contents in an update
+                // const TabBar(
+                //   labelColor: Colors.red,
+                //   indicatorColor: Colors.blue,
+                //   tabs: [
+                //     Tab(text: "All"),
+                //     Tab(text: "My foods"),
+                //     Tab(
+                //       text: "My recipes",
+                //     ),
+                //   ],
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text("Recently Added"),
+                //     DropdownButton<String>(
+                //       value: dropdownValue,
+                //       icon: const Icon(Icons.arrow_downward),
+                //       elevation: 16,
+                //       style: const TextStyle(color: Colors.deepPurple),
+                //       underline: Container(
+                //         height: 2,
+                //         color: Colors.deepPurpleAccent,
+                //       ),
+                //       onChanged: (String? value) {
+                //         // This is called when the user selects an item.
+                //         setState(() {
+                //           dropdownValue = value!;
+                //         });
+                //       },
+                //       items: mealOptions
+                //           .map<DropdownMenuItem<String>>((String value) {
+                //         return DropdownMenuItem<String>(
+                //           value: value,
+                //           child: Text(value),
+                //         );
+                //       }).toList(),
+                //     )
+                //   ],
+                // ),
+                // FoodEntry(),
+                // FoodEntry(),
+                // FoodEntry(),
+                // TextButton(onPressed: () {}, child: Text("Show more options")),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [Text("Other")],
+                // ),
+                // FoodEntry()
+              ],
+            ),
           ),
         ),
       )),

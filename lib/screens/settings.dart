@@ -140,7 +140,9 @@ const List<String> heightInchesList = <String>[
 ];
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final Function(Color, bool) onColorSelected;
+
+  const SettingsScreen({super.key, required this.onColorSelected});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -169,53 +171,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                      width: SizeConfig.blockSizeHorizontal! * 90,
-                      height: SizeConfig.blockSizeHorizontal! * 50,
-                      child: Card(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(
-                            "assets/empty_icon 1.png",
-                            width: SizeConfig.blockSizeHorizontal! * 30,
-                          ),
-                          // (!profileEdit) ?
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(Auth().user!.email.toString().split('@')[0],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
-                              const Text("Sex: Female",
-                                  style: TextStyle(fontSize: 15)),
-                              const Text("Height: 5' 4''",
-                                  style: TextStyle(fontSize: 15)),
-                              const Text("Age: 16",
-                                  style: TextStyle(fontSize: 15)),
-                              ElevatedButton(
-                                // TODO: get rid of the elevation shadow, what you see here rn does not work :(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const ProfilePopup();
-                                      });
-                                },
-                                style: ElevatedButton.styleFrom(elevation: 0.0),
-                                child: const Text("Edit Profile"),
-                              )
-                            ],
-                          )
-                          // : Column(
-                          //     mainAxisAlignment: MainAxisAlignment.center,
-                          //     crossAxisAlignment: CrossAxisAlignment.center,
-                          //     children: [EditProfileForm()],
-                          //   )
-                        ],
-                      ))),
+                  // TODO: implement profile edit in the next update
+                  // SizedBox(
+                  //     width: SizeConfig.blockSizeHorizontal! * 90,
+                  //     height: SizeConfig.blockSizeHorizontal! * 50,
+                  //     child: Card(
+                  //         child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //       children: [
+                  //         Image.asset(
+                  //           "assets/empty_icon 1.png",
+                  //           width: SizeConfig.blockSizeHorizontal! * 30,
+                  //         ),
+                  //         // (!profileEdit) ?
+                  //         Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             Text(Auth().user!.email.toString().split('@')[0],
+                  //                 style: const TextStyle(
+                  //                     fontWeight: FontWeight.bold,
+                  //                     fontSize: 20)),
+                  //             const Text("Sex: Female",
+                  //                 style: TextStyle(fontSize: 15)),
+                  //             const Text("Height: 5' 4''",
+                  //                 style: TextStyle(fontSize: 15)),
+                  //             const Text("Age: 16",
+                  //                 style: TextStyle(fontSize: 15)),
+                  //             ElevatedButton(
+                  //               // TODO: get rid of the elevation shadow, what you see here rn does not work :(
+                  //               onPressed: () {
+                  //                 showDialog(
+                  //                     context: context,
+                  //                     builder: (BuildContext context) {
+                  //                       return const ProfilePopup();
+                  //                     });
+                  //               },
+                  //               style: ElevatedButton.styleFrom(elevation: 0.0),
+                  //               child: const Text("Edit Profile"),
+                  //             )
+                  //           ],
+                  //         )
+                  //       ],
+                  //     ))),
                   SizedBox(height: SizeConfig.blockSizeVertical! * 2),
                   SizedBox(
                       width: SizeConfig.blockSizeHorizontal! * 90,
@@ -244,7 +242,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(Colors.red, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -262,7 +262,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.blue, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -280,7 +283,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.green, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -298,7 +304,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.purple, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -316,7 +325,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.orange, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -334,7 +346,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.pink, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -359,7 +374,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.grey, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -377,7 +395,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.black, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -395,7 +416,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.white, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -413,7 +437,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.yellow, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -431,7 +458,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.teal, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -449,7 +479,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   height: SizeConfig.blockSizeHorizontal! *
                                       colorButtonSize,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      widget.onColorSelected(
+                                          Colors.brown, false);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
                                       // padding: EdgeInsets.all(20),
@@ -463,20 +496,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                               ],
                             ),
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
-                              child: Text("Appearance",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0)),
-                            ),
-                            Switch(
-                              // This bool value toggles the switch.
-                              value: false,
-                              activeColor: Colors.green,
-                              onChanged: (bool value) {},
-                            )
+                            // TODO: implement the dark mode toggle in the next update
+                            // const Padding(
+                            //   padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
+                            //   child: Text("Appearance",
+                            //       textAlign: TextAlign.left,
+                            //       style: TextStyle(
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 18.0)),
+                            // ),
+                            // Switch(
+                            //   // This bool value toggles the switch.
+                            //   value: false,
+                            //   activeColor: Colors.green,
+                            //   onChanged: (bool value) {},
+                            // )
                           ],
                         ),
                       ))),
@@ -496,7 +530,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                           child: const Text("LOG OUT"))),
                   TextButton(
-                      onPressed: () {}, child: const Text("Delete Account"))
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const DeleteAccountPopup();
+                            });
+                      },
+                      child: const Text("Delete Account"))
                 ],
               ),
             ),
@@ -625,6 +666,33 @@ class ProfilePopup extends StatelessWidget {
               child: const Text("Save"))
         ],
       ),
+    );
+  }
+}
+
+class DeleteAccountPopup extends StatelessWidget {
+  const DeleteAccountPopup({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Delete Account"),
+      content: const Text("Are you sure you want to delete your account?"),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Cancel")),
+        ElevatedButton(
+            onPressed: () {
+              Auth().deleteAccount().then((value) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/", (route) => false);
+              });
+            },
+            child: const Text("Delete"))
+      ],
     );
   }
 }

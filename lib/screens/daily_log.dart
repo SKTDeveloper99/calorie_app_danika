@@ -122,7 +122,9 @@ class _EntryCardState extends State<EntryCard> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/addScreen");
+                        },
                         child: Text(
                             "ADD${(widget.title != 'EXERCISE') ? ' ${widget.title}' : " WORKOUT"}")),
                   ],

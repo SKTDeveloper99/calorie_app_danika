@@ -237,16 +237,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
           preferredSize: const Size.fromHeight(75.0),
           child: AppBar(
             backgroundColor: ThemeData.dark().colorScheme.primary,
-            leading: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-              child: InkWell(
-                onTap: () {},
-                child: Image.asset(
-                  "assets/empty_icon 1.png",
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            // TODO: reenable in an update
+            // leading: Padding(
+            //   padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+            //   child: InkWell(
+            //     onTap: () {},
+            //     child: Image.asset(
+            //       "assets/empty_icon 1.png",
+            //       fit: BoxFit.contain,
+            //     ),
+            //   ),
+            // ),
             title: const Text("Dashboard"),
             centerTitle: true,
           ),
