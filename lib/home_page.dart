@@ -4,7 +4,7 @@ import 'package:calorie_app_danika/screens/dashboard.dart';
 import 'package:calorie_app_danika/screens/settings.dart';
 import 'package:calorie_app_danika/screens/daily_log.dart';
 import 'package:calorie_app_danika/screens/add_screen.dart';
-// import 'package:calorie_app_danika/screens/goals.dart';
+import 'package:calorie_app_danika/screens/goals.dart';
 import 'package:calorie_app_danika/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 15)))
     ]),
     const AddScreen(),
-    // const GoalScreen(), // TODO: implement goals screen in an update
+    const GoalScreen(), // TODO: implement goals screen in an update
     // const SettingsScreen(),
   ];
 
@@ -80,11 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: ThemeData.dark().colorScheme.primary,
           ),
           // TODO: implement goals screen in an update
-          // BottomNavigationBarItem(
-          //   icon: const FaIcon(FontAwesomeIcons.bullseye),
-          //   label: 'my goals',
-          //   backgroundColor: ThemeData.dark().colorScheme.primary,
-          // ),
+          BottomNavigationBarItem(
+            icon: const FaIcon(FontAwesomeIcons.bullseye),
+            label: 'my goals',
+            backgroundColor: ThemeData.dark().colorScheme.primary,
+          ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.settings),
             label: 'settings',

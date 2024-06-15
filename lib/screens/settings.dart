@@ -172,48 +172,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // TODO: implement profile edit in the next update
-                  // SizedBox(
-                  //     width: SizeConfig.blockSizeHorizontal! * 90,
-                  //     height: SizeConfig.blockSizeHorizontal! * 50,
-                  //     child: Card(
-                  //         child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //       children: [
-                  //         Image.asset(
-                  //           "assets/empty_icon 1.png",
-                  //           width: SizeConfig.blockSizeHorizontal! * 30,
-                  //         ),
-                  //         // (!profileEdit) ?
-                  //         Column(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: [
-                  //             Text(Auth().user!.email.toString().split('@')[0],
-                  //                 style: const TextStyle(
-                  //                     fontWeight: FontWeight.bold,
-                  //                     fontSize: 20)),
-                  //             const Text("Sex: Female",
-                  //                 style: TextStyle(fontSize: 15)),
-                  //             const Text("Height: 5' 4''",
-                  //                 style: TextStyle(fontSize: 15)),
-                  //             const Text("Age: 16",
-                  //                 style: TextStyle(fontSize: 15)),
-                  //             ElevatedButton(
-                  //               // TODO: get rid of the elevation shadow, what you see here rn does not work :(
-                  //               onPressed: () {
-                  //                 showDialog(
-                  //                     context: context,
-                  //                     builder: (BuildContext context) {
-                  //                       return const ProfilePopup();
-                  //                     });
-                  //               },
-                  //               style: ElevatedButton.styleFrom(elevation: 0.0),
-                  //               child: const Text("Edit Profile"),
-                  //             )
-                  //           ],
-                  //         )
-                  //       ],
-                  //     ))),
+                  SizedBox(
+                      width: SizeConfig.blockSizeHorizontal! * 90,
+                      height: SizeConfig.blockSizeHorizontal! * 50,
+                      child: Card(
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image.asset(
+                            "assets/empty_icon 1.png",
+                            width: SizeConfig.blockSizeHorizontal! * 30,
+                          ),
+                          // (!profileEdit) ?
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(Auth().user!.email.toString().split('@')[0],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              const Text("Sex: Female",
+                                  style: TextStyle(fontSize: 15)),
+                              const Text("Height: 5' 4''",
+                                  style: TextStyle(fontSize: 15)),
+                              const Text("Age: 16",
+                                  style: TextStyle(fontSize: 15)),
+                              ElevatedButton(
+                                // TODO: get rid of the elevation shadow, what you see here rn does not work :(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const ProfilePopup();
+                                      });
+                                },
+                                style: ElevatedButton.styleFrom(elevation: 0.0),
+                                child: const Text("Edit Profile"),
+                              )
+                            ],
+                          )
+                        ],
+                      ))),
                   SizedBox(height: SizeConfig.blockSizeVertical! * 2),
                   SizedBox(
                       width: SizeConfig.blockSizeHorizontal! * 90,
@@ -497,20 +497,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                             // TODO: implement the dark mode toggle in the next update
-                            // const Padding(
-                            //   padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
-                            //   child: Text("Appearance",
-                            //       textAlign: TextAlign.left,
-                            //       style: TextStyle(
-                            //           fontWeight: FontWeight.bold,
-                            //           fontSize: 18.0)),
-                            // ),
-                            // Switch(
-                            //   // This bool value toggles the switch.
-                            //   value: false,
-                            //   activeColor: Colors.green,
-                            //   onChanged: (bool value) {},
-                            // )
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
+                              child: Text("Appearance",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0)),
+                            ),
+                            Switch(
+                              // This bool value toggles the switch.
+                              value: false,
+                              activeColor: Colors.green,
+                              onChanged: (bool value) {},
+                            )
                           ],
                         ),
                       ))),
