@@ -218,7 +218,8 @@ class PhotoPreview extends StatelessWidget {
                               .then((value) {
                             if (value != null) {
                               if (kDebugMode)
-                                print("Sending image to server...");
+                                print(
+                                    "Sending image to server at ${_singleton.serverURL}");
                               sendImageToServer(
                                       // "http://192.168.0.125:8000/process_image",
                                       _singleton.serverURL,

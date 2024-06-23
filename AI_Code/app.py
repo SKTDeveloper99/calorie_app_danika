@@ -72,12 +72,15 @@ def process_image():
             identifiedObject = classNames[int(boxes[0].cls[0])]
 
         # DEBUG: Save image to disk
-        cv2.imwrite('test.jpg', image)
+        # cv2.imwrite('test.jpg', image)
+
+        print('Identified object:', identifiedObject)
 
         return jsonify({'identified': identifiedObject}), 200
     except Exception as e:
         print(e)
-    return 'Image processed!'
+        return jsonify({'message': 'Error processing image'}), 500
+    # return 'Image processed!'
 
 @app.route('/get_privacy_policy', methods=['GET'])
 def get_privacy_policy():
