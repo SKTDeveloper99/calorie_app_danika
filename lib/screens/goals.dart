@@ -310,7 +310,9 @@ class _GoalScreenState extends State<GoalScreen> {
                       shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   )),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/pictureCapture");
+                  },
                   child: const Text(
                     "ADD PROGRESS PICTURES",
                     style: TextStyle(

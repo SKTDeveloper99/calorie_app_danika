@@ -138,6 +138,7 @@ class _AddScreenState extends State<AddScreen> {
                       : SizeConfig.blockSizeVertical! * 10 * foodEntries.length,
                   child: ListView.builder(
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: (!showMore && foodEntries.length >= 3)
                           ? 3
                           : foodEntries.length,

@@ -6,6 +6,8 @@ import 'package:calorie_app_danika/initializer.dart';
 import 'package:calorie_app_danika/screens/setup.dart';
 import 'package:calorie_app_danika/screens/add_screen_captures/food_camera.dart';
 import 'package:calorie_app_danika/screens/add_screen.dart';
+import 'package:calorie_app_danika/screens/progress_screens/gallery.dart';
+import 'package:calorie_app_danika/screens/progress_screens/picture_capture.dart';
 // import 'package:calorie_app_danika/screens/add_screen_captures/results.dart';
 // import 'main.dart';
 
@@ -19,5 +21,7 @@ var screenRoutes = {
   "/homeScreen": (context) => HomeScreen(),
   "/foodCamera": (context) => FoodCamera(),
   "/addScreen": (context) => const AddScreen(),
+  "/galleryScreen": (context) => const GalleryScreen(),
+  "/pictureCapture": (context) => const PictureCaptureScreen(),
   // "/resultsScreen": (context) => ResultScreen(identifiedObject: '',),
 };
