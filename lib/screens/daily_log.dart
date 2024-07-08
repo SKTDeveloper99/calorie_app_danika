@@ -38,6 +38,9 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
       pageData = _singleton.userdata?["daily_log"];
       pageList = pageData.keys.toList();
 
+      // sort the list
+      pageList.sort((a, b) => int.parse(b).compareTo(int.parse(a)));
+
       // Reverse the list so that the most recent date is first
       pageList = pageList.reversed.toList();
 

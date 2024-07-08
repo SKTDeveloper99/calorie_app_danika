@@ -71,18 +71,18 @@ class _AddScreenState extends State<AddScreen> {
                           )),
                     ),
                     // TODO: re-enable the barcode scanner in the next update
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical! * 10,
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(CupertinoIcons.barcode),
-                              Text("Scan a barcode"),
-                            ],
-                          )),
-                    ),
+                    // SizedBox(
+                    //   height: SizeConfig.blockSizeVertical! * 10,
+                    //   child: ElevatedButton(
+                    //       onPressed: () {},
+                    //       child: const Column(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Icon(CupertinoIcons.barcode),
+                    //           Text("Scan a barcode"),
+                    //         ],
+                    //       )),
+                    // ),
                   ],
                 ),
                 // TODO: implement the tab bar and contents in an update
@@ -153,7 +153,7 @@ class _AddScreenState extends State<AddScreen> {
                       });
                     },
                     child: Text(
-                        "Show more options")), // show more cards if applicable
+                        "Show ${(showMore) ? "less" : "more"} options")), // show more cards if applicable
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [Text("Other")],

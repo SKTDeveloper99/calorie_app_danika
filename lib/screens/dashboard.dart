@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:calorie_app_danika/utils/utils.dart';
 import 'package:calorie_app_danika/services/health.dart';
 import '../size_config.dart';
+import 'dart:io' show Platform;
 import 'dart:ui' as ui;
 
 class DashboardScreen extends StatefulWidget {
@@ -617,22 +618,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 fontSize: 18.0))
                                       ],
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text("Stand",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                // color: Colors.white,
-                                                fontSize: 18.0)),
-                                        Text("$standHours hrs",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                // color: Colors.white,
-                                                fontSize: 18.0))
-                                      ],
-                                    )
+                                    (Platform.isIOS)
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Text("Stand",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      // color: Colors.white,
+                                                      fontSize: 18.0)),
+                                              Text("$standHours hrs",
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      // color: Colors.white,
+                                                      fontSize: 18.0))
+                                            ],
+                                          )
+                                        : Container()
                                   ]))))
                 ])
               ],

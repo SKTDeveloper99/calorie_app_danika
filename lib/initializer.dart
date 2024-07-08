@@ -7,6 +7,7 @@ import 'package:calorie_app_danika/authentication/login.dart';
 import 'package:calorie_app_danika/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:calorie_app_danika/services/singleton.dart';
+import 'package:calorie_app_danika/services/database.dart';
 import 'size_config.dart';
 
 class Initializer extends StatelessWidget {
@@ -48,6 +49,19 @@ class Initializer extends StatelessWidget {
             );
             // print current timestamp
             // print(DateTime.now().millisecondsSinceEpoch);
+
+            // Check if the current day is within the list, else add it
+            DateTime now = DateTime.now();
+
+            // Strip the time from the date
+            now = DateTime(now.year, now.month, now.day);
+
+            String today = now.millisecondsSinceEpoch.toString();
+
+            if (_singleton.userdata?["daily_log"] != null &&
+                _singleton.userdata!["daily_log"][today] == null) {
+              Database().createNewDayLog(today);
+            }
 
             return StreamBuilder(
                 stream: FirebaseDatabase.instance.ref("ai_server_url").onValue,
