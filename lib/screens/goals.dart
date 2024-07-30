@@ -76,6 +76,8 @@ class _GoalScreenState extends State<GoalScreen> {
     double weightProgress =
         (currentWeight - targetWeight) / (originalWeight - targetWeight);
 
+    targetWeight = _singleton.userdata?['account_info']['weight_target'] * 1.0;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(75.0),
@@ -229,20 +231,20 @@ class _GoalScreenState extends State<GoalScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const Column(
+                            Column(
                               children: [
-                                Text("Current"),
-                                Text("158 lbs",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold))
+                                const Text("Current"),
+                                Text("$currentWeight lbs",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold))
                               ],
                             ),
-                            const Column(
+                            Column(
                               children: [
-                                Text("Left"),
-                                Text("43 lbs",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold))
+                                const Text("Left"),
+                                Text("${currentWeight - targetWeight} lbs",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold))
                               ],
                             ),
                             Column(

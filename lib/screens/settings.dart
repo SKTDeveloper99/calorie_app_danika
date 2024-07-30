@@ -1,7 +1,14 @@
+import 'dart:io';
+
+import 'package:calorie_app_danika/services/singleton.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../size_config.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import "package:calorie_app_danika/authentication/auth.dart";
 import 'package:calorie_app_danika/authentication/new_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 const List<String> dropdownList = <String>['', 'Male', 'Female'];
 
@@ -150,8 +157,10 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool profileEdit = false;
+  Singleton singleton = Singleton();
   @override
   Widget build(BuildContext context) {
+    // print(singleton.userdata);
     int colorButtonSize = 9;
     return Scaffold(
         appBar: PreferredSize(
@@ -179,24 +188,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Image.asset(
-                            "assets/empty_icon 1.png",
-                            width: SizeConfig.blockSizeHorizontal! * 30,
-                          ),
+                          (singleton.userdata?["account_info"]
+                                      ["profileImageUrl"] ==
+                                  null)
+                              ? Image.asset(
+                                  "assets/empty_icon 1.png",
+                                  width: SizeConfig.blockSizeHorizontal! * 30,
+                                )
+                              : ClipOval(
+                                  child: Image.network(
+                                    singleton.userdata?["account_info"]
+                                        ["profileImageUrl"],
+                                    width: SizeConfig.blockSizeHorizontal! * 30,
+                                    height:
+                                        SizeConfig.blockSizeHorizontal! * 30,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                           // (!profileEdit) ?
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(Auth().user!.email.toString().split('@')[0],
+                              // Text(Auth().user!.email.toString().split('@')[0],
+                              //     style: const TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         fontSize: 20)),
+                              Text("${Auth().user?.displayName}",
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
-                              const Text("Sex: Female",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                  "Sex: ${singleton.userdata?["account_info"]["gender"]}",
                                   style: TextStyle(fontSize: 15)),
-                              const Text("Height: 5' 4''",
+                              Text(
+                                  "Height: ${singleton.userdata?["account_info"]["height"]}",
                                   style: TextStyle(fontSize: 15)),
-                              const Text("Age: 16",
+                              Text(
+                                  "Age: ${singleton.userdata?["account_info"]["age"]}",
                                   style: TextStyle(fontSize: 15)),
                               ElevatedButton(
                                 // TODO: get rid of the elevation shadow, what you see here rn does not work :(
@@ -582,6 +611,63 @@ class _EditProfileFormState extends State<EditProfileForm> {
   String username = "";
   String sex = "";
   int age = 1;
+  String heightFeet = "";
+  String heightInches = "";
+  File? _image;
+
+  Future<void> getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+    }
+  }
+
+  Future<void> _saveProfile() async {
+    try {
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final FirebaseDatabase _database = FirebaseDatabase.instance;
+      final FirebaseStorage _storage = FirebaseStorage.instance;
+      final User? user = _auth.currentUser;
+      if (user != null) {
+        String uid = user.uid;
+        String? imageUrl;
+
+        if (_image != null) {
+          // Upload image to Firebase Storage
+          final ref =
+              _storage.ref().child('Users').child(uid).child('profile.jpg');
+          await ref.putFile(_image!);
+          imageUrl = await ref.getDownloadURL();
+        }
+
+        // Update display name
+        await user.updateDisplayName(username);
+
+        // Write additional data to Firebase Realtime Database
+        await _database.ref('users/$uid/account_info').update({
+          // 'username': username,
+          'gender': sex,
+          'height': "$heightFeet' $heightInches\"",
+          'profileImageUrl': imageUrl
+        });
+
+        // Update local state to reflect changes
+        setState(() {});
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated successfully')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error updating profile: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -595,7 +681,15 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 width: SizeConfig.blockSizeHorizontal! * 35,
                 height: SizeConfig.blockSizeHorizontal! * 35,
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Icon(Icons.camera_alt))),
+                    style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+                    onPressed: getImage,
+                    child: (_image == null)
+                        ? const Icon(Icons.camera_alt)
+                        : ClipOval(
+                            child: Image.file(_image!,
+                                width: SizeConfig.blockSizeHorizontal! * 35,
+                                fit: BoxFit.cover),
+                          ))),
             TextFormField(
                 initialValue: username,
                 decoration: InputDecoration(
@@ -629,13 +723,44 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 )
               ],
             ),
-            const Row(
+            Row(
               // https://api.flutter.dev/flutter/cupertino/CupertinoPicker-class.html
-              children: [Text("Height:")],
+              children: [
+                const Text("Height:"),
+                DropdownButton(
+                    // isExpanded: true,
+                    items: heightFeetList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        heightFeet = value.toString();
+                      });
+                    }),
+                DropdownButton(
+                    // isExpanded: true,
+                    items: heightInchesList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        heightInches = value.toString();
+                      });
+                    }),
+              ],
             ),
-            // Row(
-            //   children: [Text("Age:"), TextFormField()],
-            // ),
+            ElevatedButton(
+              onPressed: _saveProfile,
+              child: const Text("Save"),
+            ),
           ]),
     );
   }
@@ -659,11 +784,11 @@ class ProfilePopup extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: const Text("Cancel")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Save"))
+          // ElevatedButton(
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //     child: const Text("Save"))
         ],
       ),
     );

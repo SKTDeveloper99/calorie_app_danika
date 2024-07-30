@@ -1,3 +1,4 @@
+import 'package:calorie_app_danika/services/singleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:calorie_app_danika/screens/progress_screens/enlarge.dart';
@@ -17,8 +18,25 @@ class _GalleryScreenState extends State<GalleryScreen> {
     "https://www.shutterstock.com/shutterstock/photos/1727544364/display_1500/stock-photo-red-apple-isolated-on-white-background-clipping-path-full-depth-of-field-1727544364.jpg"
   ];
 
+  Singleton singleton = Singleton();
+
+  void populateGallery() {
+    if (singleton.userdata?["account_info"]["progressPictures"] != null) {
+      final galleryEntries =
+          singleton.userdata?["account_info"]["progressPictures"];
+
+      images.clear();
+
+      for (var entry in galleryEntries) {
+        // get the url value in entry
+        images.add(entry["url"]);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    populateGallery();
     return Scaffold(
         appBar: AppBar(),
         // body: const Placeholder(),

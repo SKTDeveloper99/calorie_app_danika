@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:calorie_app_danika/services/singleton.dart';
 import 'package:calorie_app_danika/size_config.dart';
 import 'package:calorie_app_danika/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -31,7 +34,7 @@ class PictureCaptureScreen extends StatefulWidget {
 class _PictureCaptureScreenState extends State<PictureCaptureScreen>
     with WidgetsBindingObserver {
   CameraController? controller;
-  XFile? imageFile;
+  File? imageFile;
   double scale = 1.0;
 
   Future<void> initCamera() async {
@@ -89,21 +92,7 @@ class _PictureCaptureScreenState extends State<PictureCaptureScreen>
         ),
         body: Stack(
           children: [
-            // _cameraPreviewWidget(),
-            // Positioned(
-            //   top: SizeConfig.blockSizeVertical! * 5,
-            //   left: SizeConfig.blockSizeHorizontal! * 5,
-            //   child: IconButton(
-            //     icon: Icon(
-            //       Icons.arrow_back,
-            //       color: Colors.white,
-            //       size: SizeConfig.blockSizeHorizontal! * 10,
-            //     ),
-            //     onPressed: () {
-            //       Navigator.pop(context);
-            //     },
-            //   ),
-            // ),
+            _cameraPreviewWidget(),
             SizedBox(
               width: SizeConfig.blockSizeHorizontal! * 100,
               child: Column(
@@ -118,7 +107,7 @@ class _PictureCaptureScreenState extends State<PictureCaptureScreen>
                       controller!.takePicture().then((XFile file) {
                         if (mounted) {
                           setState(() {
-                            imageFile = file;
+                            imageFile = File(file.path);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -173,7 +162,7 @@ class _PictureCaptureScreenState extends State<PictureCaptureScreen>
 }
 
 class PhotoPreview extends StatelessWidget {
-  final XFile imageFile;
+  final File imageFile;
   final Size mediaSize;
   final double scale;
   PhotoPreview(
@@ -183,9 +172,13 @@ class PhotoPreview extends StatelessWidget {
       required this.scale});
 
   final Singleton _singleton = Singleton();
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
 
   @override
   Widget build(BuildContext context) {
+    User? user = _auth.currentUser;
     return Stack(
       children: [
         ClipRect(
@@ -217,32 +210,43 @@ class PhotoPreview extends StatelessWidget {
                     height: SizeConfig.blockSizeHorizontal! * 18,
                     child: ElevatedButton(
                         onPressed: () async {
-                          // turn XFile into CameraImage
+                          String uid = user!.uid;
+                          String date = DateTime.now().toString();
+                          final ref = _storage
+                              .ref()
+                              .child('Users')
+                              .child(uid)
+                              .child('progress$date.jpg');
+                          await ref.putFile(imageFile);
+                          String imageUrl = await ref.getDownloadURL();
 
-                          await convertXFileToImageColor(imageFile)
-                              .then((value) {
-                            if (value != null) {
-                              if (kDebugMode)
-                                print(
-                                    "Sending image to server at ${_singleton.serverURL}");
-                              sendImageToServer(
-                                      // "http://192.168.0.125:8000/process_image",
-                                      _singleton.serverURL,
-                                      value)
-                                  .then((value) {
-                                if (kDebugMode)
-                                  print("Response: ${value.body}");
-                                // Map valueMap = json.decode(value.body);
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => ResultScreen(
-                                //               identifiedObject:
-                                //                   valueMap["identified"],
-                                //             )));
-                              });
-                            }
-                          });
+                          // Add to URL in RTDB at users/uid/account_info/progressPictures array
+                          final event = await _database
+                              .ref('users/$uid/account_info')
+                              .once();
+                          Map<Object?, Object?> accountInfo =
+                              event.snapshot.value as Map<Object?, Object?>;
+
+                          if (accountInfo['progressPictures'] == null) {
+                            accountInfo['progressPictures'] =
+                                <Map<String, dynamic>>[];
+                          }
+
+                          List<dynamic> progressPictures = List<dynamic>.from(
+                              accountInfo['progressPictures'] as List<dynamic>);
+
+                          progressPictures.add({'date': date, 'url': imageUrl});
+                          accountInfo['progressPictures'] = progressPictures;
+
+                          await _database
+                              .ref('users/$uid/account_info')
+                              .set(accountInfo)
+                              .then(
+                            (value) {
+                              // print('Uploaded to RTDB');
+                              Navigator.pop(context);
+                            },
+                          );
                         },
                         child: const Icon(Icons.check)))
               ],
