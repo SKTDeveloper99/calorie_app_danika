@@ -1,6 +1,5 @@
 import 'package:calorie_app_danika/authentication/auth.dart';
 import 'package:calorie_app_danika/home_page.dart';
-// import 'package:calorie_app_danika/profile_page.dart';
 import 'package:calorie_app_danika/screens/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,52 +20,35 @@ void main() async {
   );
   auth = FirebaseAuth.instanceFor(app: app);
   runApp(ChangeNotifierProvider(
-      create: (context) => Singleton(), child: const MyApp()));
+    create: (context) => Singleton(),
+    child: const MyApp(),
+  ));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-
-  // Define a method to access the state from the `MaterialApp`.
-  // ignore: library_private_types_in_public_api
-  static _MyAppState of(BuildContext context) {
-    return context.findAncestorStateOfType<_MyAppState>()!;
-  }
-}
-
-class _MyAppState extends State<MyApp> {
-  // Define a state variable for the color scheme.
-  ColorScheme colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.grey, brightness: Brightness.light);
-
-  // Define a method to change the color scheme.
-  void changeColorScheme(Color color, bool isDarkMode) {
-    setState(() {
-      colorScheme = ColorScheme.fromSeed(
-          seedColor: color,
-          brightness: (!isDarkMode) ? Brightness.light : Brightness.dark);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ProperPlates',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: colorScheme),
-      routes: screenRoutes,
-      // Pass the changeColorScheme method to the settings screen.
-      onGenerateRoute: (settings) {
-        if (settings.name == '/settings') {
-          return MaterialPageRoute(
-            builder: (context) =>
-                SettingsScreen(onColorSelected: changeColorScheme),
-          );
-        }
-        // Handle other routes...
+    return Consumer<Singleton>(
+      builder: (context, singleton, child) {
+        return MaterialApp(
+          title: 'ProperPlates',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(colorScheme: singleton.colorScheme),
+          routes: screenRoutes,
+          onGenerateRoute: (settings) {
+            if (settings.name == '/settings') {
+              return MaterialPageRoute(
+                builder: (context) => SettingsScreen(
+                  onColorSchemeSelected: singleton.setTheme,
+                ),
+              );
+            }
+            return null;
+            // Handle other routes...
+          },
+        );
       },
     );
   }

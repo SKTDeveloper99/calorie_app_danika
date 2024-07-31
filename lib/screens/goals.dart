@@ -82,7 +82,7 @@ class _GoalScreenState extends State<GoalScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(75.0),
         child: AppBar(
-          backgroundColor: ThemeData.dark().colorScheme.primary,
+          backgroundColor: _singleton.alternateColorScheme.primary,
           title: const Text("My Summary"),
           centerTitle: true,
         ),

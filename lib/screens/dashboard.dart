@@ -233,11 +233,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     int dayOfWeek = getCurrentDayOfWeek();
     List<double> weeklySummary = getWeeklySummary();
+    Singleton singleton = Singleton();
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(75.0),
           child: AppBar(
-            backgroundColor: ThemeData.dark().colorScheme.primary,
+            backgroundColor: singleton.alternateColorScheme.primary,
             // TODO: reenable in an update
             // leading: Padding(
             //   padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),

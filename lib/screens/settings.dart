@@ -9,6 +9,7 @@ import 'package:firebase_database/firebase_database.dart';
 import "package:calorie_app_danika/authentication/auth.dart";
 import 'package:calorie_app_danika/authentication/new_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:calorie_app_danika/shared/themes.dart'; // Import the themes
 
 const List<String> dropdownList = <String>['', 'Male', 'Female'];
 
@@ -147,9 +148,9 @@ const List<String> heightInchesList = <String>[
 ];
 
 class SettingsScreen extends StatefulWidget {
-  final Function(Color, bool) onColorSelected;
+  final Function(ColorScheme, bool) onColorSchemeSelected;
 
-  const SettingsScreen({super.key, required this.onColorSelected});
+  const SettingsScreen({super.key, required this.onColorSchemeSelected});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -166,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(75.0),
           child: AppBar(
-              backgroundColor: ThemeData.dark().colorScheme.primary,
+              backgroundColor: singleton.alternateColorScheme.primary,
               centerTitle: true,
               title: const Text("My Profile",
                   style: TextStyle(color: Colors.black))),
@@ -256,140 +257,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 3.0),
-                              child: Text("Color Theme",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0)),
+                              child: Text(
+                                "Color Theme",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(Colors.red, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFFB23A48), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.blue, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFFE39348), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.green, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFFF5CB5C), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.purple, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFF90A955), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.orange, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFF48CAE4), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.pink, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFF00509D), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkRedColorScheme
+                                        : lightRedColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkOrangeColorScheme
+                                        : lightOrangeColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkYellowColorScheme
+                                        : lightYellowColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkGreenColorScheme
+                                        : lightGreenColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkLightBlueColorScheme
+                                        : lightLightBlueColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkBlueColorScheme
+                                        : lightBlueColorScheme),
                               ],
                             ),
                             SizedBox(
@@ -397,149 +305,165 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.grey, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFFCBC0D3), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.black, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFF5E548E), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.white, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFFFFB1B1), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.yellow, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFF984066), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.teal, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFFD0B8AC), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  height: SizeConfig.blockSizeHorizontal! *
-                                      colorButtonSize,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      widget.onColorSelected(
-                                          Colors.brown, false);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      // padding: EdgeInsets.all(20),
-                                      backgroundColor: const Color(
-                                          0xFF6D6875), // <-- Button color
-                                      foregroundColor:
-                                          Colors.white, // <-- Splash color
-                                    ),
-                                    child: Container(),
-                                  ),
-                                ),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkLightPurpleColorScheme
+                                        : lightLightPurpleColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkPurpleColorScheme
+                                        : lightPurpleColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkLightPinkColorScheme
+                                        : lightLightPinkColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkPinkColorScheme
+                                        : lightPinkColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkBrownColorScheme
+                                        : lightBrownColorScheme),
+                                _colorButton(
+                                    context,
+                                    (singleton.isDarkMode)
+                                        ? darkGreyColorScheme
+                                        : lightGreyColorScheme),
                               ],
                             ),
-                            // TODO: implement the dark mode toggle in the next update
                             const Padding(
                               padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 2.0),
-                              child: Text("Appearance",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0)),
+                              child: Text(
+                                "Appearance",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0),
+                              ),
                             ),
                             Switch(
-                              // This bool value toggles the switch.
-                              value: false,
+                              value: singleton.isDarkMode,
                               activeColor: Colors.green,
-                              onChanged: (bool value) {},
-                            )
+                              onChanged: (bool value) {
+                                singleton.isDarkMode = value;
+
+                                print(singleton.isDarkMode);
+
+                                ColorScheme newScheme = singleton.colorScheme;
+
+                                switch (singleton.colorScheme) {
+                                  case lightRedColorScheme:
+                                    newScheme = (value)
+                                        ? darkRedColorScheme
+                                        : lightRedColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightRedColorScheme
+                                        : darkRedColorScheme;
+                                    break;
+                                  case lightOrangeColorScheme:
+                                    newScheme = (value)
+                                        ? darkOrangeColorScheme
+                                        : lightOrangeColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightOrangeColorScheme
+                                        : darkOrangeColorScheme;
+                                    break;
+                                  case lightYellowColorScheme:
+                                    newScheme = (value)
+                                        ? darkYellowColorScheme
+                                        : lightYellowColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightYellowColorScheme
+                                        : darkYellowColorScheme;
+                                    break;
+                                  case lightGreenColorScheme:
+                                    newScheme = (value)
+                                        ? darkGreenColorScheme
+                                        : lightGreenColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightGreenColorScheme
+                                        : darkGreenColorScheme;
+                                    break;
+                                  case lightLightBlueColorScheme:
+                                    newScheme = (value)
+                                        ? darkLightBlueColorScheme
+                                        : lightLightBlueColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightLightBlueColorScheme
+                                        : darkLightBlueColorScheme;
+                                    break;
+                                  case lightBlueColorScheme:
+                                    newScheme = (value)
+                                        ? darkBlueColorScheme
+                                        : lightBlueColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightBlueColorScheme
+                                        : darkBlueColorScheme;
+                                    break;
+                                  case lightLightPurpleColorScheme:
+                                    newScheme = (value)
+                                        ? darkLightPurpleColorScheme
+                                        : lightLightPurpleColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightLightPurpleColorScheme
+                                        : darkLightPurpleColorScheme;
+                                    break;
+                                  case lightPurpleColorScheme:
+                                    newScheme = (value)
+                                        ? darkPurpleColorScheme
+                                        : lightPurpleColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightPurpleColorScheme
+                                        : darkPurpleColorScheme;
+                                    break;
+                                  case lightLightPinkColorScheme:
+                                    newScheme = (value)
+                                        ? darkLightPinkColorScheme
+                                        : lightLightPinkColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightLightPinkColorScheme
+                                        : darkLightPinkColorScheme;
+                                    break;
+                                  case lightPinkColorScheme:
+                                    newScheme = (value)
+                                        ? darkPinkColorScheme
+                                        : lightPinkColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightPinkColorScheme
+                                        : darkPinkColorScheme;
+                                    break;
+                                  case lightBrownColorScheme:
+                                    newScheme = (value)
+                                        ? darkBrownColorScheme
+                                        : lightBrownColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightBrownColorScheme
+                                        : darkBrownColorScheme;
+                                    break;
+                                  case lightGreyColorScheme:
+                                    newScheme = (value)
+                                        ? darkGreyColorScheme
+                                        : lightGreyColorScheme;
+                                    singleton.alternateColorScheme = (value)
+                                        ? lightGreyColorScheme
+                                        : darkGreyColorScheme;
+                                    break;
+                                }
+
+                                widget.onColorSchemeSelected(newScheme,
+                                    newScheme.brightness == Brightness.dark);
+
+                                setState(() {});
+
+                                widget.onColorSchemeSelected(newScheme, value);
+                              },
+                            ),
                           ],
                         ),
                       ))),
@@ -572,6 +496,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ));
+  }
+
+  Widget _colorButton(BuildContext context, ColorScheme colorScheme) {
+    return SizedBox(
+      width: SizeConfig.blockSizeHorizontal! * 9,
+      height: SizeConfig.blockSizeHorizontal! * 9,
+      child: ElevatedButton(
+        onPressed: () {
+          widget.onColorSchemeSelected(
+              colorScheme, colorScheme.brightness == Brightness.dark);
+
+          setState(() {});
+        },
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          backgroundColor: colorScheme.primaryContainer,
+          foregroundColor: Colors.white,
+        ),
+        child: Container(),
+      ),
+    );
   }
 }
 
