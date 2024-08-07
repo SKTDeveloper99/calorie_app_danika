@@ -4,10 +4,13 @@ import flask_cors
 import base64
 import numpy as np
 import cv2
-import ultralytics
+from ultralytics import YOLO
 
 app = Flask(__name__)
 flask_cors.CORS(app)
+
+model_path = 'model.pt'
+model = YOLO(model_path)
 
 @app.route('/')
 def hello_world():
@@ -40,36 +43,29 @@ def process_image():
         # Process image with AI here
         identifiedObject = ""
         # Load model
-        model = ultralytics.YOLO('yolov8n.pt')
 
         # object classes
-        classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
-              "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
-              "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
-              "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat",
-              "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "wine glass", "cup",
-              "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli",
-              "carrot", "hot dog", "pizza", "donut", "cake", "chair", "sofa", "pottedplant", "bed",
-              "diningtable", "toilet", "tvmonitor", "laptop", "mouse", "remote", "keyboard", "cell phone",
-              "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
-              "teddy bear", "hair drier", "toothbrush"
-        ]
+        # classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
+        #       "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
+        #       "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",
+        #       "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat",
+        #       "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "wine glass", "cup",
+        #       "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli",
+        #       "carrot", "hot dog", "pizza", "donut", "cake", "chair", "sofa", "pottedplant", "bed",
+        #       "diningtable", "toilet", "tvmonitor", "laptop", "mouse", "remote", "keyboard", "cell phone",
+        #       "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
+        #       "teddy bear", "hair drier", "toothbrush"
+        # ]
 
         # Inference
-        results = model(image)
-        for r in results:
-            boxes = r.boxes
+        results = model([image])
 
-            # for box in boxes:
-            #     # confidence
-            #     confidence = math.ceil((box.conf[0]*100))/100
-            #     print("Confidence --->",confidence)
+        # Extract predictions
+        predictions = results[0].boxes  # Assuming 'results[0].boxes' contains the bounding boxes and labels
 
-            #     # class name
-            #     cls = int(box.cls[0])
-            #     print("Class name -->", classNames[cls])
 
-            identifiedObject = classNames[int(boxes[0].cls[0])]
+        for pred in predictions:
+            identifiedObject = model.names[int(pred.cls)]
 
         # DEBUG: Save image to disk
         # cv2.imwrite('test.jpg', image)
