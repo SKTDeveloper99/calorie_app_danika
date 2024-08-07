@@ -144,7 +144,7 @@ class _EntryCardState extends State<EntryCard> {
 class Entry extends StatelessWidget {
   final String name;
   final String quantity;
-  final int calories;
+  final double calories;
   final String mealtype;
 
   const Entry(
@@ -264,7 +264,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
       entryList.add(Entry(
           name: name,
           quantity: entry["quantity"],
-          calories: entry["calories"]));
+          calories: entry["calories"] * 1.0));
     }
   }
 

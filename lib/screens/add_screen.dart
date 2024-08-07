@@ -2,6 +2,7 @@ import 'package:calorie_app_danika/services/singleton.dart';
 import 'package:calorie_app_danika/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:calorie_app_danika/services/database.dart';
 
 const List<String> mealOptions = <String>[
   'Breakfast',
@@ -29,7 +30,8 @@ class _AddScreenState extends State<AddScreen> {
     Map<String, dynamic> data = singleton.calorieReference;
 
     data.forEach((key, value) {
-      foodEntries.add(FoodEntry(foodName: key, calories: value));
+      foodEntries
+          .add(FoodEntry(foodName: key, calories: value, meal: dropdownValue));
     });
 
     print(foodEntries);
@@ -187,9 +189,14 @@ class _AddScreenState extends State<AddScreen> {
 }
 
 class FoodEntry extends StatelessWidget {
-  const FoodEntry({super.key, required this.foodName, required this.calories});
+  const FoodEntry(
+      {super.key,
+      required this.foodName,
+      required this.calories,
+      required this.meal});
   final String foodName;
   final int calories;
+  final String meal;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +204,9 @@ class FoodEntry extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
       child: Card(
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Database().addFoodEntry(meal, foodName, calories * 1.0, "1.0");
+          },
           child: Padding(
             padding: const EdgeInsets.all(9.0),
             child: Row(
