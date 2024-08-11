@@ -479,7 +479,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                           onPressed: () {
-                            logout();
+                            logout().then(
+                              (value) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, "/", (route) => false);
+                              },
+                            );
                           },
                           child: const Text("LOG OUT"))),
                   TextButton(

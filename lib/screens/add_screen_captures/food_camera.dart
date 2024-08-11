@@ -167,28 +167,35 @@ class _FoodCameraState extends State<FoodCamera> with WidgetsBindingObserver {
   }
 }
 
-class PhotoPreview extends StatelessWidget {
+class PhotoPreview extends StatefulWidget {
   final XFile imageFile;
   final Size mediaSize;
   final double scale;
-  PhotoPreview(
+
+  const PhotoPreview(
       {super.key,
       required this.imageFile,
       required this.mediaSize,
       required this.scale});
 
+  @override
+  _PhotoPreviewState createState() => _PhotoPreviewState();
+}
+
+class _PhotoPreviewState extends State<PhotoPreview> {
   final Singleton _singleton = Singleton();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         ClipRect(
-            clipper: _MediaSizeClipper(mediaSize),
+            clipper: _MediaSizeClipper(widget.mediaSize),
             child: Transform.scale(
-                scale: scale,
+                scale: widget.scale,
                 alignment: Alignment.topCenter,
-                child: Image.file(File(imageFile.path)))),
+                child: Image.file(File(widget.imageFile.path)))),
         Positioned(
           top: SizeConfig.blockSizeVertical! * 80,
           left: 0,
@@ -212,22 +219,26 @@ class PhotoPreview extends StatelessWidget {
                     height: SizeConfig.blockSizeHorizontal! * 18,
                     child: ElevatedButton(
                         onPressed: () async {
-                          // turn XFile into CameraImage
+                          setState(() {
+                            _isLoading = true;
+                          });
 
-                          await convertXFileToImageColor(imageFile)
+                          await convertXFileToImageColor(widget.imageFile)
                               .then((value) {
                             if (value != null) {
-                              if (kDebugMode)
+                              if (kDebugMode) {
                                 print(
                                     "Sending image to server at ${_singleton.serverURL}");
-                              sendImageToServer(
-                                      // "http://192.168.0.125:8000/process_image",
-                                      _singleton.serverURL,
-                                      value)
+                              }
+                              sendImageToServer(_singleton.serverURL, value)
                                   .then((value) {
-                                if (kDebugMode)
+                                if (kDebugMode) {
                                   print("Response: ${value.body}");
+                                }
                                 Map valueMap = json.decode(value.body);
+                                setState(() {
+                                  _isLoading = false;
+                                });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -236,6 +247,10 @@ class PhotoPreview extends StatelessWidget {
                                                   valueMap["identified"],
                                             )));
                               });
+                            } else {
+                              setState(() {
+                                _isLoading = false;
+                              });
                             }
                           });
                         },
@@ -243,7 +258,11 @@ class PhotoPreview extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
+        if (_isLoading)
+          const Center(
+            child: CircularProgressIndicator(),
+          ),
       ],
     );
   }

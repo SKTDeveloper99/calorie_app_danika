@@ -22,27 +22,29 @@ class _SetupScreenState extends State<SetupScreen> {
       //       // elevation: 0,
       //       // backgroundColor: Colors.amber,
       //       ),
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: SizedBox(
-          width: SizeConfig.blockSizeHorizontal! * 100,
-          height: SizeConfig.blockSizeVertical! * 100,
-          // color: const Color.fromARGB(255, 35, 35, 35),
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              //   SizedBox(
-              //     height: SizeConfig.blockSizeVertical! * 14,
-              //   ),
-              //   Text(
-              //     "Register",
-              //     style: TextStyle(fontSize: 65),
-              //   ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: RegisterForm(),
-              )
-            ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: SizedBox(
+            width: SizeConfig.blockSizeHorizontal! * 100,
+            height: SizeConfig.blockSizeVertical! * 100,
+            // color: const Color.fromARGB(255, 35, 35, 35),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //   SizedBox(
+                //     height: SizeConfig.blockSizeVertical! * 14,
+                //   ),
+                //   Text(
+                //     "Register",
+                //     style: TextStyle(fontSize: 65),
+                //   ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: RegisterForm(),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -363,15 +365,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     await ref.set({
                       "account_info": {
                         "age": age,
+                        "calorie_budget": 1000,
                         "color_theme": "grey",
-                        "gender": _gender,
-                        "height": "$heightFeet'$heightInches\""
+                        "gender": ("$_gender").substring(6),
+                        "height": "$heightFeet'$heightInches\"",
+                        "weight_target": goalWeight,
                       },
-                      "weight": {
-                        "body_fat_percentage": fatPercentage,
-                        "current_weight": currentWeight,
-                        "goal_weight": goalWeight
-                      }
                     }).then((value) {
                       Navigator.pushNamed(context, "/homeScreen");
                     });

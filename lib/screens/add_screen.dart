@@ -40,6 +40,17 @@ class _AddScreenState extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     addFoodEntries();
+
+    if (singleton.chosenMeal == "breakfast") {
+      dropdownValue = mealOptions[0];
+    } else if (singleton.chosenMeal == "lunch") {
+      dropdownValue = mealOptions[1];
+    } else if (singleton.chosenMeal == "dinner") {
+      dropdownValue = mealOptions[2];
+    } else if (singleton.chosenMeal == "snacks") {
+      dropdownValue = mealOptions[3];
+    }
+
     print(showMore);
     return DefaultTabController(
       length: 3,
@@ -164,7 +175,15 @@ class _AddScreenState extends State<AddScreen> {
                   padding: const EdgeInsets.fromLTRB(0, 2, 0, 5),
                   child: Card(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddCaloriePopup(
+                                meal: dropdownValue,
+                              );
+                            });
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(9.0),
                         child: Row(
@@ -172,7 +191,16 @@ class _AddScreenState extends State<AddScreen> {
                           children: [
                             Text("Add Calories"),
                             IconButton(
-                                icon: const Icon(Icons.add), onPressed: () {})
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AddCaloriePopup(
+                                          meal: dropdownValue,
+                                        );
+                                      });
+                                })
                           ],
                         ),
                       ),
@@ -205,7 +233,11 @@ class FoodEntry extends StatelessWidget {
       child: Card(
         child: InkWell(
           onTap: () {
-            Database().addFoodEntry(meal, foodName, calories * 1.0, "1.0");
+            Database().addFoodEntry(meal, foodName, calories * 1.0, "1.0").then(
+              (value) {
+                Navigator.pushNamed(context, "/homeScreen");
+              },
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(9.0),
@@ -216,11 +248,75 @@ class FoodEntry extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [Text(foodName), Text("$calories kcal")],
                 ),
-                IconButton(icon: const Icon(Icons.add), onPressed: () {})
+                IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      Database()
+                          .addFoodEntry(meal, foodName, calories * 1.0, "1.0")
+                          .then(
+                        (value) {
+                          Navigator.pushNamed(context, "/homeScreen");
+                        },
+                      );
+                    })
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AddCaloriePopup extends StatelessWidget {
+  AddCaloriePopup({super.key, required this.meal});
+  final String meal;
+
+  TextEditingController foodNameController = TextEditingController();
+  TextEditingController caloriesController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: AlertDialog(
+        title: const Text("Add Calories"),
+        content: Column(
+          children: [
+            TextField(
+              controller: foodNameController,
+              decoration: const InputDecoration(labelText: "Food Name"),
+            ),
+            TextField(
+              controller: caloriesController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: "Calories"),
+            ),
+            TextField(
+              controller: quantityController,
+              decoration: const InputDecoration(labelText: "Quantity"),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel")),
+          TextButton(
+              onPressed: () {
+                Database()
+                    .addFoodEntry(meal, foodNameController.text,
+                        double.parse(caloriesController.text) * 1.0, "1.0")
+                    .then(
+                  (value) {
+                    Navigator.pushNamed(context, "/homeScreen");
+                  },
+                );
+              },
+              child: const Text("Add"))
+        ],
       ),
     );
   }

@@ -80,10 +80,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Map<Object?, Object?> dailyLogForDay =
                 dailyLog[keys[i]] as Map<Object?, Object?>;
 
-            double calorieBudget =
-                double.parse(dailyLogForDay["calorie_budget"].toString());
-            double caloriesBurned =
-                double.parse(dailyLogForDay["burned_calories"].toString());
+            double calorieBudget = (dailyLogForDay["calorie_budget"] != null)
+                ? double.parse(dailyLogForDay["calorie_budget"].toString())
+                : 1000.0;
+            double caloriesBurned = (dailyLogForDay["burned_calories"] != null)
+                ? double.parse(dailyLogForDay["burned_calories"].toString())
+                : 0.0;
             double caloriesConsumed = 0.0;
 
             // go through the meals to calculate the total calories consumed

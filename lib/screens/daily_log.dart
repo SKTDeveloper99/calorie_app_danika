@@ -1,3 +1,4 @@
+import 'package:calorie_app_danika/services/database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:calorie_app_danika/services/singleton.dart';
@@ -94,6 +95,8 @@ class EntryCard extends StatefulWidget {
 }
 
 class _EntryCardState extends State<EntryCard> {
+  final Singleton _singleton = Singleton();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -119,13 +122,35 @@ class _EntryCardState extends State<EntryCard> {
                     child: ListView.builder(
                         itemCount: widget.entries.length,
                         itemBuilder: (_, int index) {
-                          return widget.entries[index];
+                          var entry = widget.entries[index];
+                          return Dismissible(
+                            key: Key(entry
+                                .name), // Each Dismissible must have a unique key
+                            background: Container(color: Colors.red),
+                            onDismissed: (direction) {
+                              setState(() {
+                                widget.entries.removeAt(index);
+                                Database().removeFoodEntry(
+                                    widget.title.toLowerCase(),
+                                    entry.name,
+                                    entry.calories,
+                                    entry.quantity);
+                              });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('${entry.name} deleted')),
+                              );
+                            },
+                            child: entry,
+                          );
                         })),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
                         onPressed: () {
+                          _singleton.chosenMeal = widget.title.toLowerCase();
                           Navigator.pushNamed(context, "/addScreen");
                         },
                         child: Text(
@@ -293,7 +318,9 @@ class _DailyLogPageState extends State<DailyLogPage> {
       populateEntryList(dailyLog["snack"], snackEntries);
       populateEntryList(dailyLog["exercise"], exerciseEntries);
 
-      calorieBudget = double.parse(dailyLog["calorie_budget"].toString());
+      calorieBudget = (dailyLog["calorie_budget"] != null)
+          ? double.parse(dailyLog["calorie_budget"].toString())
+          : 1000.0;
 
       // go through each entry and add the calories to the total
       caloriesConsumed = 0;

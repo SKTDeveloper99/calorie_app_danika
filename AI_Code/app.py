@@ -12,6 +12,9 @@ flask_cors.CORS(app)
 model_path = 'model.pt'
 model = YOLO(model_path)
 
+# http://192.168.0.120:8000/process_image
+# https://calorie-app-danika.onrender.com/process_image
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'

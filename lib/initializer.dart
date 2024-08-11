@@ -20,6 +20,7 @@ class Initializer extends StatelessWidget {
     final Singleton _singleton = Singleton();
 
     if (FirebaseAuth.instance.currentUser == null) {
+      // print("User is not logged in");
       return const LoginScreen();
     }
 

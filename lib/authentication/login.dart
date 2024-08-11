@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:calorie_app_danika/size_config.dart';
+import 'package:calorie_app_danika/authentication/new_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -74,20 +75,21 @@ class _LoginFormState extends State<LoginForm> {
   final bool _obscureText = true;
 
   // TODO: REPLACE THIS WHEN NEW AUTH IS MADE
-  Future login(loginUsername, loginPassword) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: loginUsername, password: loginPassword);
-      return null;
-    } on FirebaseAuthException catch (error) {
-      if (error.code == 'user-not-found') {
-        // print('username unfound');
-      } else if (error.code == 'wrong-password') {
-        // print('wrong password');
-      }
-      return error.message;
-    }
-  }
+  // Future login(loginUsername, loginPassword) async {
+  //   try {
+  //     print("logging in with $loginUsername and $loginPassword");
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //         email: loginUsername, password: loginPassword);
+  //     return null;
+  //   } on FirebaseAuthException catch (error) {
+  //     if (error.code == 'user-not-found') {
+  //       // print('username unfound');
+  //     } else if (error.code == 'wrong-password') {
+  //       // print('wrong password');
+  //     }
+  //     return error.message;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +174,8 @@ class _LoginFormState extends State<LoginForm> {
                     //     const Color.fromARGB(255, 240, 217, 181)
                   ),
                   onPressed: () {
-                    login(email, password).then((result) {
+                    Auth().login(email, password).then((result) {
+                      print("logging in with $email and $password and $result");
                       Navigator.of(context)
                           .pushNamedAndRemoveUntil('/', (route) => false);
                     });

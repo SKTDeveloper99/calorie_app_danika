@@ -29,6 +29,8 @@ class Singleton extends ChangeNotifier {
     "orange": 45,
   };
 
+  String chosenMeal = "breakfast";
+
   // Add theme data
   ColorScheme colorScheme = lightRedColorScheme;
   ColorScheme alternateColorScheme = darkRedColorScheme;

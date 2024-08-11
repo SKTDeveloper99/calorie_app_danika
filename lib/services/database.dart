@@ -49,4 +49,22 @@ class Database {
             "users/${user?.uid}/daily_log/$today/${meal.toLowerCase()}/$food")
         .set({"calories": calories, "quantity": quantity});
   }
+
+  Future<void> removeFoodEntry(
+      String meal, String food, double calories, String quantity) async {
+    // Check if the current day is within the list, else add it
+    DateTime now = DateTime.now();
+
+    // Strip the time from the date
+    now = DateTime(now.year, now.month, now.day);
+
+    String today = now.millisecondsSinceEpoch.toString();
+
+    // print(_singleton.userdata?["daily_log"][today][meal][food]);
+
+    await ref
+        .child(
+            "users/${user?.uid}/daily_log/$today/${meal.toLowerCase()}/$food")
+        .remove();
+  }
 }

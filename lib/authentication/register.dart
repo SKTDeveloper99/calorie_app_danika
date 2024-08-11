@@ -18,27 +18,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
           // elevation: 0,
           // backgroundColor: Colors.amber,
           ),
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: SizedBox(
-          width: SizeConfig.blockSizeHorizontal! * 100,
-          height: SizeConfig.blockSizeVertical! * 100,
-          // color: const Color.fromARGB(255, 35, 35, 35),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical! * 14,
-              ),
-              const Text(
-                "Register",
-                style: TextStyle(fontSize: 65),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: RegisterForm(),
-              )
-            ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: SizedBox(
+            width: SizeConfig.blockSizeHorizontal! * 100,
+            height: SizeConfig.blockSizeVertical! * 100,
+            // color: const Color.fromARGB(255, 35, 35, 35),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical! * 14,
+                ),
+                const Text(
+                  "Register",
+                  style: TextStyle(fontSize: 65),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: RegisterForm(),
+                )
+              ],
+            ),
           ),
         ),
       ),
