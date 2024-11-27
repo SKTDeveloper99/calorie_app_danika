@@ -1,0 +1,6 @@
+train: /Users/danikamei/Documents/GitHub/calorie_app_danika/NewAI/dataset/train
+val: /Users/danikamei/Documents/GitHub/calorie_app_danika/NewAI/dataset/validation
+test: /Users/danikamei/Documents/GitHub/calorie_app_danika/NewAI/dataset/test
+
+nc: 4  # Number of classes
+names: ['apple', 'orange', 'banana', 'none']

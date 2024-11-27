@@ -46,6 +46,7 @@ app.*.map.json
 .fvm/
 
 AI_Code/venv/
+NewAI/venv
 
 AI_Code/config.py
 
